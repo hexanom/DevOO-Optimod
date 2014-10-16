@@ -28,7 +28,7 @@ public class Application {
      *
      * Loads settings and initializes the Application's context
      */
-    public Application() {
+    private Application() {
 
     }
 
