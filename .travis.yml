@@ -3,3 +3,5 @@ notifications:
   slack:
     rooms:
       - hexanom:lPch9X1hMxDdtUiNxEUExZQX#development
+install:
+  - true
