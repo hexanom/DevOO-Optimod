@@ -1,6 +1,9 @@
 DevOO-Optimod
 =============
 
+[![Build Status](https://travis-ci.org/hexanom/DevOO-Optimod.svg?branch=master)](https://travis-ci.org/hexanom/DevOO-Optimod)
+[![Coverage Status](https://coveralls.io/repos/hexanom/DevOO-Optimod/badge.png)](https://coveralls.io/r/hexanom/DevOO-Optimod)
+
 Usage
 -----
 
