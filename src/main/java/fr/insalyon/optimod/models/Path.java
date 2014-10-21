@@ -14,7 +14,7 @@ public class Path {
     public static final Comparator<Path> COMPARATOR = new Comparator<Path>() {
         @Override
         public int compare(Path p1, Path p2) {
-            return 0; // TODO -> Use total weight
+            return (int)(p2.getTotalTime() - p1.getTotalTime());
         }
     };
 
@@ -99,10 +99,14 @@ public class Path {
     }
 
     /**
-     * Gets the total weight of a path
-     * @return A path weight
+     * Gets the total time of a path
+     * @return A path time <strong>in seconds</strong>
      */
-    long getTotalWeight() {
-        return 0; // TODO
+    double getTotalTime() {
+        double sum = 0;
+        for(Section section : mOrderedSections) {
+            sum += section.getTime();
+        }
+        return sum;
     }
 }

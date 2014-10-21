@@ -35,7 +35,6 @@ public class Location {
         mY = y;
     }
 
-
     /**
      * Gives an address for the location (aka. the id)
      * @return An address
@@ -61,13 +60,30 @@ public class Location {
     }
 
     /**
-     * Connects the node to another one
+     * Connects the node to another one with a generic street
      * @param location An other node
      * @return The newly created section or null if the nodes doesn't belong to the same graph
      */
     public Section connectTo(Location location) {
+        return connectTo(location, null, 0, 0);
+    }
+
+    /**
+     * Connects the node to another one
+     * @param location An other node
+     * @param streetName The name of the street between the two nodes
+     * @param speed The speed in the street
+     * @param length The length of the street
+     * @return The newly created section or null if the nodes doesn't belong to the same graph
+     */
+    public Section connectTo(Location location, String streetName, double speed, double length) {
         if(location.getMap() != null && location.getMap().equals(mMap)) {
-            Section section = new Section();
+            Section section;
+            if(streetName != null) {
+                section = new Section(streetName, speed, length);
+            } else {
+                section = new Section();
+            }
             section.setOrigin(this);
             mOuts.add(section);
             location.connectedFrom(section);

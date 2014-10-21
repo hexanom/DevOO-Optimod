@@ -38,8 +38,11 @@ public class LocationTest extends TestCase {
         assertTrue(mLocation.getOuts().size() == 0);
         assertTrue(mLocation.getIns().size() == 0);
         mMap.addLocation(otherLocation);
-        Section section = mLocation.connectTo(otherLocation);
+        Section section = mLocation.connectTo(otherLocation, "TestStreet", 10, 100);
         assertNotNull(section);
+        assertEquals("TestStreet", section.getStreetName());
+        assertEquals(10.0, section.getSpeed());
+        assertEquals(100.0, section.getLength());
         assertTrue(mLocation.getOuts().size() > 0);
         assertEquals(section.getOrigin(), mLocation);
         assertEquals(section.getDestination(), otherLocation);

@@ -6,16 +6,6 @@ import java.util.Comparator;
  * Represents a graph arrow
  */
 public class Section {
-    /**
-     * The Section comparator for TreeSets
-     */
-    public static Comparator<Section> COMPARATOR = new Comparator<Section>() {
-        @Override
-        public int compare(Section o1, Section o2) {
-            return 0; // TODO
-        }
-    };
-
     private final String mStreetName;
     private final double mSpeed;
     private final double mLength;
@@ -34,8 +24,8 @@ public class Section {
     /**
      * Street Constructor
      * @param streetName The name of the street
-     * @param speed The speed in this street
-     * @param length The length of the street
+     * @param speed The speed in this street <strong>in m/s</strong>
+     * @param length The length of the street <strong>in meters</strong>
      */
     public Section(String streetName, double speed, double length) {
         mStreetName = streetName;
@@ -65,5 +55,37 @@ public class Section {
      */
     public Location getDestination() {
         return mDestination;
+    }
+
+    /**
+     * Gets the street's name
+     * @return A name
+     */
+    public String getStreetName() {
+        return mStreetName;
+    }
+
+    /**
+     * Gets the street's speed
+     * @return A speed <strong>in m/s</strong>
+     */
+    public double getSpeed() {
+        return mSpeed;
+    }
+
+    /**
+     * Gets the street's length
+     * @return A length <strong>in meters</strong>
+     */
+    public double getLength() {
+        return mLength;
+    }
+
+    /**
+     * Gets the time needed to get through the street
+     * @return A time <strong>in seconds</strong>
+     */
+    public double getTime() {
+        return mLength/mSpeed;
     }
 }
