@@ -4,8 +4,8 @@ notifications:
     rooms:
       - hexanom:lPch9X1hMxDdtUiNxEUExZQX#development
 install:
-  - gradle assemble
+  - ./gradlew assemble
 script:
-  - gradle check
+  - ./gradlew check
 after_success:
-  - gradle cobertura coveralls
+  - ./gradlew cobertura coveralls
