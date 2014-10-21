@@ -7,7 +7,23 @@ import java.util.List;
  * Represents a customer waiting for deliveries
  */
 public class Customer {
+    private String mName;
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
+
+    /**
+     * Default constructor
+     */
+    public Customer() {
+        mName = "Customer0";
+    }
+
+    /**
+     * Name constructor
+     * @param name The name
+     */
+    public Customer(String name) {
+        mName = name;
+    }
 
     /**
      * Add a new delivery
