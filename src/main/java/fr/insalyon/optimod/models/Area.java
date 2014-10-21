@@ -37,7 +37,7 @@ public class Area {
      * Add a new tomorrow delivery associated to this Area
      * @param td Many deliveries
      */
-    public void addTommorowDeliveries(TomorrowDeliveries td) {
+    public void addTomorowDeliveries(TomorrowDeliveries td) {
         td.setArea(this);
         mTomorrowDeliveries.add(td);
     }
@@ -46,7 +46,7 @@ public class Area {
      * Delete a tomorrow delivery associated to this Area
      * @param td Many deliveries
      */
-    public void deleteTommorowDeliveries(TomorrowDeliveries td) {
+    public void deleteTomorowDeliveries(TomorrowDeliveries td) {
         td.setArea(null);
         mTomorrowDeliveries.remove(td);
     }
