@@ -44,7 +44,7 @@ public class Path {
     /**
      * Adds a section at the end of the path
      * @param s The section to add
-     * @return If the action was possible
+     * @return Fails and returns false if the section is not linked to the last node
      */
     public boolean appendSection(Section s) {
         if(mOrderedSections.size() > 0) {

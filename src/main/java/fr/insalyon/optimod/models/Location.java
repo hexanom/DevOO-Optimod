@@ -9,16 +9,22 @@ import java.util.List;
 public class Location {
     private List<Section> mIns = new ArrayList<Section>();
     private List<Section> mOuts = new ArrayList<Section>();
+    private Map mMap;
 
     /**
      * Connects the node to another one
      * @param location An other node
+     * @return Fails and return false if not on the same map
      */
-    public void connectTo(Location location) {
-        Section section = new Section();
-        section.setOrigin(this);
-        mOuts.add(section);
-        location.connectedFrom(section);
+    public boolean connectTo(Location location) {
+        if(location.getMap() != null && location.getMap().equals(mMap)) {
+            Section section = new Section();
+            section.setOrigin(this);
+            mOuts.add(section);
+            location.connectedFrom(section);
+            return true;
+        }
+        return false;
     }
 
     void connectedFrom(Section section) {
@@ -71,5 +77,17 @@ public class Location {
         all.addAll(mIns);
         all.addAll(mOuts);
         return all;
+    }
+
+    /**
+     * Gets the associated graph
+     * @return A Map
+     */
+    public Map getMap() {
+        return mMap;
+    }
+
+    void setMap(Map map) {
+        mMap = map;
     }
 }
