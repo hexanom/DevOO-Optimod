@@ -23,7 +23,7 @@ public class Courier {
      * Delete a road map
      * @param rm Many deliveries
      */
-    public void deleteTommorowDeliveries(RoadMap rm) {
+    public void deleteRoadMap(RoadMap rm) {
         rm.setCourier(null);
         mRoadMaps.remove(rm);
     }
