@@ -10,16 +10,26 @@ public class LocationTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         mMap = new Map();
-        mLocation = new Location("TestLocation");
+        mLocation = new Location("TestLocation", 1, 2);
         mMap.addLocation(mLocation);
     }
 
     public void testDefaultConstructor() throws Exception {
-        assertTrue(mLocation.getAddress() != null);
+        assertNotNull(mLocation.getAddress());
+        assertNotNull(mLocation.getX());
+        assertNotNull(mLocation.getY());
     }
 
     public void test_getAddress() throws Exception {
         assertEquals("TestLocation", mLocation.getAddress());
+    }
+
+    public void test_getX() throws Exception {
+        assertEquals(1, mLocation.getX());
+    }
+
+    public void test_getY() throws Exception {
+        assertEquals(2, mLocation.getY());
     }
 
     public void test_connectTo() throws Exception {

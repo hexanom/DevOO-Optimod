@@ -7,7 +7,9 @@ import java.util.List;
  * Represents a graph node
  */
 public class Location {
-    private String mAddress;
+    private final long mX;
+    private final long mY;
+    private final String mAddress;
     private List<Section> mIns = new ArrayList<Section>();
     private List<Section> mOuts = new ArrayList<Section>();
     private Map mMap;
@@ -17,23 +19,45 @@ public class Location {
      */
     public Location() {
         mAddress = "Address0";
+        mX = 0;
+        mY = 0;
     }
 
     /**
      * Address constructor
-     * @param address An unique address
+     * @param address An unique address (aka. the id)
+     * @param x The x coord <strong>in meters</strong>
+     * @param y The y coord <strong>in meters</strong>
      */
-    public Location(String address) {
+    public Location(String address, long x, long y) {
         mAddress = address;
+        mX = x;
+        mY = y;
     }
 
 
     /**
-     * Gives an address for the location
+     * Gives an address for the location (aka. the id)
      * @return An address
      */
     public String getAddress() {
         return mAddress;
+    }
+
+    /**
+     * Gets the x position
+     * @return A length <strong>in meters</strong>
+     */
+    public long getX() {
+        return mX;
+    }
+
+    /**
+     * Gets the y position
+     * @return A length <strong>in meters</strong>
+     */
+    public long getY() {
+        return mY;
     }
 
     /**
