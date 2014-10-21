@@ -50,4 +50,12 @@ public class Customer {
     public final List<Delivery> getDeliveries() {
         return mDeliveries;
     }
+
+    /**
+     * Gets the customer's name
+     * @return A name
+     */
+    public String getName() {
+        return mName;
+    }
 }

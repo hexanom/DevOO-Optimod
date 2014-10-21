@@ -26,4 +26,8 @@ public class CourierTest extends TestCase {
         assertTrue(mCourier.getRoadMaps().size() == 0);
         assertTrue(rm.getCourier() != mCourier);
     }
+
+    public void test_getTruck() throws Exception {
+        assertTrue(mCourier.getTruck() != null);
+    }
 }
