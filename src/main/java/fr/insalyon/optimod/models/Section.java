@@ -16,8 +16,32 @@ public class Section {
         }
     };
 
+    private final String mStreetName;
+    private final double mSpeed;
+    private final double mLength;
     private Location mOrigin;
     private Location mDestination;
+
+    /**
+     * Default Constructor
+     */
+    public Section() {
+        mStreetName = "Street0";
+        mSpeed = 1.0;
+        mLength = 1.0;
+    }
+
+    /**
+     * Street Constructor
+     * @param streetName The name of the street
+     * @param speed The speed in this street
+     * @param length The length of the street
+     */
+    public Section(String streetName, double speed, double length) {
+        mStreetName = streetName;
+        mSpeed = speed;
+        mLength = length;
+    }
 
     void setOrigin(Location origin) {
         mOrigin = origin;
