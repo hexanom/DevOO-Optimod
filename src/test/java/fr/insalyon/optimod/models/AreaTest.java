@@ -12,7 +12,7 @@ public class AreaTest extends TestCase {
     }
 
     public void testDefaultConstructor() throws Exception {
-        assertTrue(new Area().getName() != null);
+        assertNotNull(new Area().getName());
     }
 
     public void test_getName() throws Exception {
@@ -32,6 +32,6 @@ public class AreaTest extends TestCase {
         mArea.addTomorowDeliveries(td);
         mArea.deleteTomorowDeliveries(td);
         assertTrue(mArea.getTomorrowDeliveries().size() == 0);
-        assertTrue(td.getArea() != mArea);
+        assertNotSame(td.getArea(), mArea);
     }
 }

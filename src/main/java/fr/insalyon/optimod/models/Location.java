@@ -7,24 +7,49 @@ import java.util.List;
  * Represents a graph node
  */
 public class Location {
+    private String mAddress;
     private List<Section> mIns = new ArrayList<Section>();
     private List<Section> mOuts = new ArrayList<Section>();
     private Map mMap;
 
     /**
+     * Default Constructor
+     */
+    public Location() {
+        mAddress = "Address0";
+    }
+
+    /**
+     * Address constructor
+     * @param address An unique address
+     */
+    public Location(String address) {
+        mAddress = address;
+    }
+
+
+    /**
+     * Gives an address for the location
+     * @return An address
+     */
+    public String getAddress() {
+        return mAddress;
+    }
+
+    /**
      * Connects the node to another one
      * @param location An other node
-     * @return Fails and return false if not on the same map
+     * @return The newly created section or null if the nodes doesn't belong to the same graph
      */
-    public boolean connectTo(Location location) {
+    public Section connectTo(Location location) {
         if(location.getMap() != null && location.getMap().equals(mMap)) {
             Section section = new Section();
             section.setOrigin(this);
             mOuts.add(section);
             location.connectedFrom(section);
-            return true;
+            return section;
         }
-        return false;
+        return null;
     }
 
     void connectedFrom(Section section) {
@@ -37,13 +62,13 @@ public class Location {
      * @param section An arrow
      */
     public void deleteConnectedSection(Section section) {
-        if(section.getOrigin().equals(this)) {
+        if(section.getOrigin() != null && section.getOrigin().equals(this)) {
             section.setOrigin(null);
             mOuts.remove(section);
             if(section.getDestination() != null) {
                 section.getDestination().deleteConnectedSection(section);
             }
-        } else if(section.getDestination().equals(this)) {
+        } else if(section.getDestination() != null && section.getDestination().equals(this)) {
             section.setDestination(null);
             mIns.remove(section);
             if(section.getOrigin() != null) {

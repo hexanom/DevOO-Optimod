@@ -12,7 +12,7 @@ public class DeliveryTest extends TestCase{
     }
 
     public void testDefaultConstructor() throws Exception {
-        assertTrue(new Delivery().getPayload() != null);
+        assertNotNull(new Delivery().getPayload());
     }
 
     public void test_getPayload() throws Exception {
@@ -24,7 +24,7 @@ public class DeliveryTest extends TestCase{
         td.addDelivery(mDelivery);
         assertEquals(mDelivery.getTomorrowDeliveries(), td);
         td.deleteDelivery(mDelivery);
-        assertTrue(mDelivery.getTomorrowDeliveries() == null);
+        assertNull(mDelivery.getTomorrowDeliveries());
     }
 
     public void test_getCustomer() throws Exception {
@@ -32,6 +32,6 @@ public class DeliveryTest extends TestCase{
         customer.addDelivery(mDelivery);
         assertEquals(mDelivery.getCustomer(), customer);
         customer.deleteDelivery(mDelivery);
-        assertTrue(mDelivery.getCustomer() == null);
+        assertNull(mDelivery.getCustomer());
     }
 }

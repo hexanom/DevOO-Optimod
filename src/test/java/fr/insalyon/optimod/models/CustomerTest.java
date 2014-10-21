@@ -12,7 +12,7 @@ public class CustomerTest extends TestCase {
     }
 
     public void testDefaultConstructor() throws Exception {
-        assertTrue(new Customer().getName() != null);
+        assertNotNull(new Customer().getName());
     }
 
     public void test_getName() throws Exception {
@@ -32,6 +32,6 @@ public class CustomerTest extends TestCase {
         mCustomer.addDelivery(delivery);
         mCustomer.deleteDelivery(delivery);
         assertTrue(mCustomer.getDeliveries().size() == 0);
-        assertTrue(delivery.getCustomer() != mCustomer);
+        assertNotSame(delivery.getCustomer(), mCustomer);
     }
 }
