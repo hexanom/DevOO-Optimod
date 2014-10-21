@@ -23,11 +23,15 @@ public class DeliveryTest extends TestCase{
         TomorrowDeliveries td = new TomorrowDeliveries();
         td.addDelivery(mDelivery);
         assertEquals(mDelivery.getTomorrowDeliveries(), td);
+        td.deleteDelivery(mDelivery);
+        assertTrue(mDelivery.getTomorrowDeliveries() == null);
     }
 
     public void test_getCustomer() throws Exception {
         Customer customer = new Customer();
         customer.addDelivery(mDelivery);
         assertEquals(mDelivery.getCustomer(), customer);
+        customer.deleteDelivery(mDelivery);
+        assertTrue(mDelivery.getCustomer() == null);
     }
 }
