@@ -1,8 +1,6 @@
 package fr.insalyon.optimod.models;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Represents a time window for a delivery
@@ -22,6 +20,7 @@ public class TimeWindow {
     private final Date mEnd;
     private RoadMap mRoadMap;
     private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
+    private List<Delivery> mDeliveries = new ArrayList<Delivery>();
 
     /**
      * Default Constructor
@@ -80,6 +79,32 @@ public class TimeWindow {
     }
 
     /**
+     * Add a new delivery
+     * @param delivery A delivery
+     */
+    public void addDelivery(Delivery delivery) {
+        delivery.setTimeWindow(this);
+        mDeliveries.add(delivery);
+    }
+
+    /**
+     * Delete a delivery
+     * @param delivery A Delivery
+     */
+    public void deleteDelivery(Delivery delivery) {
+        delivery.setTimeWindow(null);
+        mDeliveries.remove(delivery);
+    }
+
+    /**
+     * Returns a read-only list
+     * @return A list of deliveries
+     */
+    public final List<Delivery> getDeliveries() {
+        return mDeliveries;
+    }
+
+    /**
      * Gets the start of the time window
      * @return A start date
      */
@@ -93,5 +118,12 @@ public class TimeWindow {
      */
     public Date getEnd() {
         return mEnd;
+    }
+
+    /**
+     * Generate the possible paths
+     */
+    public void generatePaths() {
+        // TODO - Generate all possible paths (dijkstra) between start and end
     }
 }

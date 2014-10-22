@@ -7,6 +7,7 @@ public class Delivery extends Location{
     private String mPayload;
     private TomorrowDeliveries mTomorrowDeliveries;
     private Customer mCustomer;
+    private TimeWindow mTimeWindow;
 
     /**
      * Default Constructor
@@ -54,4 +55,17 @@ public class Delivery extends Location{
     void setCustomer(Customer mClient) {
         this.mCustomer = mClient;
     }
+
+    /**
+     * Gets the associated time window
+     * @return A Time Window
+     */
+    public TimeWindow getTimeWindow() {
+        return mTimeWindow;
+    }
+
+    void setTimeWindow(TimeWindow tw) {
+        mTimeWindow = tw;
+    }
+
 }
