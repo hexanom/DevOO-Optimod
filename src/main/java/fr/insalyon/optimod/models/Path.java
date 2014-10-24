@@ -18,19 +18,19 @@ public class Path {
         }
     };
 
-    private TimeWindow mTimeWindow;
+    private RoadMap mRoadMap;
     private List<Section> mOrderedSections = new ArrayList<Section>();
 
     /**
      * Gets the associated time window
      * @return A time window
      */
-    public TimeWindow getTimeWindow() {
-        return mTimeWindow;
+    public RoadMap getRoadMap() {
+        return mRoadMap;
     }
 
-    void setTimeWindow(TimeWindow tw) {
-        mTimeWindow = tw;
+    void setRoadMap(RoadMap rm) {
+        mRoadMap = rm;
     }
 
     /**
