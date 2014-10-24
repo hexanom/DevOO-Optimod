@@ -1,12 +1,14 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a courier
  */
-public class Courier {
+public class Courier extends Model {
     private List<RoadMap> mRoadMaps = new ArrayList<RoadMap>();
     private Truck mTruck = new Truck();
 

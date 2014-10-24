@@ -1,12 +1,14 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents the deliveries for a day
  */
-public class TomorrowDeliveries {
+public class TomorrowDeliveries extends Model {
     private Area mArea;
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
     private List<RoadMap> mRoadMaps = new ArrayList<RoadMap>();
@@ -76,4 +78,13 @@ public class TomorrowDeliveries {
         return mRoadMaps;
     }
 
+    /**
+     * Deserializes a tomorrow deliveries from a dom node
+     * @param node A dom node
+     * @return A tomorrow deliveries
+     */
+    public static Area deserialize(Node node) throws DeserializationException {
+        // calls sub deserializations depending on the subnodes names
+        return null; // TODO
+    }
 }

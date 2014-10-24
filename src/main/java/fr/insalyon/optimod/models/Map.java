@@ -1,12 +1,14 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents the graph
  */
-public class Map {
+public class Map extends Model {
     private List<Location> mLocations = new ArrayList<Location>();
 
     /**
@@ -33,5 +35,14 @@ public class Map {
      */
     public final List<Location> getLocations() {
         return mLocations;
+    }
+
+    /**
+     * Deserializes a map from a dom node
+     * @param node A dom node
+     * @return A map
+     */
+    public static Area deserialize(Node node) throws DeserializationException {
+        return null; // TODO
     }
 }

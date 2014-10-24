@@ -1,12 +1,14 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 import java.util.List;
 import java.util.ArrayList;
 
 /**
  * Represents an Area in the map
  */
-public class Area {
+public class Area extends Model {
     private String mName;
     private List<TomorrowDeliveries> mTomorrowDeliveries = new ArrayList<TomorrowDeliveries>();
 

@@ -1,5 +1,7 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 /**
  * Represents a package to be delivered
  */
@@ -66,6 +68,15 @@ public class Delivery extends Location{
 
     void setTimeWindow(TimeWindow tw) {
         mTimeWindow = tw;
+    }
+
+    /**
+     * Deserializes a delivery from a dom node
+     * @param node A dom node
+     * @return A delivery
+     */
+    public static Area deserialize(Node node) throws DeserializationException {
+        return null; // TODO
     }
 
 }

@@ -1,11 +1,13 @@
 package fr.insalyon.optimod.models;
 
+import org.w3c.dom.Node;
+
 import java.util.*;
 
 /**
  * Represents a time window for a delivery
  */
-public class TimeWindow {
+public class TimeWindow extends Model {
     /**
      * The TimeWindow comparator for TreeSets
      */
@@ -93,5 +95,14 @@ public class TimeWindow {
      */
     public Date getEnd() {
         return mEnd;
+    }
+
+    /**
+     * Deserializes a time window from a dom node
+     * @param node A dom node
+     * @return A time window
+     */
+    public static Area deserialize(Node node) throws DeserializationException {
+        return null; // TODO
     }
 }
