@@ -11,7 +11,7 @@ public class Warehouse extends Location {
      * @param node A dom node
      * @return A warehouse
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static Warehouse deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 }

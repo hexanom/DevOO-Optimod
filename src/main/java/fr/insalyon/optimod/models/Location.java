@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents a graph node
  */
-public class Location extends Model {
+public class Location {
     private final long mX;
     private final long mY;
     private final String mAddress;

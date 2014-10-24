@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents the graph
  */
-public class Map extends Model {
+public class Map {
     private List<Location> mLocations = new ArrayList<Location>();
 
     /**

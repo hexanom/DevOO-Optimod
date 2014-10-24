@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Represents a time window for a delivery
  */
-public class TimeWindow extends Model {
+public class TimeWindow {
     /**
      * The TimeWindow comparator for TreeSets
      */

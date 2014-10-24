@@ -1,11 +1,9 @@
 package fr.insalyon.optimod.models.factories;
 
-import fr.insalyon.optimod.models.Model;
-
 /**
  * Factory for creating models
  */
-public interface ModelFactory<T extends Model> {
+public interface ModelFactory<T> {
     /**
      * Creates the model object
      * @return The new model

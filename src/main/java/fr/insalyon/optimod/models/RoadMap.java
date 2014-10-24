@@ -5,7 +5,7 @@ import java.util.TreeSet;
 /**
  * Represents a Courier's Road map
  */
-public class RoadMap extends Model {
+public class RoadMap {
     private TomorrowDeliveries mTomorrowDeliveries;
     private Courier mCourier;
     private Warehouse mStart;

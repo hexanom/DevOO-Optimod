@@ -1,14 +1,12 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a customer waiting for deliveries
  */
-public class Customer extends Model {
+public class Customer {
     private String mName;
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
 

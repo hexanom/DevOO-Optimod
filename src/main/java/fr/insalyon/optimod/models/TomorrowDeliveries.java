@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents the deliveries for a day
  */
-public class TomorrowDeliveries extends Model {
+public class TomorrowDeliveries {
     private Area mArea;
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
     private List<RoadMap> mRoadMaps = new ArrayList<RoadMap>();

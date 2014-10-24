@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Represents a Path
  */
-public class Path extends Model {
+public class Path {
     /**
      * The Path comparator for TreeSets
      */

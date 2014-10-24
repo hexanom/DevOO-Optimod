@@ -2,12 +2,10 @@ package fr.insalyon.optimod.models;
 
 import org.w3c.dom.Node;
 
-import java.util.Comparator;
-
 /**
  * Represents a graph arrow
  */
-public class Section extends Model {
+public class Section {
     private final String mStreetName;
     private final double mSpeed;
     private final double mLength;
