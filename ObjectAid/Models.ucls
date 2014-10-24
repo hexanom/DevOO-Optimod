@@ -94,7 +94,7 @@
   </class>  
   <class id="11" language="java" name="fr.insalyon.optimod.models.TimeWindow" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/TimeWindow.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="362" y="1064"/>    
+    <position height="-1" width="-1" x="360" y="1154"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,192 +120,174 @@
     </display>  
   </class>  
   <association id="14">    
-    <bendpoint x="259" y="856"/>    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="15" name="mRoadMap"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="17">    
-    <bendpoint x="382" y="230"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="18" name="mArea"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="20">    
-    <bendpoint x="419" y="835"/>    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="21" name="mTimeWindows"/>      
-      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <association id="24">    
-    <bendpoint x="284" y="229"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="25" name="mTomorrowDeliveries"/>      
-      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+      <attribute id="15" name="mTomorrowDeliveries"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="27">    
-    <bendpoint x="1366" y="1032"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="28" name="mOrigin"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
+  <association id="17">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="18" name="mLocations"/>      
+      <multiplicity id="19" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="30">    
+  <generalization id="20">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="21">    
+    <bendpoint x="1556" y="431"/>    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="31" name="mTomorrowDeliveries"/>      
-      <multiplicity id="32" minimum="0" maximum="1"/>    
+      <attribute id="22" name="mCustomer"/>      
+      <multiplicity id="23" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="33">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="34" name="mOrderedSections"/>      
-      <multiplicity id="35" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="36">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="37" name="mRoadMaps"/>      
-      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
+  <generalization id="24">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="25">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="26" name="mRoadMaps"/>      
+      <multiplicity id="27" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="39">    
-    <bendpoint x="602" y="973"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="40" name="mTimeWindow"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
+  <association id="28">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="29" name="mCourier"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="42">    
-    <bendpoint x="604" y="1040"/>    
+  <association id="31">    
+    <bendpoint x="245" y="951"/>    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="43" name="mPaths"/>      
-      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+      <attribute id="32" name="mRoadMap"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="45">    
-    <bendpoint x="1019" y="346"/>    
+  <association id="34">    
+    <bendpoint x="1362" y="1088"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="35" name="mDestination"/>      
+      <multiplicity id="36" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="37">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="38" name="mTomorrowDeliveries"/>      
+      <multiplicity id="39" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="40">    
+    <bendpoint x="382" y="230"/>    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="46" name="mDeliveries"/>      
-      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+      <attribute id="41" name="mArea"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="48">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <association id="49">    
+  <association id="43">    
     <bendpoint x="1376" y="960"/>    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="50" name="mIns"/>      
-      <multiplicity id="51" minimum="0" maximum="2147483647"/>    
+      <attribute id="44" name="mIns"/>      
+      <multiplicity id="45" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="46">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="47" name="mRoadMaps"/>      
+      <multiplicity id="48" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="49">    
+    <bendpoint x="1366" y="1032"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="50" name="mOrigin"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="52">    
-    <bendpoint x="1384" y="403"/>    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="53" name="mDeliveries"/>      
+    <bendpoint x="440" y="933"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="53" name="mTimeWindows"/>      
       <multiplicity id="54" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="55">    
-    <end type="SOURCE" refId="4" navigable="false">      
+    <bendpoint x="284" y="229"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="56" name="mTomorrowDeliveries"/>      
-      <multiplicity id="57" minimum="0" maximum="1"/>    
+      <multiplicity id="57" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="58">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="59" name="mRoadMaps"/>      
-      <multiplicity id="60" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="61">    
-    <bendpoint x="1362" y="1088"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="62" name="mDestination"/>      
-      <multiplicity id="63" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="64">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="65" name="mLocations"/>      
-      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="67">    
     <bendpoint x="1373" y="916"/>    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="68" name="mOuts"/>      
-      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
+      <attribute id="59" name="mOuts"/>      
+      <multiplicity id="60" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="70">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="71" name="mCourier"/>      
-      <multiplicity id="72" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="73">    
+  <association id="61">    
     <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="74" name="mTruck"/>      
-      <multiplicity id="75" minimum="0" maximum="1"/>    
+      <attribute id="62" name="mTruck"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="76">    
-    <bendpoint x="1556" y="431"/>    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="77" name="mCustomer"/>      
-      <multiplicity id="78" minimum="0" maximum="1"/>    
+  <association id="64">    
+    <bendpoint x="1019" y="346"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="65" name="mDeliveries"/>      
+      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="67">    
+    <bendpoint x="1384" y="403"/>    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="68" name="mDeliveries"/>      
+      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="71" name="mOrderedSections"/>      
+      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
