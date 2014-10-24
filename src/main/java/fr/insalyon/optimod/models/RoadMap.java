@@ -8,10 +8,25 @@ import java.util.TreeSet;
 public class RoadMap {
     private TomorrowDeliveries mTomorrowDeliveries;
     private Courier mCourier;
+    private Warehouse mStart;
     private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
     private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
 
 
+
+    /**
+     * Default constructor
+     */
+    public RoadMap() {
+    }
+
+    /**
+     * Warehouse constructor
+     * @param start The starting warehouse
+     */
+    public RoadMap(Warehouse start) {
+        mStart = start;
+    }
 
     /**
      * Gets the tomorrow deliveries
@@ -87,5 +102,20 @@ public class RoadMap {
      */
     public final TreeSet<Path> getPaths() {
         return mPaths;
+    }
+
+    /**
+     * Generate the possible paths
+     */
+    public void generatePaths() {
+        // TODO - Generate all possible paths (dijkstra) between start and end
+    }
+
+    /**
+     * Gets the starting warehouse
+     * @return A warehouse
+     */
+    public Warehouse getStart() {
+        return mStart;
     }
 }

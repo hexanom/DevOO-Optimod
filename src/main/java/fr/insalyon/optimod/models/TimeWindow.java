@@ -94,11 +94,4 @@ public class TimeWindow {
     public Date getEnd() {
         return mEnd;
     }
-
-    /**
-     * Generate the possible paths
-     */
-    public void generatePaths() {
-        // TODO - Generate all possible paths (dijkstra) between start and end
-    }
 }
