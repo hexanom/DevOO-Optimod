@@ -19,7 +19,6 @@ public class TimeWindow {
     private final Date mStart;
     private final Date mEnd;
     private RoadMap mRoadMap;
-    private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
 
     /**
@@ -52,31 +51,7 @@ public class TimeWindow {
         mRoadMap = roadMap;
     }
 
-    /**
-     * Add a new path
-     * @param path A Path
-     */
-    public void addPath(Path path) {
-        path.setTimeWindow(this);
-        mPaths.add(path);
-    }
 
-    /**
-     * Delete a path
-     * @param path A Path
-     */
-    public void deletePath(Path path) {
-        path.setTimeWindow(null);
-        mPaths.remove(path);
-    }
-
-    /**
-     * Returns a read-only list
-     * @return A list of paths
-     */
-    public final TreeSet<Path> getPaths() {
-        return mPaths;
-    }
 
     /**
      * Add a new delivery

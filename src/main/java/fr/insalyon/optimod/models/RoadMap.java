@@ -6,9 +6,10 @@ import java.util.TreeSet;
  * Represents a Courier's Road map
  */
 public class RoadMap {
-    TomorrowDeliveries mTomorrowDeliveries;
-    Courier mCourier;
-    TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
+    private TomorrowDeliveries mTomorrowDeliveries;
+    private Courier mCourier;
+    private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
+    private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
 
 
 
@@ -60,5 +61,31 @@ public class RoadMap {
      */
     public final TreeSet<TimeWindow> getTimeWindows() {
         return mTimeWindows;
+    }
+
+    /**
+     * Add a new path
+     * @param path A Path
+     */
+    public void addPath(Path path) {
+        path.setRoadMap(this);
+        mPaths.add(path);
+    }
+
+    /**
+     * Delete a path
+     * @param path A Path
+     */
+    public void deletePath(Path path) {
+        path.setRoadMap(null);
+        mPaths.remove(path);
+    }
+
+    /**
+     * Returns a read-only list
+     * @return A list of paths
+     */
+    public final TreeSet<Path> getPaths() {
+        return mPaths;
     }
 }
