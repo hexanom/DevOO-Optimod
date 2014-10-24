@@ -96,7 +96,7 @@ public class Section extends Model {
      * @param node A dom node
      * @return A section
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static Section deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 }

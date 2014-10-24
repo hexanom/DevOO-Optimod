@@ -102,7 +102,7 @@ public class TimeWindow extends Model {
      * @param node A dom node
      * @return A time window
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static TimeWindow deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 }

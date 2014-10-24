@@ -163,7 +163,7 @@ public class Location extends Model {
      * @param node A dom node
      * @return A location
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static Location deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 }

@@ -83,7 +83,7 @@ public class TomorrowDeliveries extends Model {
      * @param node A dom node
      * @return A tomorrow deliveries
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static TomorrowDeliveries deserialize(Node node) throws DeserializationException {
         // calls sub deserializations depending on the subnodes names
         return null; // TODO
     }

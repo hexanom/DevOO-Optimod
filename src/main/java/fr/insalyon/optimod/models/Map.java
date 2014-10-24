@@ -42,7 +42,7 @@ public class Map extends Model {
      * @param node A dom node
      * @return A map
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static Map deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 }

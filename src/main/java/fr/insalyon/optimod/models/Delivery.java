@@ -75,7 +75,7 @@ public class Delivery extends Location{
      * @param node A dom node
      * @return A delivery
      */
-    public static Area deserialize(Node node) throws DeserializationException {
+    public static Delivery deserialize(Node node) throws DeserializationException {
         return null; // TODO
     }
 
