@@ -56,6 +56,9 @@ public class TomorrowDeliveries {
      * Add a new road map
      * @param rm A road map
      */
+
+    //**************************Non vérification de l'unicité des RoadMap********************************
+
     public void addRoadMap(RoadMap rm) {
         rm.setTomorrowDeliveries(this);
         mRoadMaps.add(rm);
