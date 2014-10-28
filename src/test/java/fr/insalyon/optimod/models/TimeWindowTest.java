@@ -9,12 +9,6 @@ public class TimeWindowTest extends TestCase {
 
     @Override
     public void setUp() throws Exception {
-
-
-        Date mStart = new Date(0);
-        Date mEnd = new Date(1);
-        TimeWindow mTimeWindow = new TimeWindow(mStart, mEnd);
-
         super.setUp();
 
     }

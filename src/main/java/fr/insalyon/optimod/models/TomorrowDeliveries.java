@@ -28,6 +28,8 @@ public class TomorrowDeliveries {
      * Add a new delivery
      * @param delivery A delivery
      */
+
+    //**************************Non vérification de l'unicité de la commande********************************
     public void addDelivery(Delivery delivery) {
         delivery.setTomorrowDeliveries(this);
         mDeliveries.add(delivery);
