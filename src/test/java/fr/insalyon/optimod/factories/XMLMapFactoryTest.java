@@ -2,8 +2,6 @@ package fr.insalyon.optimod.factories;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
-
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
@@ -19,8 +17,7 @@ public class XMLMapFactoryTest extends TestCase {
 	    mMapFactory = new XMLMapFactory(filename);
 		
 	}
-
-	@Test
+	 
 	public void test_create() throws Exception {
 		
 		Map map = mMapFactory.create();

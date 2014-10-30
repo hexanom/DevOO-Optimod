@@ -1,11 +1,8 @@
 package fr.insalyon.optimod.factories;
 
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
+import junit.framework.TestCase;
 
 public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 
@@ -19,7 +16,6 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 
 	}
 
-	@Test
 	public void test_create() throws Exception {
 
 		TomorrowDeliveries tomorrowDeliveries = mTomorrowDeliveriesFactory.create();
