@@ -18,7 +18,7 @@ public class XMLMapFactory extends XMLFactoryBase implements ModelFactory<Map> {
 
 	@Override
 	public Map create() throws Exception {
-		String xsdFile = "/resources/xml/plan.xsd";
+		String xsdFile = "resources/xml/plan.xsd";
 		Element node = loadXMLFile(xsdFile);
 		return Map.deserialize(node);
 	
