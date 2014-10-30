@@ -98,6 +98,7 @@ public class TomorrowDeliveries {
 
 		Element warehouseElement = (Element) listChildNodes.item(0);
 		Warehouse warehouse = Warehouse.deserialize(warehouseElement);
+		// TODO RoadMaps ??
 
 		// TimeWindows and deliveries
 		tag = "PlagesHoraires";
@@ -111,14 +112,16 @@ public class TomorrowDeliveries {
 		if (listTimeWindows.getLength() < 1) {
 			return null;
 		}
-		
+
 		for (int j = 0; j < listTimeWindows.getLength(); j++) {
 			Element windowElement = (Element) listTimeWindows.item(j);
 			TimeWindow timeWindow = TimeWindow.deserialize(windowElement);
-			
-			for(Delivery d : timeWindow.getDeliveries())
-			{
-				tomorrowDeliveries.addDelivery(d);
+
+			if(timeWindow != null){
+				for(Delivery d : timeWindow.getDeliveries())
+				{
+					tomorrowDeliveries.addDelivery(d);
+				}
 			}
 		}
 
