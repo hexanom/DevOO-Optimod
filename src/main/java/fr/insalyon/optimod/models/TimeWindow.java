@@ -57,7 +57,6 @@ public class TimeWindow {
     }
 
 
-
     /**
      * Add a new delivery
      * @param delivery A delivery
@@ -137,7 +136,7 @@ public class TimeWindow {
 			return timeWindow;
 	        
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
     }
