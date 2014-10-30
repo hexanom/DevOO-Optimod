@@ -1,7 +1,10 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -102,7 +105,40 @@ public class TimeWindow {
      * @param node A dom node
      * @return A time window
      */
-    public static TimeWindow deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static TimeWindow deserialize(Element node) throws DeserializationException {
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    	
+    	//attributes
+    	String start = node.getAttribute("heureDebut");
+        String end = node.getAttribute("heureFin");
+        
+        Date startDate;
+		try {
+			startDate = sdf.parse(start);
+			Date endDate = sdf.parse(end);
+			TimeWindow timeWindow = new TimeWindow(startDate, endDate);
+			
+			// deliveries 
+			NodeList deliveriesNode = node.getElementsByTagName("Livraisons");
+			if(deliveriesNode.getLength() != 1)
+			{
+				return null;
+			}
+			
+			Element deliveriesElement = (Element) deliveriesNode.item(0);
+			NodeList listDeliveries = deliveriesElement.getElementsByTagName("Livraison");
+			
+			for (int i = 0; i < listDeliveries.getLength(); i++) {
+				Element deliveryElement = (Element) listDeliveries.item(i);
+				timeWindow.addDelivery(Delivery.deserialize(deliveryElement));
+			}
+			
+			return timeWindow;
+	        
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 }

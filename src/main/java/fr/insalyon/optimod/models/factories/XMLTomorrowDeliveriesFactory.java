@@ -1,7 +1,7 @@
 package fr.insalyon.optimod.models.factories;
 
 import fr.insalyon.optimod.models.TomorrowDeliveries;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /**
  * Creates the tomorrow deliveries from the xml file
@@ -17,7 +17,7 @@ public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements Mode
 
     @Override
     public TomorrowDeliveries create() throws Exception {
-    	Node node = loadXMLFile();
+    	Element node = loadXMLFile();
         return TomorrowDeliveries.deserialize(node);
     }
 }
