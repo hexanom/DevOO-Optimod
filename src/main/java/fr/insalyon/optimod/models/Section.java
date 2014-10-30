@@ -1,6 +1,6 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /**
  * Represents a graph arrow
@@ -80,6 +80,7 @@ public class Section {
     public double getLength() {
         return mLength;
     }
+    
 
     /**
      * Gets the time needed to get through the street
@@ -94,7 +95,16 @@ public class Section {
      * @param node A dom node
      * @return A section
      */
-    public static Section deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static Section deserialize(Element node) throws DeserializationException {
+    	
+    	   //attributes
+    	String streetName = node.getAttribute("nomRue");
+        double speed = Double.parseDouble(node.getAttribute("vitesse"));
+        double length = Double.parseDouble(node.getAttribute("longueur"));
+        
+        Section section  = new Section(streetName, speed, length);
+        return section;
     }
+
+	
 }

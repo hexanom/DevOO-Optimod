@@ -17,7 +17,7 @@ public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements Mode
 
     @Override
     public TomorrowDeliveries create() throws Exception {
-        Node node = loadXMLFile();
+    	Node node = loadXMLFile();
         return TomorrowDeliveries.deserialize(node);
     }
 }
