@@ -17,7 +17,7 @@ public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements Mode
 
     @Override
     public TomorrowDeliveries create() throws Exception {
-    	String xsdFile = "/resources/xml/livraison.xsd";
+    	String xsdFile = "resources/xml/livraison.xsd";
     	Element node = loadXMLFile(xsdFile);
     	return TomorrowDeliveries.deserialize(node);
         

@@ -117,6 +117,7 @@ public class TomorrowDeliveries {
 			Element windowElement = (Element) listTimeWindows.item(j);
 			TimeWindow timeWindow = TimeWindow.deserialize(windowElement);
 
+			//TODO timeWindow ??
 			if(timeWindow != null){
 				for(Delivery d : timeWindow.getDeliveries())
 				{
