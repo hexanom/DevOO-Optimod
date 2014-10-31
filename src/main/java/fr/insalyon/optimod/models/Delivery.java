@@ -27,6 +27,15 @@ public class Delivery extends Location{
 	}
 
 	/**
+	 * Payload and address constructor
+	 * @param payload
+	 * @param address
+	 */
+	public Delivery(String payload, String address) {
+		super(address, 0,0);
+		mPayload = payload;
+	}
+	/**
 	 * Gets the payload
 	 * @return A string
 	 */
@@ -79,10 +88,11 @@ public class Delivery extends Location{
 		
 		//attributes
 		// id ??
-		String payload = node.getAttribute("adresse");
+		String payload = node.getAttribute("id");
+		String address = node.getAttribute("adresse");
 		String customerName = node.getAttribute("client");
 		
-		Delivery delivery = new Delivery(payload);
+		Delivery delivery = new Delivery(payload, address);
 		delivery.setCustomer(new Customer(customerName));
 		
 		return delivery;

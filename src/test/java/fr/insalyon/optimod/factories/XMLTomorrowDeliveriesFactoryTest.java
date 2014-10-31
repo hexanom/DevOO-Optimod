@@ -1,5 +1,6 @@
 package fr.insalyon.optimod.factories;
 
+import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 import junit.framework.TestCase;
@@ -20,6 +21,8 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 
 		TomorrowDeliveries tomorrowDeliveries = mTomorrowDeliveriesFactory.create();
 		assertTrue(tomorrowDeliveries.getDeliveries().size() == 8);
+		Delivery deliv = tomorrowDeliveries.getDeliveries().get(0);
+		assertEquals(deliv.getAddress(), "13");
 	}
 
 }
