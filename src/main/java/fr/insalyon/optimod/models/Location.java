@@ -154,7 +154,7 @@ public class Location {
         return mMap;
     }
 
-    void setMap(Map map) {
+    public void setMap(Map map) {
         mMap = map;
     }
 
