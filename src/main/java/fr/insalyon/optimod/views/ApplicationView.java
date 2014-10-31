@@ -1,7 +1,5 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.controllers.FinishListener;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;

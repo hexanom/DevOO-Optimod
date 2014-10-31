@@ -1,6 +1,7 @@
 package fr.insalyon.optimod.controllers;
 
 import fr.insalyon.optimod.views.ApplicationView;
+import fr.insalyon.optimod.views.FinishListener;
 
 /**
  * Dispatch the User interactions to the UI components

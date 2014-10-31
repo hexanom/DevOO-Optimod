@@ -1,4 +1,4 @@
-package fr.insalyon.optimod.controllers;
+package fr.insalyon.optimod.views;
 
 /**
  * Listener for terminations
