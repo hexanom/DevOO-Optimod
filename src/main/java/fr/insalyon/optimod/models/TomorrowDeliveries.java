@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class TomorrowDeliveries {
 	private Area mArea;
+	private Warehouse mWareHouse;
 	private List<Delivery> mDeliveries = new ArrayList<Delivery>();
 	private List<RoadMap> mRoadMaps = new ArrayList<RoadMap>();
 
@@ -27,6 +28,17 @@ public class TomorrowDeliveries {
 		mArea = a;
 	}
 
+	/**
+	 * Gets the warehouse
+	 * @return A Warehouse
+	 */
+	public Warehouse getWareHouse() {
+		return mWareHouse;
+	}
+
+	public void setWareHouse(Warehouse mWareHouse) {
+		this.mWareHouse = mWareHouse;
+	}
 	/**
 	 * Add a new delivery
 	 * @param delivery A delivery
@@ -97,8 +109,8 @@ public class TomorrowDeliveries {
 		}
 
 		Element warehouseElement = (Element) listChildNodes.item(0);
-		Warehouse warehouse = Warehouse.deserialize(warehouseElement);
-		// TODO RoadMaps ??
+		// set warehouse
+		tomorrowDeliveries.setWareHouse(Warehouse.deserialize(warehouseElement));
 
 		// TimeWindows and deliveries
 		tag = "PlagesHoraires";
