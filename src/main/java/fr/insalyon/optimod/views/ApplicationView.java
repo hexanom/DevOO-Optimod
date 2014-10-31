@@ -1,5 +1,12 @@
 package fr.insalyon.optimod.views;
 
+import fr.insalyon.optimod.controllers.MapChangeListener;
+import fr.insalyon.optimod.controllers.RoadMapListener;
+import fr.insalyon.optimod.controllers.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.models.Map;
+import fr.insalyon.optimod.models.RoadMap;
+import fr.insalyon.optimod.models.TomorrowDeliveries;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -8,7 +15,7 @@ import java.awt.event.WindowListener;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, RoadMapListener, TomorrowDeliveriesListener {
     private JButton mImportMapButton;
     private JButton mImportDeliveriesButton;
     private FinishListener mFinishListener;
@@ -42,37 +49,36 @@ public class ApplicationView extends JFrame implements WindowListener {
     }
 
     @Override
-    public void windowOpened(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-
-    }
-
-    @Override
     public void windowClosed(WindowEvent e) {
         mFinishListener.onFinish();
     }
 
     @Override
-    public void windowIconified(WindowEvent e) {
+    public void onMapChanged(Map map) {
 
     }
 
     @Override
-    public void windowDeiconified(WindowEvent e) {
+    public void onRoadMapChanged(RoadMap roadMap) {
 
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
+    public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
 
     }
 
+    // Note: we don't want to do anything with those but we have to implement them
     @Override
-    public void windowDeactivated(WindowEvent e) {
-
-    }
+    public void windowOpened(WindowEvent e) {}
+    @Override
+    public void windowClosing(WindowEvent e) {}
+    @Override
+    public void windowIconified(WindowEvent e) {}
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
+    @Override
+    public void windowActivated(WindowEvent e) {}
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
 }
