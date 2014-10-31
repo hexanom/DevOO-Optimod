@@ -13,8 +13,7 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		String filename = "C:/Users/Modou/Desktop/4IF/Devoo/res_drive/Sujet-2014-10-30/Sujet/";
-		filename += "livraison10x10-1.xml";
+		String filename = "resources/tests/livraison10x10-1.xml";
 		mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(filename);
 
 	}

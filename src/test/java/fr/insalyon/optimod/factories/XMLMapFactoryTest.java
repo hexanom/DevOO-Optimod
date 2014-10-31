@@ -12,8 +12,7 @@ public class XMLMapFactoryTest extends TestCase {
 	 @Override
 	public void setUp() throws Exception {
 		super.setUp();
-		String filename = "C:/Users/Modou/Desktop/4IF/Devoo/res_drive/Sujet-2014-10-30/Sujet/";
-    	filename += "plan10x10.xml";
+		String filename = "resources/tests/plan10x10.xml";
 	    mMapFactory = new XMLMapFactory(filename);
 		
 	}
