@@ -20,7 +20,14 @@ public class XMLMapFactory extends XMLFactoryBase implements ModelFactory<Map> {
 	public Map create() throws Exception {
 		String xsdFile = "resources/xml/plan.xsd";
 		Element node = loadXMLFile(xsdFile);
-		return Map.deserialize(node);
-	
+		if(node != null)
+		{
+			return Map.deserialize(node);
+		}
+		else 
+		{
+			return null;
+		}
+
 	}
 }
