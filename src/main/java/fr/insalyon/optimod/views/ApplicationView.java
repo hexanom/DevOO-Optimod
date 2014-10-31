@@ -8,13 +8,15 @@ import fr.insalyon.optimod.models.TomorrowDeliveries;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener {
     private final DeliveriesToolbarListener mDeliveriesToolbarListener;
     private final FinishListener mFinishListener;
     private final MainToolBarListener mMainToolbarListener;
@@ -42,6 +44,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private void initChildren() {
         JToolBar toolbar = new JToolBar();
         mImportMapButton = new JButton("Import Map");
+        mImportMapButton.addActionListener(this);
         toolbar.add(mImportMapButton);
         mImportDeliveriesButton = new JButton("Import Deliveries");
         mImportDeliveriesButton.setEnabled(false);
@@ -67,6 +70,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onMapChanged(Map map) {
+        mImportDeliveriesButton.setEnabled(true);
         // TODO: repaint map view
     }
 
@@ -91,6 +95,15 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         // TODO: Select on MapView the location and in the TDs or RM list
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(mImportMapButton)) {
+            mMainToolbarListener.onImportMapAction();
+        } else if(e.getSource().equals(mImportDeliveriesButton)) {
+            mMainToolbarListener.onImportMapAction();
+        }
+    }
+
     // Note: we don't want to do anything with those but we have to implement them
     @Override
     public void windowOpened(WindowEvent e) {}
@@ -104,5 +117,4 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void windowActivated(WindowEvent e) {}
     @Override
     public void windowDeactivated(WindowEvent e) {}
-
 }
