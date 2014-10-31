@@ -27,6 +27,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private final TabSelectionListener mTabSelectionListener;
     private JButton mImportMapButton;
     private JButton mImportDeliveriesButton;
+    private DeliveriesListView mDeliveriesListView;
 
     public ApplicationView(ApplicationController controller) {
         mDeliveriesToolbarListener = controller;
@@ -81,7 +82,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
-        // TODO: repaint mapview (w/ TDs drawed upon it) & TDs list view
+        mDeliveriesListView.onTomorrowDeliveryChanged(tomorrowDeliveries);
+        // TODO: repaint mapview (w/ TDs drawed upon it)
     }
 
     @Override
