@@ -53,7 +53,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     }
 
     private void initChildren() {
-        JToolBar mainToolbar = new JToolBar();
+        JComponent mainToolbar = new JPanel();
             mImportMapButton = new JButton("Import Map");
             mImportMapButton.addActionListener(this);
             mainToolbar.add(mImportMapButton);
@@ -99,6 +99,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         setLayout(new BorderLayout());
         addWindowListener(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        getRootPane().putClientProperty("apple.awt.brushMetalLook", true);
 
         int keyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         JMenuBar menuBar = new JMenuBar();
