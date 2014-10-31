@@ -1,8 +1,7 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.controllers.MapChangeListener;
-import fr.insalyon.optimod.controllers.RoadMapListener;
-import fr.insalyon.optimod.controllers.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.controllers.*;
+import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.RoadMap;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
@@ -15,12 +14,27 @@ import java.awt.event.WindowListener;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, RoadMapListener, TomorrowDeliveriesListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener {
+    private final DeliveriesToolbarListener mDeliveriesToolbarListener;
+    private final FinishListener mFinishListener;
+    private final MainToolBarListener mMainToolbarListener;
+    private final MapClickListener mMapClickListener;
+    private final RoadMapReorderListener mRoadMapReorderListener;
+    private final RoadMapToolbarListener mRoadMapToolbarListener;
+    private final SelectionListener mSelectionListener;
+    private final TabSelectionListener mTabSelectionListener;
     private JButton mImportMapButton;
     private JButton mImportDeliveriesButton;
-    private FinishListener mFinishListener;
 
-    public ApplicationView() {
+    public ApplicationView(ApplicationController controller) {
+        mDeliveriesToolbarListener = controller;
+        mFinishListener = controller;
+        mMainToolbarListener = controller;
+        mMapClickListener = controller;
+        mRoadMapReorderListener = controller;
+        mRoadMapToolbarListener = controller;
+        mSelectionListener = controller;
+        mTabSelectionListener = controller;
         initWindow();
         initChildren();
     }
@@ -33,6 +47,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mImportDeliveriesButton.setEnabled(false);
         toolbar.add(mImportDeliveriesButton);
         add(toolbar, BorderLayout.PAGE_START);
+
+        // TODO: construct UI
     }
 
     private void initWindow() {
@@ -44,10 +60,6 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void setFinishListener(FinishListener listener) {
-        mFinishListener = listener;
-    }
-
     @Override
     public void windowClosed(WindowEvent e) {
         mFinishListener.onFinish();
@@ -55,17 +67,28 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onMapChanged(Map map) {
-
+        // TODO: repaint map view
     }
 
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
-
+        // TODO: repaint mapview (w/ roadmap drawed upon it) & RM list view
     }
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
+        // TODO: repaint mapview (w/ TDs drawed upon it) & TDs list view
+    }
 
+    @Override
+    public Location matchLocation(int x, int y) {
+        // TODO: Interrogate LocationViews to find out which Location corresponds
+        return null;
+    }
+
+    @Override
+    public void onSelectIntentOnLocation(Location location) {
+        // TODO: Select on MapView the location and in the TDs or RM list
     }
 
     // Note: we don't want to do anything with those but we have to implement them
@@ -81,4 +104,5 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void windowActivated(WindowEvent e) {}
     @Override
     public void windowDeactivated(WindowEvent e) {}
+
 }
