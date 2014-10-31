@@ -1,16 +1,10 @@
 package fr.insalyon.optimod;
 
-import fr.insalyon.optimod.models.Map;
-import fr.insalyon.optimod.models.TomorrowDeliveries;
-
 /**
  * The Application singleton
  */
 public class Application {
     private static Application oInstance = new Application();
-
-    private Map mCurrentMap;
-    private TomorrowDeliveries mCurrentDeliveries;
 
     /**
      * Asks for the singleton
@@ -45,41 +39,5 @@ public class Application {
      */
     private void run() {
         System.out.println("Hello World");
-    }
-
-    /**
-     * Gets the current map attached to the Application instance
-     * @deprecated
-     * @return A Map
-     */
-    public Map getCurrentMap() {
-        return mCurrentMap;
-    }
-
-    /**
-     * Sets the current map attached to the Application
-     * @deprecated
-     * @param currentMap A Map
-     */
-    public void setCurrentMap(Map currentMap) {
-        mCurrentMap = currentMap;
-    }
-
-    /**
-     * Gets the current deliveries attached to the application
-     * @deprecated
-     * @return A TomorrowDeliveries
-     */
-    public TomorrowDeliveries getCurrentDeliveries() {
-        return mCurrentDeliveries;
-    }
-
-    /**
-     * Sets the current deliveries attached to the application
-     * @deprecated
-     * @param currentDeliveries A TomorrowDeliveries
-     */
-    public void setCurrentDeliveries(TomorrowDeliveries currentDeliveries) {
-        mCurrentDeliveries = currentDeliveries;
     }
 }
