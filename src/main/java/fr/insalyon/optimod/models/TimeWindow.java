@@ -136,7 +136,6 @@ public class TimeWindow {
 			return timeWindow;
 	        
 		} catch (ParseException e) {
-			//e.printStackTrace();
 			return null;
 		}
     }
