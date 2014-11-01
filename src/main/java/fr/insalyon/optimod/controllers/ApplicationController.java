@@ -110,11 +110,13 @@ public class ApplicationController implements Controller, FinishListener, MainTo
 
     @Override
     public void onDeliveriesTabSelected() {
-         mRoadMapListener.onRoadMapChanged(null);
+        if(mRoadMapListener != null) { // mRoadMapListener is null when initializing …
+            mRoadMapListener.onRoadMapChanged(null);
+        }
     }
 
     @Override
-    public void onPrintRoadMapAction() {
+    public void onExportRoadMapAction() {
         // TODO: generate a text file from the roadmap
     }
 }

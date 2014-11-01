@@ -199,7 +199,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         } else if(e.getSource().equals(mDeleteDeliveryButton) || e.getSource().equals(mDeleteDeliveryMenuItem)) {
             mDeliveriesToolbarListener.onRemoveDeliveryAction();
         } else if(e.getSource().equals(mExportRoadMapButton) || e.getSource().equals(mExportRoadMapMenuItem)) {
-            mRoadMapToolbarListener.onPrintRoadMapAction();
+            mRoadMapToolbarListener.onExportRoadMapAction();
         } else if(e.getSource().equals(mUndoMenuItem)) {
             mMainToolbarListener.onUndoAction();
         } else if(e.getSource().equals(mRedoMenuItem)) {
@@ -209,6 +209,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        if(mTabbedPane.getSelectedIndex() == 0) {
+            mTabSelectionListener.onDeliveriesTabSelected();
+        } else {
+            mTabSelectionListener.onRoadMapTabSelected();
+        }
     }
 
     // Note: we don't want to do anything with those but we have to implement them

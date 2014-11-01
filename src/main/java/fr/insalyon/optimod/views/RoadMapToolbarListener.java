@@ -5,5 +5,5 @@ package fr.insalyon.optimod.views;
  */
 public interface RoadMapToolbarListener {
 
-    public void onPrintRoadMapAction();
+    public void onExportRoadMapAction();
 }
