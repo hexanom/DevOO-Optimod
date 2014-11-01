@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import junit.framework.TestCase;
 import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
+import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 
 public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
@@ -13,8 +14,10 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		String filename = "resources/tests/livraison10x10-1.xml";
-		mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(filename);
+		String deliveriesFilename = "resources/tests/livraison10x10-1.xml";
+		String mapFilename = "resources/tests/plan10x10.xml";
+		mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveriesFilename, 
+				new XMLMapFactory(mapFilename).create());
 
 	}
 

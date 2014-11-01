@@ -17,7 +17,7 @@ public class Warehouse extends Location {
 	}
     public static Warehouse deserialize(Element node) throws DeserializationException {
     	
-    	String address = node.getAttribute("id");
+    	String address = node.getAttribute("adresse");
     	return new Warehouse(address);
     }
 }
