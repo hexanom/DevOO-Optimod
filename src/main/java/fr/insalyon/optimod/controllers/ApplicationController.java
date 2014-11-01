@@ -118,5 +118,6 @@ public class ApplicationController implements Controller, FinishListener, MainTo
     @Override
     public void onExportRoadMapAction() {
         // TODO: generate a text file from the roadmap
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 }

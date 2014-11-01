@@ -1,5 +1,6 @@
 package fr.insalyon.optimod.views;
 
+import fr.insalyon.optimod.controllers.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.Location;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * The TDs list view
  */
-public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliveriesListener, ListSelectionListener {
+public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliveriesListener, ListSelectionListener, SelectionIntentListener {
     private final SelectionListener mSelectionListener;
 
     public DeliveriesListView(SelectionListener selectionListener) {
@@ -35,5 +36,10 @@ public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliv
     @Override
     public void valueChanged(ListSelectionEvent e) {
         mSelectionListener.onSelectLocation((Location) e.getSource());
+    }
+
+    @Override
+    public void onSelectIntentOnLocation(Location location) {
+        setSelectedValue(location, true);
     }
 }
