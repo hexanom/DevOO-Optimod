@@ -1,14 +1,12 @@
 package fr.insalyon.optimod.controllers;
 
+import fr.insalyon.optimod.controllers.actions.DeleteDeliveryAction;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
-import fr.insalyon.optimod.models.Location;
-import fr.insalyon.optimod.models.Map;
-import fr.insalyon.optimod.models.RoadMap;
-import fr.insalyon.optimod.models.TomorrowDeliveries;
+import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.views.*;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
@@ -16,7 +14,7 @@ import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 /**
  * Dispatch the User interactions to the UI components
  */
-public class ApplicationController implements Controller, FinishListener, MainToolBarListener, MapClickListener, DeliveriesToolbarListener, RoadMapReorderListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
+public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, DeliveriesToolbarListener, RoadMapReorderListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
@@ -25,7 +23,7 @@ public class ApplicationController implements Controller, FinishListener, MainTo
     private final TomorrowDeliveriesListener mTomorrowDeliveriesListener;
     private final MapPositionMatcher mMapPositionMatcher;
     private final SelectionIntentListener mSelectionIntentListener;
-    private Location mSelectedLocation;
+    private Delivery mSelectedDelivery;
     private Map mMap;
     private TomorrowDeliveries mTomorrowDeliveries;
     private RoadMap mRoadMap;
@@ -60,9 +58,8 @@ public class ApplicationController implements Controller, FinishListener, MainTo
 
     @Override
     public void onRemoveDeliveryAction() {
-        if(mSelectedLocation != null) {
-            // TODO: delete from the TDs the location
-            // NOTE: Don't forget the Command-pattern
+        if(mSelectedDelivery != null) {
+            doAction(new DeleteDeliveryAction(mTomorrowDeliveries, mSelectedDelivery));
             mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
         }
     }
@@ -83,12 +80,12 @@ public class ApplicationController implements Controller, FinishListener, MainTo
 
     @Override
     public void onUndoAction() {
-        // TODO: Command-pattern UNDO
+        undo();
     }
 
     @Override
     public void onRedoAction() {
-        // TODO: Command-pattern REDO
+        redo();
     }
 
     @Override
@@ -106,7 +103,12 @@ public class ApplicationController implements Controller, FinishListener, MainTo
     @Override
     public void onSelectLocation(Location location) {
         mSelectionIntentListener.onSelectIntentOnLocation(location);
-        mSelectedLocation = location;
+        if(location instanceof Delivery) {
+            mSelectedDelivery = (Delivery) location;
+        } else {
+            mSelectedDelivery = null;
+        }
+
     }
 
     @Override
