@@ -1,10 +1,11 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.controllers.SelectionIntentListener;
-import fr.insalyon.optimod.controllers.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
+import fr.insalyon.optimod.views.listeners.action.SelectionListener;
 import fr.insalyon.optimod.views.utils.GenericListModel;
 
 import javax.swing.*;

@@ -1,10 +1,17 @@
 package fr.insalyon.optimod.controllers;
 
+import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
+import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
+import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
+import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.RoadMap;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.views.*;
+import fr.insalyon.optimod.views.listeners.action.*;
+import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
 /**
  * Dispatch the User interactions to the UI components
@@ -110,7 +117,7 @@ public class ApplicationController implements Controller, FinishListener, MainTo
 
     @Override
     public void onDeliveriesTabSelected() {
-        if(mRoadMapListener != null) { // mRoadMapListener is null when initializing …
+        if(mRoadMapListener != null) { // mRoadMapListener is null when initializing...
             mRoadMapListener.onRoadMapChanged(null);
         }
     }

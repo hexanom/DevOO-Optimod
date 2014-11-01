@@ -1,4 +1,4 @@
-package fr.insalyon.optimod.controllers;
+package fr.insalyon.optimod.controllers.listeners;
 
 import fr.insalyon.optimod.models.Location;
 

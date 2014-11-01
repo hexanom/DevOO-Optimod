@@ -1,4 +1,4 @@
-package fr.insalyon.optimod.views;
+package fr.insalyon.optimod.views.listeners.action;
 
 /**
  * Binds to the main toolbar

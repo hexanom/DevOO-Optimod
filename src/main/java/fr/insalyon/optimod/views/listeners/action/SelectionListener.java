@@ -1,4 +1,4 @@
-package fr.insalyon.optimod.views;
+package fr.insalyon.optimod.views.listeners.action;
 
 import fr.insalyon.optimod.models.Location;
 
