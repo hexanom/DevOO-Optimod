@@ -5,8 +5,11 @@ import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.*;
+import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.views.*;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
@@ -23,6 +26,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     private final TomorrowDeliveriesListener mTomorrowDeliveriesListener;
     private final MapPositionMatcher mMapPositionMatcher;
     private final SelectionIntentListener mSelectionIntentListener;
+    private final FileSelectionIntentListener mFileSelectionIntentListener;
+    private final ShowErrorIntentListener mShowErrorIntentListener;
     private Delivery mSelectedDelivery;
     private Map mMap;
     private TomorrowDeliveries mTomorrowDeliveries;
@@ -36,6 +41,8 @@ public class ApplicationController extends HistoryEnabledController implements F
         mTomorrowDeliveriesListener = mView;
         mMapPositionMatcher = mView;
         mSelectionIntentListener = mView;
+        mFileSelectionIntentListener = mView;
+        mShowErrorIntentListener = mView;
     }
 
     @Override
@@ -66,13 +73,22 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onImportMapAction() {
-        // TODO: Open a dialog & load the xml map into mMap
-        // NOTE: Erase the command history
-        mMapChangeListener.onMapChanged(mMap);
+        String path = mFileSelectionIntentListener.onFileSelectionIntent();
+        if(path != null) {
+            XMLMapFactory factory = new XMLMapFactory(path);
+            try {
+                mMap = factory.create();
+                mMapChangeListener.onMapChanged(mMap);
+            } catch (Exception e) {
+                mShowErrorIntentListener.onErrorIntent("Import Error", e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onImportDeliveriesAction() {
+        String filename = mFileSelectionIntentListener.onFileSelectionIntent();
         // TODO: Open a dialog & load the xml TDs into mTDs
         // NOTE: Erase the command history
         mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);

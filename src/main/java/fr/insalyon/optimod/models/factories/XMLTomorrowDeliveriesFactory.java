@@ -23,7 +23,7 @@ public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements Mode
 
     @Override
     public TomorrowDeliveries create() throws Exception {
-        String xsdFile = "resources/xml/livraison.xsd";
+        String xsdFile = "livraison.xsd";
         Element node = loadXMLFile(xsdFile);
         if(node != null)
         {

@@ -5,7 +5,9 @@ import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
+import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.RoadMap;
@@ -22,7 +24,7 @@ import java.awt.event.*;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener {
     private final FinishListener mFinishListener;
     private final MainToolBarListener mMainToolbarListener;
     private final MapClickListener mMapClickListener;
@@ -250,6 +252,23 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         } else {
             mTabSelectionListener.onRoadMapTabSelected();
         }
+    }
+
+    @Override
+    public String onFileSelectionIntent() {
+        FileDialog fd = new FileDialog(this, "Open a file", FileDialog.LOAD);
+        fd.setFile("*.xml");
+        fd.setVisible(true);
+        if(fd.getFile() != null) {
+            return fd.getDirectory() + fd.getFile();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void onErrorIntent(String title, String content) {
+        JOptionPane.showMessageDialog(this, content, title, JOptionPane.ERROR_MESSAGE);
     }
 
     // Note: we don't want to do anything with those but we have to implement them
