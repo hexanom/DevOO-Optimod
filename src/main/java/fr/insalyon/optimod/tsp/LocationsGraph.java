@@ -43,7 +43,7 @@ public class LocationsGraph implements Graph {
         List<Integer> firstSuccessors = connectLocationToDeliveries(WAREHOUSE_INDEX, warehouse, firstDeliveries);
         succ.add(0, firstSuccessors);
 
-        // Deliveries
+        // Connect deliveries
         int i = 0;
         for (Delivery delivery : deliveries) {
             ArrayList<Integer> successors = new ArrayList<>();
@@ -53,11 +53,14 @@ public class LocationsGraph implements Graph {
 
             // Connect to deliveries OR warehouse in the next time window
             TimeWindow nextTimeWindow = timeWindows.higher(timeWindow);
-            if (nextTimeWindow == null) { // Case : last time window
+            // Connect to the warehouse
+            if (nextTimeWindow == null) {
                 int pathCost = costBetweenLocations(delivery, warehouse);
                 updateCostBetweenLocations(i, WAREHOUSE_INDEX, pathCost);
                 successors.add(WAREHOUSE_INDEX);
-            } else {
+            }
+            // Connect to the deliveries in the next time window
+            else {
                 List<Delivery> nextDeliveries = twDeliveries.get(nextTimeWindow);
                 List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, nextDeliveries);
                 successors.addAll(connectedSuccessors);
@@ -67,6 +70,7 @@ public class LocationsGraph implements Graph {
             List<Delivery> relatedDeliveries = twDeliveries.get(timeWindow);
             List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, relatedDeliveries);
             successors.addAll(connectedSuccessors);
+
             i++;
         }
 
