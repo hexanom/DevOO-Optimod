@@ -10,9 +10,9 @@ import fr.insalyon.optimod.models.TomorrowDeliveries;
  */
 public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements ModelFactory<TomorrowDeliveries> {
     
-	private Map mMap; // ??
-	
-	/**
+    private Map mMap; // ??
+
+    /**
      * Path constructor
      * @param path The path to the deliveries file
      */
@@ -23,17 +23,17 @@ public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements Mode
 
     @Override
     public TomorrowDeliveries create() throws Exception {
-    	String xsdFile = "resources/xml/livraison.xsd";
-    	Element node = loadXMLFile(xsdFile);
-    	if(node != null)
-		{
-    		return TomorrowDeliveries.deserialize(node, this.mMap);
-		}
-		else 
-		{
-			return null;
-		}
-    	
+        String xsdFile = "resources/xml/livraison.xsd";
+        Element node = loadXMLFile(xsdFile);
+        if(node != null)
+        {
+            return TomorrowDeliveries.deserialize(node, this.mMap);
+        }
+        else
+        {
+            return null;
+        }
+
         
     }
 }

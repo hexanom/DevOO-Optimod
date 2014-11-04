@@ -11,13 +11,13 @@ public class Warehouse extends Location {
      * @param node A dom node
      * @return A warehouse
      */
-	
-	public Warehouse(String address){
-		super(address, 0, 0);
-	}
+
+    public Warehouse(String address){
+        super(address, 0, 0);
+    }
     public static Warehouse deserialize(Element node) throws DeserializationException {
-    	
-    	String address = node.getAttribute("adresse");
-    	return new Warehouse(address);
+
+        String address = node.getAttribute("adresse");
+        return new Warehouse(address);
     }
 }
