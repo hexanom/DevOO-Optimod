@@ -34,4 +34,15 @@ public class DeliveryTest extends TestCase{
         customer.deleteDelivery(mDelivery);
         assertNull(mDelivery.getCustomer());
     }
+
+    public void test_getTimeWindow() throws Exception {
+        TimeWindow tw = new TimeWindow();
+        tw.addDelivery(mDelivery);
+        assertEquals(mDelivery.getTimeWindow(), tw);
+        tw.deleteDelivery(mDelivery);
+        assertNull(mDelivery.getTimeWindow());
+    }
+
+
+
 }

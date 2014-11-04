@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="JourneeType" type="JourneeTypeType"/>
+  <xs:complexType name="EntrepotType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="adresse" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LivraisonType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="id" use="required"/>
+        <xs:attribute type="xs:int" name="client" use="required"/>
+        <xs:attribute type="xs:int" name="adresse" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LivraisonsType">
+    <xs:sequence>
+      <xs:element type="LivraisonType" name="Livraison" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PlageType">
+    <xs:sequence>
+      <xs:element type="LivraisonsType" name="Livraisons">
+        <xs:key name="PKLivraison">
+          <xs:selector xpath="Livraison"/>
+          <xs:field xpath="@id"/>
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="customTime" name="heureDebut" use="required"/>
+    <xs:attribute type="customTime" name="heureFin" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="PlagesHorairesType">
+    <xs:sequence>
+      <xs:element type="PlageType" name="Plage" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="JourneeTypeType">
+    <xs:sequence>
+      <xs:element type="EntrepotType" name="Entrepot"/>
+      <xs:element type="PlagesHorairesType" name="PlagesHoraires"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="customTime">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="([01]?[0-9]|2[0-3]):([0-5][0-9]|[0-9])(:([0-5][0-9]|[0-9]))?"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

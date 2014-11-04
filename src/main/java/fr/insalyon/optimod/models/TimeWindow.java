@@ -1,7 +1,10 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -52,7 +55,6 @@ public class TimeWindow {
     void setRoadMap(RoadMap roadMap) {
         mRoadMap = roadMap;
     }
-
 
 
     /**
@@ -118,11 +120,58 @@ public class TimeWindow {
     }
 
     /**
+     * 
      * Deserializes a time window from a dom node
      * @param node A dom node
+     * @param map A map
      * @return A time window
+     * @throws DeserializationException
      */
-    public static TimeWindow deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static TimeWindow deserialize(Element node, Map map) throws DeserializationException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        //attributes
+        String start = node.getAttribute("heureDebut");
+        String end = node.getAttribute("heureFin");
+        
+        Date startDate;
+        try {
+            startDate = sdf.parse(start);
+            Date endDate = sdf.parse(end);
+            TimeWindow timeWindow = new TimeWindow(startDate, endDate);
+
+            // deliveries
+            NodeList deliveriesNode = node.getElementsByTagName("Livraisons");
+            if(deliveriesNode.getLength() != 1)
+            {
+                System.out.println("Error in Deliveries file");
+                return null;
+            }
+
+            Element deliveriesElement = (Element) deliveriesNode.item(0);
+            NodeList listDeliveries = deliveriesElement.getElementsByTagName("Livraison");
+
+            for (int i = 0; i < listDeliveries.getLength(); i++) {
+                Element deliveryElement = (Element) listDeliveries.item(i);
+                Delivery delivery = Delivery.deserialize(deliveryElement);
+
+                //check if the location exists
+                Location deliveryLocation = map.getLocationByAddress(delivery.getAddress());
+                if( deliveryLocation == null)
+                {
+                    System.out.println("Delivery location not exists");
+                    return null;
+                }
+                //TODO find a way to have deliveryLocation attributes in delivery
+                timeWindow.addDelivery(delivery);
+            }
+
+            return timeWindow;
+
+        } catch (ParseException e) {
+            System.out.println("TimeWindow Date error");
+            return null;
+        }
     }
 }
