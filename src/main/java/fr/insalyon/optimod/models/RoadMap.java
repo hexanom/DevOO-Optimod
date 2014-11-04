@@ -12,6 +12,8 @@ public class RoadMap {
     private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
     private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
 
+
+
     /**
      * Default constructor
      */
