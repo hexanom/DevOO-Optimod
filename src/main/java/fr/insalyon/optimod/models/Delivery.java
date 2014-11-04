@@ -5,11 +5,21 @@ import org.w3c.dom.Element;
 /**
  * Represents a package to be delivered
  */
+
+
 public class Delivery extends Location{
+
+    private static int Delivery_id = 0;
+
+    {
+        Delivery_id++;
+    }
     private String mPayload;
     private TomorrowDeliveries mTomorrowDeliveries;
     private Customer mCustomer;
     private TimeWindow mTimeWindow;
+
+
 
     /**
      * Default Constructor
@@ -25,6 +35,10 @@ public class Delivery extends Location{
     public Delivery(String payload) {
         mPayload = payload;
     }
+
+
+
+
 
     /**
      * Payload and address constructor
