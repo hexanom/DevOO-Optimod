@@ -14,7 +14,7 @@ import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 /**
  * Dispatch the User interactions to the UI components
  */
-public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, DeliveriesToolbarListener, RoadMapReorderListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
+public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
@@ -92,12 +92,6 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onMapClick(int x, int y) {
         Location location = mMapPositionMatcher.matchLocation(x, y);
         onSelectLocation(location);
-    }
-
-    @Override
-    public void onRoadMapReorder(int elementIndex, int movedToIndex) {
-        // TODO: reorder the map with the indexes
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
