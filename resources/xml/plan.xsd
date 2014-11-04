@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Reseau" type="ReseauType">
+    <xs:key name="PKNoeuds">
+      <xs:selector xpath="Noeud"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+    <xs:keyref name="FKTronconNoeud" refer="PKNoeuds">
+      <xs:selector xpath="Noeud/LeTronconSortant"/>
+      <xs:field xpath="@idNoeudDestination"/>
+    </xs:keyref>
+  </xs:element>
+  <xs:complexType name="LeTronconSortantType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="nomRue" use="required"/>
+        <xs:attribute type="positive.float.fr" name="vitesse" use="required"/>
+        <xs:attribute type="positive.float.fr" name="longueur" use="required"/>
+        <xs:attribute type="xs:int" name="idNoeudDestination" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NoeudType">
+    <xs:sequence>
+      <xs:element type="LeTronconSortantType" name="LeTronconSortant" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:int" name="id" use="required"/>
+    <xs:attribute type="xs:int" name="x" use="required"/>
+    <xs:attribute type="xs:int" name="y" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="ReseauType">
+    <xs:sequence>
+      <xs:element type="NoeudType" name="Noeud" maxOccurs="unbounded" minOccurs="0">
+        <xs:key name="NoMultigraphes">
+          <xs:selector xpath="LeTronconSortant"/>
+          <xs:field xpath="@idNoeudDestination"/>
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="positive.float.fr">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="\+?(([0-9]+(,[0-9]+)?)|(,[0-9]+))((E|e)(\+|-)?[0-9]+)?"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

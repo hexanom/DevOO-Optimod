@@ -1,6 +1,6 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /**
  * Represents a package to be delivered
@@ -26,6 +26,15 @@ public class Delivery extends Location{
         mPayload = payload;
     }
 
+    /**
+     * Payload and address constructor
+     * @param payload
+     * @param address
+     */
+    public Delivery(String payload, String address) {
+        super(address, 0,0);
+        mPayload = payload;
+    }
     /**
      * Gets the payload
      * @return A string
@@ -75,8 +84,18 @@ public class Delivery extends Location{
      * @param node A dom node
      * @return A delivery
      */
-    public static Delivery deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static Delivery deserialize(Element node) throws DeserializationException {
+
+        //attributes
+        // id ??
+        String payload = node.getAttribute("id");
+        String address = node.getAttribute("adresse");
+        String customerName = node.getAttribute("client");
+
+        Delivery delivery = new Delivery(payload, address);
+        delivery.setCustomer(new Customer(customerName));
+
+        return delivery;
     }
 
 }

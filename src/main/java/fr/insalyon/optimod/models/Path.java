@@ -2,6 +2,7 @@ package fr.insalyon.optimod.models;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Path {
     };
 
     private RoadMap mRoadMap;
-    private List<Section> mOrderedSections = new ArrayList<Section>();
+    private LinkedList<Section> mOrderedSections = new LinkedList<Section>();
 
     /**
      * Gets the associated time window
@@ -48,12 +49,16 @@ public class Path {
      */
     public boolean appendSection(Section s) {
         if(mOrderedSections.size() > 0) {
-            if (s.getOrigin().equals(mOrderedSections
-                    .get(mOrderedSections.size() - 1)
+            Section lastSection = mOrderedSections.getLast();
+
+            if (s.getOrigin().equals(lastSection
                     .getDestination())) {
-                mOrderedSections.add(s);
-                return true;
+                    mOrderedSections.add(s);
+                    return true;
             }
+        }
+        else if(mOrderedSections.size() == 0){
+            mOrderedSections.add(s);
         }
         return false;
     }
@@ -77,7 +82,9 @@ public class Path {
         if(mOrderedSections.size() > 0) {
             return mOrderedSections.get(mOrderedSections.size() - 1).getDestination();
         }
-        return null;
+
+            return null;
+
     }
 
     /**

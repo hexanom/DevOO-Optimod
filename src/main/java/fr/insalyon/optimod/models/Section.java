@@ -1,6 +1,10 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
+import org.w3c.dom.Element;
 
 /**
  * Represents a graph arrow
@@ -81,6 +85,7 @@ public class Section {
         return mLength;
     }
 
+
     /**
      * Gets the time needed to get through the street
      * @return A time <strong>in seconds</strong>
@@ -93,8 +98,26 @@ public class Section {
      * Deserializes a section from a dom node
      * @param node A dom node
      * @return A section
+     * @throws ParseException
      */
-    public static Section deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static Section deserialize(Element node) throws DeserializationException {
+
+        NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+        //attributes
+        String streetName = node.getAttribute("nomRue");
+        double speed, length;
+        try {
+            speed = format.parse(node.getAttribute("vitesse")).doubleValue();
+            length = format.parse(node.getAttribute("longueur")).doubleValue();
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return null;
+        }
+
+        Section section  = new Section(streetName, speed, length);
+        return section;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,22 @@ public class Location {
         return null;
     }
 
+    /**
+     * Connects the node to another one
+     * @param location An other node
+     * @param section The section between the two nodes
+     * @return The newly created section or null if the nodes doesn't belong to the same graph
+     */
+    public Section connectTo(Location location, Section section) {
+        if(location.getMap() != null && location.getMap().equals(mMap)) {
+            section.setOrigin(this);
+            mOuts.add(section);
+            location.connectedFrom(section);
+            return section;
+        }
+        return null;
+    }
+
     void connectedFrom(Section section) {
         section.setDestination(this);
         mIns.add(section);
@@ -163,7 +180,44 @@ public class Location {
      * @param node A dom node
      * @return A location
      */
-    public static Location deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+    public static Location deserialize(Element node) throws DeserializationException {
+
+        //attributes
+        String address = node.getAttribute("id");
+        long x = Long.parseLong(node.getAttribute("x"));
+        long y = Long.parseLong(node.getAttribute("y"));
+
+        return new Location(address, x, y);
+    }
+
+    /**
+     * Deserializes a location's outgoing sections from a dom node
+     * @param node A dom node
+     * @throws DeserializationException
+     */
+    public void deserializeSections(Element node) throws DeserializationException {
+
+        String tag = "LeTronconSortant";
+        NodeList listOuts = node.getElementsByTagName(tag);
+
+        for (int j = 0; j < listOuts.getLength(); j++) {
+            Element outSectionElement = (Element) listOuts.item(j);
+
+            String destinationAddress = outSectionElement.getAttribute("idNoeudDestination");
+            Location destination = mMap.getLocationByAddress(destinationAddress);
+            if(destination != null)
+            {
+                Section newSection = Section.deserialize(outSectionElement);
+                newSection = connectTo(destination, newSection);
+
+                if(newSection != null)
+                {
+                    //TODO : paths?
+                }
+
+            }
+
+
+        }
     }
 }

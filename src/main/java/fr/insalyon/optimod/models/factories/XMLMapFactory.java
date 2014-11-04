@@ -1,7 +1,8 @@
 package fr.insalyon.optimod.models.factories;
 
 import fr.insalyon.optimod.models.Map;
-import org.w3c.dom.Node;
+
+import org.w3c.dom.Element;
 
 /**
  * Constructs a map from a XML file
@@ -17,7 +18,16 @@ public class XMLMapFactory extends XMLFactoryBase implements ModelFactory<Map> {
 
     @Override
     public Map create() throws Exception {
-        Node node = loadXMLFile();
-        return Map.deserialize(node);
+        String xsdFile = "resources/xml/plan.xsd";
+        Element node = loadXMLFile(xsdFile);
+        if(node != null)
+        {
+            return Map.deserialize(node);
+        }
+        else
+        {
+            return null;
+        }
+
     }
 }
