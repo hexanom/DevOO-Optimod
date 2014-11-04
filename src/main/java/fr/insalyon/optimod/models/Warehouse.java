@@ -1,6 +1,6 @@
 package fr.insalyon.optimod.models;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 /**
  * Represents a start/end location
@@ -11,7 +11,13 @@ public class Warehouse extends Location {
      * @param node A dom node
      * @return A warehouse
      */
-    public static Warehouse deserialize(Node node) throws DeserializationException {
-        return null; // TODO
+	
+	public Warehouse(String address){
+		super(address, 0, 0);
+	}
+    public static Warehouse deserialize(Element node) throws DeserializationException {
+    	
+    	String address = node.getAttribute("adresse");
+    	return new Warehouse(address);
     }
 }
