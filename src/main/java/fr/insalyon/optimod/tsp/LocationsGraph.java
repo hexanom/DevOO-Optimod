@@ -26,8 +26,6 @@ public class LocationsGraph implements Graph {
         this.deliveries = deliveries;
         this.warehouse = warehouse;
 
-        Map<TimeWindow, List<Delivery>> twDeliveries = new HashMap<>();
-        TreeSet<TimeWindow> timeWindows;
 
         nbVertices = deliveries.size() + 1;
         succ = new ArrayList<List<Integer>>();
@@ -36,6 +34,47 @@ public class LocationsGraph implements Graph {
         cost = new int[nbVertices][nbVertices];
 
         // Discriminate by timewindow for fast search afterwards
+        Map<TimeWindow, List<Delivery>> twDeliveries = discriminateByTimeWindow(deliveries);
+        TreeSet<TimeWindow> timeWindows = new TreeSet<>(twDeliveries.keySet());
+
+        // Connect warehouse to deliveries in the first time window
+        TimeWindow firstTw = timeWindows.first();
+        List<Delivery> firstDeliveries = twDeliveries.get(firstTw);
+        List<Integer> firstSuccessors = connectLocationToDeliveries(WAREHOUSE_INDEX, warehouse, firstDeliveries);
+        succ.add(0, firstSuccessors);
+
+        // Deliveries
+        int i = 0;
+        for (Delivery delivery : deliveries) {
+            ArrayList<Integer> successors = new ArrayList<>();
+            succ.add(i, successors);
+
+            TimeWindow timeWindow = delivery.getTimeWindow();
+
+            // Connect to deliveries OR warehouse in the next time window
+            TimeWindow nextTimeWindow = timeWindows.higher(timeWindow);
+            if (nextTimeWindow == null) { // Case : last time window
+                int pathCost = costBetweenLocations(delivery, warehouse);
+                updateCostBetweenLocations(i, WAREHOUSE_INDEX, pathCost);
+                successors.add(WAREHOUSE_INDEX);
+            } else {
+                List<Delivery> nextDeliveries = twDeliveries.get(nextTimeWindow);
+                List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, nextDeliveries);
+                successors.addAll(connectedSuccessors);
+            }
+
+            // Connect to deliveries in the same time window
+            List<Delivery> relatedDeliveries = twDeliveries.get(timeWindow);
+            List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, relatedDeliveries);
+            successors.addAll(connectedSuccessors);
+            i++;
+        }
+
+    }
+
+    private Map<TimeWindow, List<Delivery>> discriminateByTimeWindow(List<Delivery> deliveries) {
+        Map<TimeWindow, List<Delivery>> twDeliveries = new HashMap<>();
+
         for (Delivery del : deliveries) {
             TimeWindow timeWindow = del.getTimeWindow();
             if (!twDeliveries.containsKey(timeWindow)) {
@@ -43,54 +82,23 @@ public class LocationsGraph implements Graph {
             }
             twDeliveries.get(timeWindow).add(del);
         }
-        timeWindows = new TreeSet<>(twDeliveries.keySet());
+        return twDeliveries;
+    }
 
-        // Warehouse to first timeWindow deliveries
-        List<Integer> firstSucc = new ArrayList<>();
-        succ.add(0, firstSucc);
-        TimeWindow firstTw = timeWindows.first();
-        List<Delivery> firstDeliveries = twDeliveries.get(firstTw);
-        for (Delivery delivery : firstDeliveries) {
-            int pathCost = costBetweenLocations(warehouse, delivery);
-            int indexOfDelivery = getIndexOfDelivery(delivery);
-            updateCostBetweenLocations(WAREHOUSE_INDEX, indexOfDelivery, pathCost);
-            firstSucc.add(indexOfDelivery);
-        }
+    private List<Integer> connectLocationToDeliveries(int deliveryIndex, Location origin, List<Delivery> destinations) {
+        List<Integer> successors = new ArrayList<>(destinations.size());
+        for (Delivery delivery : destinations) {
 
-        // Deliveries
-        int i = 0;
-        for (Delivery delivery : deliveries) {
-            TimeWindow timeWindow = delivery.getTimeWindow();
-            List<Delivery> relatedDeliveries = twDeliveries.get(timeWindow);
-
-            ArrayList<Integer> successors = new ArrayList<>();
-            succ.add(i, successors);
-
-            for (Delivery otherDelivery : relatedDeliveries) {
-                if (otherDelivery == delivery) {
-                    continue;
-                }
-                int j = getIndexOfDelivery(delivery);
-
-                TimeWindow nextTimeWindow = timeWindows.higher(timeWindow);
-                if (nextTimeWindow == null) { // Case : last time window
-                    int pathCost = costBetweenLocations(delivery, warehouse);
-                    updateCostBetweenLocations(i, WAREHOUSE_INDEX, pathCost);
-                } else {
-                    List<Delivery> nextDeliveries = twDeliveries.get(nextTimeWindow);
-                    for (Delivery nextDelivery : nextDeliveries) {
-                        int pathCost = costBetweenLocations(delivery, nextDelivery);
-                        updateCostBetweenLocations(i, deliveries.indexOf(nextDelivery), pathCost);
-                    }
-                }
-
-                int pathCost = costBetweenLocations(delivery, otherDelivery);
-                updateCostBetweenLocations(i, j, pathCost);
-                successors.add(j);
+            if (delivery == origin) {
+                continue;
             }
-            i++;
-        }
 
+            int indexOfConnectedDelivery = getIndexOfDelivery(delivery);
+            int pathCost = costBetweenLocations(origin, delivery);
+            updateCostBetweenLocations(deliveryIndex, indexOfConnectedDelivery, pathCost);
+            successors.add(indexOfConnectedDelivery);
+        }
+        return successors;
     }
 
     private int getIndexOfDelivery(Delivery loc) {
