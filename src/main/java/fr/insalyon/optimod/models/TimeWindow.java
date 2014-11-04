@@ -97,6 +97,26 @@ public class TimeWindow {
         return mEnd;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TimeWindow that = (TimeWindow) o;
+
+        if (mEnd != null ? !mEnd.equals(that.mEnd) : that.mEnd != null) return false;
+        if (mStart != null ? !mStart.equals(that.mStart) : that.mStart != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mStart != null ? mStart.hashCode() : 0;
+        result = 31 * result + (mEnd != null ? mEnd.hashCode() : 0);
+        return result;
+    }
+
     /**
      * Deserializes a time window from a dom node
      * @param node A dom node
