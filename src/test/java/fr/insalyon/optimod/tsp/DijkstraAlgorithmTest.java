@@ -19,21 +19,7 @@ public class DijkstraAlgorithmTest extends TestCase {
     static final int[][] pathData={{0,9},
             {0,2,4,6,8,9},
             {0,5,9},
-            {}};
-  /*  @Before
-    public void setUp() throws Exception {
-        String filename = "resources/tests/plan9.xml";
-        mMapFactory = new XMLMapFactory(filename);
-    }*/
-
-    @Test
-    public void testWithXml() throws Exception {
-        Map map = mMapFactory.create();
-        DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
-        dijkstraAlgorithm.execute(map.getLocationByAddress("0"));
-        LinkedList<Location> path = dijkstraAlgorithm.getPath(map.getLocationByAddress("9"));
-        print_path(path);
-    }
+            };
 
     private void print_path(LinkedList<Location> path) {
         int i = 0;
@@ -68,25 +54,23 @@ public class DijkstraAlgorithmTest extends TestCase {
 
     public void test_launch_xml_success(){
         for(int i=0;i<3;i++){
-            String filename ="resources/tests/plan9.xml";//("resources/tests/Stest_plan_" + i + ".xml");
+            String filename =("resources/tests/Stest_plan_" + i + ".xml");//("resources/tests/Stest_plan_" + i + ".xml");
             mMapFactory = new XMLMapFactory(filename);
             Map map = null;
             try {
                 map = mMapFactory.create();
             } catch (Exception e) {
-                System.out.println("Stest_plan_" + i + ".xml failed");
+
                 fail();
             }
             try {
                 DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
                 dijkstraAlgorithm.execute(map.getLocationByAddress("0"));
                 LinkedList<Location> path = dijkstraAlgorithm.getPath(map.getLocationByAddress("9"));
-                //print_path(path);
                 assertTrue(check_dijkstraPath(path,i));
-
             } catch (Exception e){
-                System.out.println("Error occured");
-                assertNull(map);
+
+                fail();
             }
         }
     }
