@@ -9,11 +9,7 @@ import org.w3c.dom.Element;
 
 public class Delivery extends Location{
 
-    private static int Delivery_id = 0;
 
-    {
-        Delivery_id++;
-    }
     private String mPayload;
     private TomorrowDeliveries mTomorrowDeliveries;
     private Customer mCustomer;

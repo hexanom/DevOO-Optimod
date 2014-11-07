@@ -49,7 +49,7 @@ public class RoadMapTest extends TestCase {
         assertEquals(mRoadMap.getTimeWindows().size(),0);
 
     }
-    //problème au niveau du Add
+
     public void test_addPath() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         Path test_path_1 = new Path();

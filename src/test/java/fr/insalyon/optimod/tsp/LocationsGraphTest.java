@@ -28,13 +28,13 @@ public class LocationsGraphTest {
         mDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveryFilename, map);
     }
 
-    @Test
+  /*  @Test
     public void testWithXml() throws Exception {
         TomorrowDeliveries tomorrowDeliveries = mDeliveriesFactory.create();
         List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
         Location wareHouse = tomorrowDeliveries.getWareHouse();
         LocationsGraph locationsGraph = new LocationsGraph(wareHouse, deliveries);
 
-    }
+    }*/
 
 }
