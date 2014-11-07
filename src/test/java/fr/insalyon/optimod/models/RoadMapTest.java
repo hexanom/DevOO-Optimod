@@ -11,7 +11,7 @@ public class RoadMapTest extends TestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        ;
+
 
     }
 
@@ -49,6 +49,45 @@ public class RoadMapTest extends TestCase {
         assertEquals(mRoadMap.getTimeWindows().size(),0);
 
     }
+    //problème au niveau du Add
+    public void test_addPath() throws Exception {
+        RoadMap mRoadMap = new RoadMap();
+        Path test_path_1 = new Path();
+        Section test_Section = new Section("BobStreet", 3, 5);
+        Location test_Section_Ori = new Location("00BobStreet", 0, 0);
+        Location test_Section_Dest = new Location("05BobStreet", 10, 10);
+        test_Section.setOrigin(test_Section_Ori);
+        test_Section.setDestination(test_Section_Dest);
+        test_path_1.appendSection(test_Section);
+        Path test_path_2 = new Path();
+        mRoadMap.addPath(test_path_1);
+        assertEquals(mRoadMap.getPaths().size(),1);
+        mRoadMap.addPath(test_path_2);
+        assertEquals(mRoadMap.getPaths().size(),2);
+        assertEquals(mRoadMap.getPaths().first(),test_path_1);
+        assertEquals(mRoadMap.getPaths().last(),test_path_2);
+    }
+
+    public void test_deletePath() throws Exception {
+        RoadMap mRoadMap = new RoadMap();
+        Path test_path_1 = new Path();
+        Section test_Section = new Section("BobStreet", 3, 5);
+        Location test_Section_Ori = new Location("00BobStreet", 0, 0);
+        Location test_Section_Dest = new Location("05BobStreet", 10, 10);
+        test_Section.setOrigin(test_Section_Ori);
+        test_Section.setDestination(test_Section_Dest);
+        test_path_1.appendSection(test_Section);
+        Path test_path_2 = new Path();
+        mRoadMap.addPath(test_path_1);
+        mRoadMap.addPath(test_path_2);
+        mRoadMap.deletePath(test_path_1);
+        assertEquals(mRoadMap.getPaths().size(),1);
+        assertEquals(mRoadMap.getPaths().first(),test_path_2);
+        assertEquals(mRoadMap.getPaths().last(),test_path_2);
+        mRoadMap.deletePath(test_path_2);
+        assertEquals(mRoadMap.getPaths().size(),0);
+    }
+
 
 
 
