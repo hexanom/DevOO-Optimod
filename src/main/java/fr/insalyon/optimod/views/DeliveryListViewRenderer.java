@@ -18,7 +18,7 @@ public class DeliveryListViewRenderer extends JLabel implements ListCellRenderer
 
     @Override
     public Component getListCellRendererComponent(JList list, Delivery value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(String.format("%s: between TODO and TODO", value.getAddress()));
+        setText(value.getAddress());
         if (isSelected) {
             setBackground(HIGHLIGHT_COLOR);
             setForeground(Color.white);
