@@ -58,18 +58,24 @@ public class ApplicationController extends HistoryEnabledController implements F
     }
 
     @Override
-    public void onAddDeliveryAction() {
-        // TODO: Open a new controller that opens a dialog view and adds an actual delivery
+    public void onAddBeforeAction() {
+        // TODO
         // NOTE: Don't forget the Command-pattern
-        mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
+    }
+
+    @Override
+    public void onAddAfterAction() {
+        // TODO
+        // NOTE: Don't forget the Command-pattern
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
     public void onRemoveDeliveryAction() {
-        if(mSelectedDelivery != null) {
-            doAction(new DeleteDeliveryAction(mTomorrowDeliveries, mSelectedDelivery));
-            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
-        }
+        // TODO
+        // NOTE: Don't forget the Command-pattern
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
