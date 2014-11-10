@@ -31,6 +31,8 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private java.util.Map<Location, LocationView> mLocationViews;
     private java.util.Map<Section, SectionView> mSectionViews;
 
+    private static final long sectionsColorsSeed = 123456789l;
+
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
         setBackground(Color.WHITE);
@@ -86,7 +88,30 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
-        // TODO : implement this
+
+        java.util.Map<TimeWindow, Color> colors = new HashMap<>(roadMap.getTimeWindows().size());
+        Random rand = new Random(sectionsColorsSeed);
+
+        for(TimeWindow tw : roadMap.getTimeWindows()) {
+            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+        }
+
+        for(Path path : roadMap.getPaths()) {
+            Color col = null;
+            if(path.getDestination() == roadMap.getStart()) { // last tw
+                col = colors.get(roadMap.getTimeWindows().last());
+            }
+            else {
+                Delivery delivery = mTomorrowDeliveries.getDeliveryByAddress(path.getDestination().getAddress());
+                col = colors.get(delivery.getTimeWindow());
+            }
+
+            for (Section section : path.getOrderedSections()) {
+                SectionView sectionView = mSectionViews.get(section);
+                sectionView.setColor(col);
+            }
+
+        }
         repaint();
     }
 
