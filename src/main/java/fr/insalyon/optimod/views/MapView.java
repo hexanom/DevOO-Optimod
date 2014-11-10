@@ -79,6 +79,13 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
         for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
             if(e.getValue().contains(x, y)) {
+                if(mTomorrowDeliveries != null) {
+                    for(Delivery d : mTomorrowDeliveries.getDeliveries()) {
+                        if(d.getAddress().equals(e.getKey().getAddress())) {
+                            return d;
+                        }
+                    }
+                }
                 return e.getKey();
             }
         }
@@ -124,6 +131,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             boolean isDelivery = mTomorrowDeliveries != null &&
                     mTomorrowDeliveries.getDeliveryByAddress(mSelectedLocation.getAddress()) != null;
 
+            if(oldView == null) { // From the roadmap
+                oldView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
+            }
             oldView.setColor(isDelivery ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
         }
 
@@ -132,6 +142,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // New color
         if(mSelectedLocation != null) {
             LocationView newView = mLocationViews.get(mSelectedLocation);
+            if(newView == null) { // From the roadmap
+                newView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
+            }
             newView.setColor(LocationView.SELECTED_COLOR);
         }
 
