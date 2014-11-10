@@ -40,7 +40,7 @@ public class DijkstraAlgorithmTest extends TestCase {
     public void test_launch_xml_fail() {
 
         for(int i=0; i<10;i++) {
-            String filename =("resources/tests/Ftest_plan_" + i + ".xml");
+            String filename =("Ftest_plan_" + i + ".xml");
             mMapFactory = new XMLMapFactory(filename);
             Map map = null;
             try {
@@ -54,7 +54,7 @@ public class DijkstraAlgorithmTest extends TestCase {
 
     public void test_launch_xml_success(){
         for(int i=0;i<3;i++){
-            String filename =("resources/tests/Stest_plan_" + i + ".xml");//("resources/tests/Stest_plan_" + i + ".xml");
+            String filename =("Stest_plan_" + i + ".xml");
             mMapFactory = new XMLMapFactory(filename);
             Map map = null;
             try {
