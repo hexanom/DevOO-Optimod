@@ -39,7 +39,9 @@ public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliv
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        mSelectionListener.onSelectLocation(mDeliveries.get(getSelectedIndex()));
+        if(getSelectedIndex() >= 0) {
+            mSelectionListener.onSelectLocation(mDeliveries.get(getSelectedIndex()));
+        }
     }
 
     @Override

@@ -91,6 +91,10 @@ public class ApplicationController extends HistoryEnabledController implements F
             try {
                 mMap = factory.create();
                 mMapChangeListener.onMapChanged(mMap);
+                mTomorrowDeliveries = new TomorrowDeliveries();
+                mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+                mRoadMap = new RoadMap();
+                mRoadMapListener.onRoadMapChanged(mRoadMap);
             } catch (Exception e) {
                 mShowErrorIntentListener.onErrorIntent("Import Error", e.getMessage());
                 e.printStackTrace();
@@ -107,6 +111,8 @@ public class ApplicationController extends HistoryEnabledController implements F
             try {
                 mTomorrowDeliveries = factory.create();
                 mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+                mRoadMap = new RoadMap();
+                mRoadMapListener.onRoadMapChanged(mRoadMap);
             } catch (Exception e) {
                 mShowErrorIntentListener.onErrorIntent("Import Error", e.getMessage());
                 e.printStackTrace();
