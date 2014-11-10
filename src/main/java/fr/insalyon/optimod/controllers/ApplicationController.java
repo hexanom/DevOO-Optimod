@@ -10,9 +10,13 @@ import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
-import fr.insalyon.optimod.views.*;
+import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.nio.file.Paths;
 
 /**
  * Dispatch the User interactions to the UI components
@@ -75,7 +79,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onImportMapAction() {
         String path = mFileSelectionIntentListener.onFileSelectionIntent();
         if(path != null) {
-            XMLMapFactory factory = new XMLMapFactory(path);
+            URI uri = Paths.get(path).toUri();
+            XMLMapFactory factory = new XMLMapFactory(uri);
             try {
                 mMap = factory.create();
                 mMapChangeListener.onMapChanged(mMap);

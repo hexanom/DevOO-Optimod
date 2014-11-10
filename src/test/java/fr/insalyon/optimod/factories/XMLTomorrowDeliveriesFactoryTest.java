@@ -1,12 +1,13 @@
 package fr.insalyon.optimod.factories;
 
-import java.text.SimpleDateFormat;
-
-import junit.framework.TestCase;
 import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
+import junit.framework.TestCase;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
 
 public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
 
@@ -15,9 +16,11 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         String deliveriesFilename = "livraison10x10-1.xml";
+        URI uriDeliveries = getClass().getClassLoader().getResource(deliveriesFilename).toURI();
         String mapFilename = "plan10x10.xml";
-        mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveriesFilename,
-                new XMLMapFactory(mapFilename).create());
+        URI uriMap = getClass().getClassLoader().getResource(mapFilename).toURI();
+        mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(uriDeliveries,
+                new XMLMapFactory(uriMap).create());
 
     }
 

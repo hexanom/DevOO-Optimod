@@ -4,6 +4,9 @@ import fr.insalyon.optimod.models.Map;
 
 import org.w3c.dom.Element;
 
+import java.net.URI;
+import java.net.URL;
+
 /**
  * Constructs a map from a XML file
  */
@@ -12,7 +15,7 @@ public class XMLMapFactory extends XMLFactoryBase implements ModelFactory<Map> {
      * Path constructor
      * @param path The path to the map file
      */
-    public XMLMapFactory(String path) {
+    public XMLMapFactory(URI path) {
         super(path);
     }
 
