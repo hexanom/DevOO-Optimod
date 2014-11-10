@@ -1,19 +1,14 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Date;
 
-public class TimeWindowTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+public class TimeWindowTest {
 
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
-    }
-
-    public void test_getRoadMap() throws Exception {
+    @Test
+    public void getRoadMap() throws Exception {
         Date mStart = new Date(0);
         Date mEnd = new Date(1);
         TimeWindow mTimeWindow = new TimeWindow(mStart, mEnd);
@@ -22,7 +17,8 @@ public class TimeWindowTest extends TestCase {
         assertEquals( mTimeWindow.getRoadMap(),RM_test);
     }
 
-    public void test_getDeliveries() throws Exception {
+    @Test
+    public void getDeliveries() throws Exception {
         Date mStart = new Date(0);
         Date mEnd = new Date(1);
         TimeWindow mTimeWindow = new TimeWindow(mStart, mEnd);
@@ -39,13 +35,16 @@ public class TimeWindowTest extends TestCase {
         assertEquals( mTimeWindow.getDeliveries().size(),0);
     }
 
-    public void test_getStart() throws Exception {
+    @Test
+    public void getStart() throws Exception {
         Date mStart = new Date(0);
         Date mEnd = new Date(1);
         TimeWindow mTimeWindow = new TimeWindow(mStart, mEnd);
         assertEquals( mTimeWindow.getStart(),mStart);
     }
-    public void test_getEnd() throws Exception {
+
+    @Test
+    public void getEnd() throws Exception {
         Date mStart = new Date(0);
         Date mEnd = new Date(1);
         TimeWindow mTimeWindow = new TimeWindow(mStart, mEnd);

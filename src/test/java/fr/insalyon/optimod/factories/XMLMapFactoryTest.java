@@ -4,25 +4,30 @@ import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.Section;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.net.URI;
 
-public class XMLMapFactoryTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+
+public class XMLMapFactoryTest {
 
     private XMLMapFactory mMapFactory;
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        String filename = "plan10x10.xml";
-        URI uri = getClass().getClassLoader().getResource(filename).toURI();
-        mMapFactory = new XMLMapFactory(uri);
 
+    private static final String xmlFile = "plan10x10.xml";
+
+    @Before
+    public void setUp() throws Exception {
+        URI uri = getClass().getClassLoader().getResource(xmlFile).toURI();
+        mMapFactory = new XMLMapFactory(uri);
     }
 
-    public void test_create() throws Exception {
+    @Test
+    public void create() throws Exception {
 
-        //assertTrue(mMapFactory.create() == null);
         Map map = mMapFactory.create();
 
         assertTrue(map.getLocations().size() == 100);
@@ -34,8 +39,8 @@ public class XMLMapFactoryTest extends TestCase {
 
         Section section = location.getOuts().get(0);
         assertEquals(section.getStreetName(), "v0");
-        assertEquals(section.getSpeed(), 3.900000);
-        assertEquals(section.getLength(), 602.100000);
+        assertEquals(section.getSpeed(), 3.900000, 0.1);
+        assertEquals(section.getLength(), 602.100000, 0.1);
         assertEquals(section.getDestination().getAddress(), "1");
 
         Location location2  = map.getLocations().get(1);

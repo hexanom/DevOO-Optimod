@@ -3,19 +3,18 @@ package fr.insalyon.optimod.tsp;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
-import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.LinkedList;
+
+import static org.junit.Assert.*;
+
 
 /**
  * Created by edouard on 04/11/14.
  */
-public class DijkstraAlgorithmTest extends TestCase {
+public class DijkstraAlgorithmTest {
 
     private XMLMapFactory mMapFactory;
     static final int[][] pathData={{0,9},
@@ -23,23 +22,8 @@ public class DijkstraAlgorithmTest extends TestCase {
             {0,5,9},
             };
 
-    private void print_path(LinkedList<Location> path) {
-        int i = 0;
-
-        while (i < 9) {
-            try {
-
-                System.out.println(path.get(i).getAddress());
-                i++;
-            } catch (Exception e) {
-                System.out.println("Fin");
-                i++;
-            }
-        }
-    }
-
     @Test
-    public void test_launch_xml_fail() throws Exception {
+    public void launch_xml_fail() throws Exception {
 
         for(int i=0; i<10;i++) {
             String filename =("Ftest_plan_" + i + ".xml");
@@ -55,7 +39,8 @@ public class DijkstraAlgorithmTest extends TestCase {
         }
     }
 
-    public void test_launch_xml_success() throws Exception {
+    @Test
+    public void launch_xml_success() throws Exception {
         for(int i=0;i<3;i++){
             String filename =("Stest_plan_" + i + ".xml");
             URI uri = getClass().getClassLoader().getResource(filename).toURI();
@@ -71,7 +56,7 @@ public class DijkstraAlgorithmTest extends TestCase {
                 DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
                 dijkstraAlgorithm.execute(map.getLocationByAddress("0"));
                 LinkedList<Location> path = dijkstraAlgorithm.getPath(map.getLocationByAddress("9"));
-                assertTrue(check_dijkstraPath(path,i));
+                assertTrue(check_dijkstraPath(path, i));
             } catch (Exception e){
 
                 fail();
@@ -88,5 +73,20 @@ public class DijkstraAlgorithmTest extends TestCase {
 
         }
         return true;
+    }
+
+    private void print_path(LinkedList<Location> path) {
+        int i = 0;
+
+        while (i < 9) {
+            try {
+
+                System.out.println(path.get(i).getAddress());
+                i++;
+            } catch (Exception e) {
+                System.out.println("Fin");
+                i++;
+            }
+        }
     }
 }

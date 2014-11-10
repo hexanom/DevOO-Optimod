@@ -1,25 +1,30 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class DeliveryTest extends TestCase{
+import static org.junit.Assert.*;
+
+public class DeliveryTest {
     private Delivery mDelivery;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mDelivery = new Delivery("TestPayload");
     }
 
-    public void testDefaultConstructor() throws Exception {
+    @Test
+    public void defaultConstructor() throws Exception {
         assertNotNull(new Delivery().getPayload());
     }
 
-    public void test_getPayload() throws Exception {
+    @Test
+    public void getPayload() throws Exception {
         assertEquals("TestPayload", mDelivery.getPayload());
     }
 
-    public void test_getTomorrowDeliveries() throws Exception {
+    @Test
+    public void getTomorrowDeliveries() throws Exception {
         TomorrowDeliveries td = new TomorrowDeliveries();
         td.addDelivery(mDelivery);
         assertEquals(mDelivery.getTomorrowDeliveries(), td);
@@ -27,7 +32,8 @@ public class DeliveryTest extends TestCase{
         assertNull(mDelivery.getTomorrowDeliveries());
     }
 
-    public void test_getCustomer() throws Exception {
+    @Test
+    public void getCustomer() throws Exception {
         Customer customer = new Customer();
         customer.addDelivery(mDelivery);
         assertEquals(mDelivery.getCustomer(), customer);
@@ -35,7 +41,8 @@ public class DeliveryTest extends TestCase{
         assertNull(mDelivery.getCustomer());
     }
 
-    public void test_getTimeWindow() throws Exception {
+    @Test
+    public void getTimeWindow() throws Exception {
         TimeWindow tw = new TimeWindow();
         tw.addDelivery(mDelivery);
         assertEquals(mDelivery.getTimeWindow(), tw);

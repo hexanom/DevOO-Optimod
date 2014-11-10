@@ -1,17 +1,20 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class MapTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class MapTest {
     private Map mMap;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mMap = new Map();
     }
 
-    public void test_addLocation() throws Exception {
+    @Test
+    public void addLocation() throws Exception {
         Location location = new Location();
         mMap.addLocation(location);
         assertTrue(mMap.getLocations().size() > 0);
@@ -19,7 +22,8 @@ public class MapTest extends TestCase {
         mMap.deleteLocation(location);
     }
 
-    public void test_deleteLocation() throws Exception {
+    @Test
+    public void deleteLocation() throws Exception {
         Location location = new Location();
         mMap.addLocation(location);
         mMap.deleteLocation(location);

@@ -1,9 +1,10 @@
 package fr.insalyon.optimod.tsp;
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-
+@Ignore
 public class TSPTest {
 	/**
 	 * Checks that <code>tsp.getTotalCost()</code> is equal to the cost of the tour defined by <code>tsp.getPos()</code>
