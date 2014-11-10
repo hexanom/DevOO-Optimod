@@ -86,12 +86,30 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
+        // TODO : implement this
         repaint();
     }
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
+
+        // Reset color
+        if(mSelectedLocation != null) {
+            LocationView oldView = mLocationViews.get(mSelectedLocation);
+            boolean isDelivery = mTomorrowDeliveries != null &&
+                    mTomorrowDeliveries.getDeliveryByAddress(mSelectedLocation.getAddress()) != null;
+
+            oldView.setColor(isDelivery ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
+        }
+
         mSelectedLocation = location;
+
+        // New color
+        if(mSelectedLocation != null) {
+            LocationView newView = mLocationViews.get(mSelectedLocation);
+            newView.setColor(LocationView.SELECTED_COLOR);
+        }
+
         repaint();
     }
 
@@ -131,9 +149,6 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         for(LocationView locationView : mLocationViews.values()) {
             locationView.paint(g);
         }
-        // TODO: Highlight the deliveries concerned
-        // TODO: Draw labels
-        // TODO: Trace the path between the nodes
     }
 
     @Override

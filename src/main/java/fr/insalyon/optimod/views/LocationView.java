@@ -13,6 +13,7 @@ public class LocationView {
 
     public static final Color LOCATION_COLOR = Color.BLUE;
     public static final Color DELIVERY_COLOR = Color.RED;
+    public static final Color SELECTED_COLOR = Color.GREEN;
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
