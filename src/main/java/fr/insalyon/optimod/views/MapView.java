@@ -29,7 +29,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private Location mSelectedLocation;
 
     private java.util.Map<Location, LocationView> mLocationViews;
-    //private List<SectionView> sectionViews;
+    private java.util.Map<Section, SectionView> mSectionViews;
 
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
@@ -45,11 +45,24 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mTomorrowDeliveries = null;
         mRoadMap = null;
         mLocationViews = new HashMap<>(mMap.getLocations().size());
+        mSectionViews = new HashMap<>(mMap.getLocations().size());
 
         List<Location> locations = mMap.getLocations();
         for(Location loc : locations) {
             LocationView locationView = new LocationView(loc);
             mLocationViews.put(loc, locationView);
+        }
+
+        // We need this in 2 loops, dont "optimize" !
+        for(Location origin : locations) {
+            for(Section section : origin.getOuts()) {
+
+                LocationView originView = mLocationViews.get(origin);
+                LocationView destView = mLocationViews.get(section.getDestination());
+
+                SectionView sectionView = new SectionView(originView.getCenter(), destView.getCenter(), section.getStreetName());
+                mSectionViews.put(section, sectionView);
+            }
         }
 
         repaint();
@@ -97,28 +110,20 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Dimension dim = getBounds().getSize();
-
         if(mMap == null) {
             return;
+        }
+
+        for(SectionView sectionView : mSectionViews.values()) {
+            sectionView.paint(g);
         }
 
         for(LocationView locationView : mLocationViews.values()) {
             locationView.paint(g);
         }
-
-        // TODO: Draw the map by calling each subview
-        // NOTE: Special mention to the selected element
-        if(mTomorrowDeliveries == null) {
-            return;
-        }
         // TODO: Highlight the deliveries concerned
-        // NOTE: could be done at the same time as drawing the map before
-        if(mRoadMap == null) {
-            return;
-        }
+        // TODO: Draw labels
         // TODO: Trace the path between the nodes
-        // NOTE: could be done at the same time as drawing the map before
     }
 
     @Override
