@@ -5,10 +5,8 @@ import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
-import fr.insalyon.optimod.models.Location;
+import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.Map;
-import fr.insalyon.optimod.models.RoadMap;
-import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
 
 import javax.swing.*;
@@ -30,7 +28,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private TomorrowDeliveries mTomorrowDeliveries;
     private Location mSelectedLocation;
 
-    private List<LocationView> mLocationViews;
+    private java.util.Map<Location, LocationView> mLocationViews;
     //private List<SectionView> sectionViews;
 
     public MapView(MapClickListener mapClickListener) {
@@ -46,12 +44,12 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mSelectedLocation = null;
         mTomorrowDeliveries = null;
         mRoadMap = null;
-        mLocationViews = new ArrayList<>(mMap.getLocations().size());
+        mLocationViews = new HashMap<>(mMap.getLocations().size());
 
         List<Location> locations = mMap.getLocations();
         for(Location loc : locations) {
             LocationView locationView = new LocationView(loc);
-            mLocationViews.add(locationView);
+            mLocationViews.put(loc, locationView);
         }
 
         repaint();
@@ -66,32 +64,46 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
-        invalidate();
+        repaint();
     }
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
         mSelectedLocation = location;
-        invalidate();
+        repaint();
     }
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
-        invalidate();
+
+        // Reset colors
+        for(LocationView loc : mLocationViews.values()) {
+            loc.setColor(LocationView.LOCATION_COLOR);
+        }
+
+        for(Delivery delivery : tomorrowDeliveries.getDeliveries()) {
+            Location deliveryLocation = mMap.getLocationByAddress(delivery.getAddress());
+            mLocationViews.get(deliveryLocation).setColor(LocationView.DELIVERY_COLOR);
+        }
+
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         Dimension dim = getBounds().getSize();
 
         if(mMap == null) {
             return;
         }
 
-        for(LocationView locationView : mLocationViews) {
+        for(LocationView locationView : mLocationViews.values()) {
             locationView.paint(g);
         }
 
@@ -111,7 +123,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void componentResized(ComponentEvent e) {
-        invalidate();
+        repaint();
     }
 
     @Override
