@@ -12,12 +12,14 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The TDs list view
  */
 public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliveriesListener, ListSelectionListener, SelectionIntentListener {
     private final SelectionListener mSelectionListener;
+    private List<Delivery> mDeliveries;
 
     public DeliveriesListView(SelectionListener selectionListener) {
         mSelectionListener = selectionListener;
@@ -28,15 +30,16 @@ public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliv
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
         if(tomorrowDeliveries != null) {
-            setModel(new GenericListModel<Delivery>(tomorrowDeliveries.getDeliveries()));
+            mDeliveries = tomorrowDeliveries.getDeliveries();
         } else {
-            setModel(new GenericListModel<Delivery>(new ArrayList<Delivery>()));
+            mDeliveries = new ArrayList<Delivery>();
         }
+        setModel(new GenericListModel<Delivery>(mDeliveries));
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        mSelectionListener.onSelectLocation(getModel().getElementAt(e.getFirstIndex()));
+        mSelectionListener.onSelectLocation(mDeliveries.get(getSelectedIndex()));
     }
 
     @Override
