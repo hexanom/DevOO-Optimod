@@ -18,9 +18,11 @@ public class LocationView {
     private static final int DEFAULT_BORDER_WIDTH = 5;
     private static final Color DEFAULT_COLOR = LOCATION_COLOR;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
     private Color mColor;
     private Color mBorderColor;
+    private Color mTextColor;
     private int mRadius;
     private int mBorderWidth;
 
@@ -33,6 +35,7 @@ public class LocationView {
         mRadius = DEFAULT_RADIUS;
         mBorderColor = DEFAULT_BORDER_COLOR;
         mBorderWidth = DEFAULT_BORDER_WIDTH;
+        mTextColor = DEFAULT_TEXT_COLOR;
 
         mLabel = location.getAddress();
         mX = location.getX();
@@ -54,6 +57,11 @@ public class LocationView {
         g.setColor(mColor);
         g.drawOval(mX, mY, mRadius, mRadius);
         g.fillOval(mX, mY, mRadius, mRadius);
+
+        // Draw text
+        Point center = getCenter();
+        g.setColor(mTextColor);
+        g.drawString(mLabel, center.x, center.y - mRadius);
 
         g.setColor(savedColor);
     }

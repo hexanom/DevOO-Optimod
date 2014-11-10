@@ -14,12 +14,14 @@ public class SectionView {
     public static final Color PATH_COLOR = Color.RED;
 
     private static final int DEFAULT_WIDTH = 3;
-    private static final int DEFAULT_BORDER_WIDTH = 1;
+    private static final int DEFAULT_BORDER_WIDTH = 2;
     private static final Color DEFAULT_COLOR = SECTION_COLOR;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
     private Color mColor;
     private Color mBorderColor;
+    private Color mTextColor;
     private int mWidth;
     private int mBorderWidth;
 
@@ -34,10 +36,11 @@ public class SectionView {
         mBorderColor = DEFAULT_BORDER_COLOR;
         mWidth = DEFAULT_WIDTH;
         mBorderWidth = DEFAULT_BORDER_WIDTH;
-        mX1 = (int) origin.getX();
-        mY1 = (int) origin.getY();
-        mX2 = (int) dest.getX();
-        mY2 = (int) dest.getY();
+        mTextColor = DEFAULT_TEXT_COLOR;
+        mX1 = origin.x;
+        mY1 = origin.y;
+        mX2 = dest.x;
+        mY2 = dest.y;
         mLabel = label;
     }
 
@@ -58,6 +61,15 @@ public class SectionView {
 
         g.setColor(savedColor);
         g2d.setStroke(savedStroke);
+
+        // Draw text
+        Point center = getCenter();
+        g.setColor(mTextColor);
+        g.drawString(mLabel, center.x, center.y);
+    }
+
+    public Point getCenter() {
+        return new Point((int) (((float)mX1 + mX2) / 2f), (int) (((float)mY1 + mY2) / 2f));
     }
 
     public void setColor(Color mColor) {
