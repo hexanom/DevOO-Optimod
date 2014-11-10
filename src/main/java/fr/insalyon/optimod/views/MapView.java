@@ -17,6 +17,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.*;
+import java.util.List;
 
 /**
  * A Canvas showing the map and other stuff
@@ -27,6 +29,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private RoadMap mRoadMap;
     private TomorrowDeliveries mTomorrowDeliveries;
     private Location mSelectedLocation;
+
+    private List<LocationView> mLocationViews;
+    //private List<SectionView> sectionViews;
 
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
@@ -41,7 +46,15 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mSelectedLocation = null;
         mTomorrowDeliveries = null;
         mRoadMap = null;
-        invalidate();
+        mLocationViews = new ArrayList<>(mMap.getLocations().size());
+
+        List<Location> locations = mMap.getLocations();
+        for(Location loc : locations) {
+            LocationView locationView = new LocationView(loc);
+            mLocationViews.add(locationView);
+        }
+
+        repaint();
     }
 
     @Override
@@ -77,6 +90,11 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         if(mMap == null) {
             return;
         }
+
+        for(LocationView locationView : mLocationViews) {
+            locationView.paint(g);
+        }
+
         // TODO: Draw the map by calling each subview
         // NOTE: Special mention to the selected element
         if(mTomorrowDeliveries == null) {
