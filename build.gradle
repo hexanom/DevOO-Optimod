@@ -4,6 +4,7 @@ apply plugin: 'cobertura'
 apply plugin: 'com.github.kt3k.coveralls'
 
 sourceCompatibility = 1.7
+targetCompatibility = 1.7
 version = '1.0'
 mainClassName = "fr.insalyon.optimod.Optimod"
 

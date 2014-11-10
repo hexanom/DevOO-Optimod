@@ -14,8 +14,8 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        String deliveriesFilename = "resources/tests/livraison10x10-1.xml";
-        String mapFilename = "resources/tests/plan10x10.xml";
+        String deliveriesFilename = "livraison10x10-1.xml";
+        String mapFilename = "plan10x10.xml";
         mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveriesFilename,
                 new XMLMapFactory(mapFilename).create());
 

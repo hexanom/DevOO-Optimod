@@ -70,12 +70,14 @@ public abstract class XMLFactoryBase {
         Element racine = null;
         if(mPath != null && !mPath.isEmpty()) {
             URL xsdURL = getClass().getClassLoader().getResource(xsdFile);
-            boolean isValid = validateXMLwithXSD(new File(mPath), new File(xsdURL.toURI()));
+            URL xmlURL = getClass().getClassLoader().getResource(mPath);
+            File xml = new File(xmlURL.toURI());
+            boolean isValid = validateXMLwithXSD(xml, new File(xsdURL.toURI()));
 
             if(isValid) {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
-                Document document= builder.parse(new File(mPath));
+                Document document = builder.parse(xml);
 
                 racine = document.getDocumentElement();
             } else {

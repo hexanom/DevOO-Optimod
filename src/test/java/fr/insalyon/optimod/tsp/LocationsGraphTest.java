@@ -20,11 +20,11 @@ public class LocationsGraphTest {
 
     @Before
     public void setUp() throws Exception {
-        String mapFilename = "resources/tests/plan10x10.xml";
+        String mapFilename = "plan10x10.xml";
         XMLMapFactory mMapFactory = new XMLMapFactory(mapFilename);
         Map map = mMapFactory.create();
 
-        String deliveryFilename = "resources/tests/livraison10x10-1.xml";
+        String deliveryFilename = "livraison10x10-1.xml";
         mDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveryFilename, map);
     }
 
