@@ -11,7 +11,11 @@ import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
+<<<<<<< HEAD
+import fr.insalyon.optimod.views.*;
+=======
 import fr.insalyon.optimod.views.ApplicationView;
+>>>>>>> origin/master
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
@@ -62,18 +66,24 @@ public class ApplicationController extends HistoryEnabledController implements F
     }
 
     @Override
-    public void onAddDeliveryAction() {
-        // TODO: Open a new controller that opens a dialog view and adds an actual delivery
+    public void onAddBeforeAction() {
+        // TODO
         // NOTE: Don't forget the Command-pattern
-        mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
+    }
+
+    @Override
+    public void onAddAfterAction() {
+        // TODO
+        // NOTE: Don't forget the Command-pattern
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
     public void onRemoveDeliveryAction() {
-        if(mSelectedDelivery != null) {
-            doAction(new DeleteDeliveryAction(mTomorrowDeliveries, mSelectedDelivery));
-            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
-        }
+        // TODO
+        // NOTE: Don't forget the Command-pattern
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override

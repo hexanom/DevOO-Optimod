@@ -5,9 +5,14 @@ package fr.insalyon.optimod.views.listeners.action;
  */
 public interface RoadMapToolbarListener {
     /**
-     * When the user clicks the add button
+     * When the user clicks the add before button
      */
-    public void onAddDeliveryAction();
+    public void onAddBeforeAction();
+
+    /**
+     * When the user clicks the add after button
+     */
+    public void onAddAfterAction();
 
     /**
      * When the user clicks the remove button
@@ -18,4 +23,5 @@ public interface RoadMapToolbarListener {
      * When the user clicks the export button
      */
     public void onExportRoadMapAction();
+
 }
