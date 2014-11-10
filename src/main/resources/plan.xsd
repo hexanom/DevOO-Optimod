@@ -25,8 +25,8 @@
       <xs:element type="LeTronconSortantType" name="LeTronconSortant" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute type="xs:int" name="id" use="required"/>
-    <xs:attribute type="xs:int" name="x" use="required"/>
-    <xs:attribute type="xs:int" name="y" use="required"/>
+    <xs:attribute type="xs:positiveInteger" name="x" use="required"/>
+    <xs:attribute type="xs:positiveInteger" name="y" use="required"/>
   </xs:complexType>
   <xs:complexType name="ReseauType">
     <xs:sequence>
