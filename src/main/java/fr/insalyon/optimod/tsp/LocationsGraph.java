@@ -46,6 +46,8 @@ public class LocationsGraph implements Graph {
         // Connect deliveries
         int i = 0;
         for (Delivery delivery : deliveries) {
+            Location deliveryLocation = delivery.getLocation();
+
             ArrayList<Integer> successors = new ArrayList<>();
             succ.add(i, successors);
 
@@ -55,20 +57,20 @@ public class LocationsGraph implements Graph {
             TimeWindow nextTimeWindow = timeWindows.higher(timeWindow);
             // Connect to the warehouse
             if (nextTimeWindow == null) {
-                int pathCost = costBetweenLocations(delivery, warehouse);
+                int pathCost = costBetweenLocations(deliveryLocation, warehouse);
                 updateCostBetweenLocations(i, WAREHOUSE_INDEX, pathCost);
                 successors.add(WAREHOUSE_INDEX);
             }
             // Connect to the deliveries in the next time window
             else {
                 List<Delivery> nextDeliveries = twDeliveries.get(nextTimeWindow);
-                List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, nextDeliveries);
+                List<Integer> connectedSuccessors = connectLocationToDeliveries(i, deliveryLocation, nextDeliveries);
                 successors.addAll(connectedSuccessors);
             }
 
             // Connect to deliveries in the same time window
             List<Delivery> relatedDeliveries = twDeliveries.get(timeWindow);
-            List<Integer> connectedSuccessors = connectLocationToDeliveries(i, delivery, relatedDeliveries);
+            List<Integer> connectedSuccessors = connectLocationToDeliveries(i, deliveryLocation, relatedDeliveries);
             successors.addAll(connectedSuccessors);
 
             i++;
@@ -93,12 +95,14 @@ public class LocationsGraph implements Graph {
         List<Integer> successors = new ArrayList<>(destinations.size());
         for (Delivery delivery : destinations) {
 
-            if (delivery == origin) {
+            Location deliveryLocation = delivery.getLocation();
+
+            if (deliveryLocation == origin) {
                 continue;
             }
 
             int indexOfConnectedDelivery = getIndexOfDelivery(delivery);
-            int pathCost = costBetweenLocations(origin, delivery);
+            int pathCost = costBetweenLocations(origin, deliveryLocation);
             updateCostBetweenLocations(deliveryIndex, indexOfConnectedDelivery, pathCost);
             successors.add(indexOfConnectedDelivery);
         }

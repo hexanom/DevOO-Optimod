@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class TomorrowDeliveries {
     private Area mArea;
-    private Location mWareHouse;
+    private Location mWarehouse;
     private List<Delivery> mDeliveries = new ArrayList<Delivery>();
     private List<RoadMap> mRoadMaps = new ArrayList<RoadMap>();
 
@@ -32,12 +32,12 @@ public class TomorrowDeliveries {
      * Gets the warehouse
      * @return A Warehouse
      */
-    public Location getWareHouse() {
-        return mWareHouse;
+    public Location getWarehouse() {
+        return mWarehouse;
     }
 
-    public void setWareHouse(Location wareHouse) {
-        this.mWareHouse = wareHouse;
+    public void setWarehouse(Location warehouse) {
+        this.mWarehouse = warehouse;
     }
     /**
      * Add a new delivery
@@ -84,26 +84,6 @@ public class TomorrowDeliveries {
     }
 
     /**
-     * Get a Delivery which has the given address
-     * @param address
-     * @return A delivery with the given address
-     */
-    public Delivery getDeliveryByAddress(String address)
-    {
-        Delivery delivery = null;
-        for(Delivery d : mDeliveries)
-        {
-            if(d.getAddress().equals((address))){
-
-                delivery = d;
-                break;
-            }
-        }
-
-        return delivery;
-    }
-
-    /**
      * Returns a read-only list
      * @return A list of RoadMap
      */
@@ -141,7 +121,7 @@ public class TomorrowDeliveries {
             return null;
         }
         // set warehouse
-        tomorrowDeliveries.setWareHouse(warehouseLocation);
+        tomorrowDeliveries.setWarehouse(warehouseLocation);
 
         // TimeWindows and deliveries
         tag = "PlagesHoraires";
@@ -168,6 +148,14 @@ public class TomorrowDeliveries {
                     tomorrowDeliveries.addDelivery(d);
                 }
             }
+        }
+
+        // If everything went okay, link locations to deliveries
+        for(Location loc : map.getLocations()) {
+            loc.setDelivery(null);
+        }
+        for(Delivery delivery : tomorrowDeliveries.getDeliveries()) {
+            delivery.getLocation().setDelivery(delivery);
         }
 
         return tomorrowDeliveries;

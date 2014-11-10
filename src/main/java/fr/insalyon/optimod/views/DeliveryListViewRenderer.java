@@ -17,8 +17,8 @@ public class DeliveryListViewRenderer extends JLabel implements ListCellRenderer
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Delivery value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(value.getAddress());
+    public Component getListCellRendererComponent(JList list, Delivery delivery, int index, boolean isSelected, boolean cellHasFocus) {
+        setText(delivery.getLocation().getAddress());
         if (isSelected) {
             setBackground(HIGHLIGHT_COLOR);
             setForeground(Color.white);

@@ -79,13 +79,6 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
         for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
             if(e.getValue().contains(x, y)) {
-                if(mTomorrowDeliveries != null) {
-                    for(Delivery d : mTomorrowDeliveries.getDeliveries()) {
-                        if(d.getAddress().equals(e.getKey().getAddress())) {
-                            return d;
-                        }
-                    }
-                }
                 return e.getKey();
             }
         }
@@ -105,11 +98,11 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
         for(Path path : roadMap.getPaths()) {
             Color col = null;
-            if(path.getDestination() == roadMap.getStart()) { // last tw
+            if(path.getDestination() == roadMap.getWarehouse()) { // last tw
                 col = colors.get(roadMap.getTimeWindows().last());
             }
             else {
-                Delivery delivery = mTomorrowDeliveries.getDeliveryByAddress(path.getDestination().getAddress());
+                Delivery delivery = path.getDestination().getDelivery();
                 col = colors.get(delivery.getTimeWindow());
             }
 
@@ -128,8 +121,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // Reset color
         if(mSelectedLocation != null) {
             LocationView oldView = mLocationViews.get(mSelectedLocation);
-            boolean isDelivery = mTomorrowDeliveries != null &&
-                    mTomorrowDeliveries.getDeliveryByAddress(mSelectedLocation.getAddress()) != null;
+            boolean isDelivery = mSelectedLocation.getDelivery() != null;
 
             if(oldView == null) { // From the roadmap
                 oldView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
@@ -157,13 +149,10 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mRoadMap = null;
 
         // Reset colors
-        for(LocationView loc : mLocationViews.values()) {
-            loc.setColor(LocationView.LOCATION_COLOR);
-        }
-
-        for(Delivery delivery : tomorrowDeliveries.getDeliveries()) {
-            Location deliveryLocation = mMap.getLocationByAddress(delivery.getAddress());
-            mLocationViews.get(deliveryLocation).setColor(LocationView.DELIVERY_COLOR);
+        for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
+            Location loc = e.getKey();
+            LocationView locView = e.getValue();
+            locView.setColor(loc.getDelivery() != null ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
         }
 
         repaint();

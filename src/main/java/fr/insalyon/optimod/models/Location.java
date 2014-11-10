@@ -16,6 +16,7 @@ public class Location {
     private List<Section> mIns = new ArrayList<Section>();
     private List<Section> mOuts = new ArrayList<Section>();
     private Map mMap;
+    private Delivery mDelivery;
 
     /**
      * Default Constructor
@@ -161,6 +162,14 @@ public class Location {
         all.addAll(mIns);
         all.addAll(mOuts);
         return all;
+    }
+
+    public Delivery getDelivery() {
+        return mDelivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.mDelivery = delivery;
     }
 
     /**

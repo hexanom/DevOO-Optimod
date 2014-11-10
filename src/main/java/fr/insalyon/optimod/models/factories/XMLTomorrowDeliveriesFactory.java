@@ -11,7 +11,7 @@ import java.net.URI;
  */
 public class XMLTomorrowDeliveriesFactory extends XMLFactoryBase implements ModelFactory<TomorrowDeliveries> {
     
-    private Map mMap; // ??
+    private Map mMap;
 
     /**
      * Path constructor

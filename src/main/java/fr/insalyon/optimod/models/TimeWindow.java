@@ -154,16 +154,17 @@ public class TimeWindow {
 
             for (int i = 0; i < listDeliveries.getLength(); i++) {
                 Element deliveryElement = (Element) listDeliveries.item(i);
-                Delivery delivery = Delivery.deserialize(deliveryElement);
+                String deliveryAddress = deliveryElement.getAttribute("adresse");
 
                 //check if the location exists
-                Location deliveryLocation = map.getLocationByAddress(delivery.getAddress());
-                if( deliveryLocation == null)
+                Location deliveryLocation = map.getLocationByAddress(deliveryAddress);
+                if(deliveryLocation == null)
                 {
                     System.out.println("Delivery location not exists");
                     return null;
                 }
-                //TODO find a way to have deliveryLocation attributes in delivery
+
+                Delivery delivery = Delivery.deserialize(deliveryLocation, deliveryElement);
                 timeWindow.addDelivery(delivery);
             }
 

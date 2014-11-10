@@ -30,7 +30,7 @@ public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
         TomorrowDeliveries tomorrowDeliveries = mTomorrowDeliveriesFactory.create();
         assertTrue(tomorrowDeliveries.getDeliveries().size() == 8);
         Delivery deliv = tomorrowDeliveries.getDeliveries().get(0);
-        assertEquals(deliv.getAddress(), "13");
+        assertEquals(deliv.getLocation().getAddress(), "13");
         assertTrue(deliv.getTimeWindow().getDeliveries().size() == 8);
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
