@@ -1,36 +1,43 @@
 package fr.insalyon.optimod.factories;
 
 import fr.insalyon.optimod.models.Delivery;
+import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.net.URI;
 import java.text.SimpleDateFormat;
 
-public class XMLTomorrowDeliveriesFactoryTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class XMLTomorrowDeliveriesFactoryTest {
 
     private XMLTomorrowDeliveriesFactory mTomorrowDeliveriesFactory;
-    @Override
+
+    private static final String xmlDeliveries = "livraison10x10-1.xml";
+
+    private static final String xmlMap = "plan10x10.xml";
+
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
-        String deliveriesFilename = "livraison10x10-1.xml";
-        URI uriDeliveries = getClass().getClassLoader().getResource(deliveriesFilename).toURI();
-        String mapFilename = "plan10x10.xml";
-        URI uriMap = getClass().getClassLoader().getResource(mapFilename).toURI();
-        mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(uriDeliveries,
-                new XMLMapFactory(uriMap).create());
+        URI uriDeliveries = getClass().getClassLoader().getResource(xmlDeliveries).toURI();
+        URI uriMap = getClass().getClassLoader().getResource(xmlMap).toURI();
+        Map map = new XMLMapFactory(uriMap).create();
+        mTomorrowDeliveriesFactory = new XMLTomorrowDeliveriesFactory(uriDeliveries, map);
 
     }
 
-    public void test_create() throws Exception {
+    @Test
+    public void create() throws Exception {
 
-        //assertTrue(mTomorrowDeliveriesFactory.create() == null); // for incorrect xml file
         TomorrowDeliveries tomorrowDeliveries = mTomorrowDeliveriesFactory.create();
         assertTrue(tomorrowDeliveries.getDeliveries().size() == 8);
         Delivery deliv = tomorrowDeliveries.getDeliveries().get(0);
-        assertEquals(deliv.getAddress(), "13");
+        assertEquals(deliv.getLocation().getAddress(), "13");
         assertTrue(deliv.getTimeWindow().getDeliveries().size() == 8);
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");

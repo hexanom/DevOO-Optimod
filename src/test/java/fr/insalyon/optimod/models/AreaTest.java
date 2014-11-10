@@ -1,25 +1,30 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class AreaTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class AreaTest {
     private Area mArea;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mArea = new Area("TestArea");
     }
 
-    public void testDefaultConstructor() throws Exception {
+    @Test
+    public void defaultConstructor() throws Exception {
         assertNotNull(new Area().getName());
     }
 
-    public void test_getName() throws Exception {
+    @Test
+    public void getName() throws Exception {
         assertEquals(mArea.getName(), "TestArea");
     }
 
-    public void test_addTomorrowDeliveries() throws Exception {
+    @Test
+    public void addTomorrowDeliveries() throws Exception {
         TomorrowDeliveries td = new TomorrowDeliveries();
         mArea.addTomorowDeliveries(td);
         assertTrue(mArea.getTomorrowDeliveries().size() > 0);
@@ -27,7 +32,8 @@ public class AreaTest extends TestCase {
         mArea.deleteTomorowDeliveries(td);
     }
 
-    public void test_deleteTomorrowDeliveries() throws Exception {
+    @Test
+    public void deleteTomorrowDeliveries() throws Exception {
         TomorrowDeliveries td = new TomorrowDeliveries();
         mArea.addTomorowDeliveries(td);
         mArea.deleteTomorowDeliveries(td);

@@ -139,10 +139,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onSelectLocation(Location location) {
         mSelectionIntentListener.onSelectIntentOnLocation(location);
-        if(location instanceof Delivery) {
-            mSelectedDelivery = (Delivery) location;
-        } else {
-            mSelectedDelivery = null;
+        if(location != null && location.getDelivery() != null) {
+            mSelectedDelivery = location.getDelivery();
         }
 
     }
@@ -156,7 +154,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onDeliveriesTabSelected() {
         if(mRoadMapListener != null) { // mRoadMapListener is null when initializing...
-            mRoadMapListener.onRoadMapChanged(null);
+            mRoadMapListener.onRoadMapChanged(new RoadMap());
         }
     }
 

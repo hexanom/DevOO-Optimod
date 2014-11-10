@@ -1,28 +1,23 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Date;
-import java.util.TreeSet;
 
-public class RoadMapTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class RoadMapTest {
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
-
-    }
-
-    public void test_getTomorrowDeliveries() throws Exception {
+    @Test
+    public void getTomorrowDeliveries() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         TomorrowDeliveries td = new TomorrowDeliveries();
         mRoadMap.setTomorrowDeliveries(td);
         assertEquals(mRoadMap.getTomorrowDeliveries(), td);
     }
 
-    public void test_getCourier() throws Exception {
+    @Test
+    public void getCourier() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         Courier courier = new Courier();
         mRoadMap.setCourier(courier);
@@ -30,7 +25,8 @@ public class RoadMapTest extends TestCase {
 
     }
 
-    public void test_getTimeWindow() throws Exception {
+    @Test
+    public void getTimeWindow() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         Date mStart_1 = new Date(0);
         Date mEnd_1 = new Date(1);
@@ -50,7 +46,8 @@ public class RoadMapTest extends TestCase {
 
     }
 
-    public void test_addPath() throws Exception {
+    @Test
+    public void addPath() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         Path test_path_1 = new Path();
         Section test_Section = new Section("BobStreet", 3, 5);
@@ -68,7 +65,8 @@ public class RoadMapTest extends TestCase {
         assertEquals(mRoadMap.getPaths().last(),test_path_2);
     }
 
-    public void test_deletePath() throws Exception {
+    @Test
+    public void deletePath() throws Exception {
         RoadMap mRoadMap = new RoadMap();
         Path test_path_1 = new Path();
         Section test_Section = new Section("BobStreet", 3, 5);
@@ -87,8 +85,5 @@ public class RoadMapTest extends TestCase {
         mRoadMap.deletePath(test_path_2);
         assertEquals(mRoadMap.getPaths().size(),0);
     }
-
-
-
 
 }

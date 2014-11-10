@@ -1,17 +1,21 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class CourierTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class CourierTest {
+
     private Courier mCourier;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mCourier = new Courier();
     }
 
-    public void test_addRoadMap() throws Exception {
+    @Test
+    public void addRoadMap() throws Exception {
         RoadMap rm = new RoadMap();
         mCourier.addRoadMap(rm);
         assertTrue(mCourier.getRoadMaps().size() > 0);
@@ -19,7 +23,8 @@ public class CourierTest extends TestCase {
         mCourier.deleteRoadMap(rm);
     }
 
-    public void test_deleteRoadMap() throws Exception {
+    @Test
+    public void deleteRoadMap() throws Exception {
         RoadMap rm = new RoadMap();
         mCourier.addRoadMap(rm);
         mCourier.deleteRoadMap(rm);
@@ -27,7 +32,8 @@ public class CourierTest extends TestCase {
         assertNotSame(rm.getCourier(), mCourier);
     }
 
-    public void test_getTruck() throws Exception {
+    @Test
+    public void getTruck() throws Exception {
         assertTrue(mCourier.getTruck() != null);
     }
 }

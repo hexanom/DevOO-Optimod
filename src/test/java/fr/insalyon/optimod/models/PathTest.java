@@ -1,19 +1,13 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class PathTest extends TestCase {
-    //private Section test_Section_1;
-    //private Section test_Section_2;
+import static org.junit.Assert.*;
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+public class PathTest {
 
-    }
-
-
-    public void test_getOrderedSections() throws Exception {
+    @Test
+    public void getOrderedSections() throws Exception {
         Path mPath = new Path();
         assertTrue(mPath.getOrderedSections().size() == 0);
         Section test_Section_1 = new Section("BobStreet", 3, 5);
@@ -33,7 +27,8 @@ public class PathTest extends TestCase {
         mPath.removeDestination();
     }
 
-    public void test_getOrigin() throws Exception {
+    @Test
+    public void getOrigin() throws Exception {
         Path mPath = new Path();
         assertNull(mPath.getOrigin());
         Location test_Section_1_Ori = new Location("00BobStreet", 0, 0);
@@ -47,7 +42,8 @@ public class PathTest extends TestCase {
         assertNull(mPath.getOrigin());
     }
 
-    public void test_getDestination() throws Exception {
+    @Test
+    public void getDestination() throws Exception {
         Path mPath = new Path();
         assertNull(mPath.getDestination());
         Section test_Section_1 = new Section("BobStreet", 3, 5);
@@ -68,7 +64,8 @@ public class PathTest extends TestCase {
         assertNull(mPath.getDestination());
     }
 
-    public void test_removeOrigin() throws Exception {
+    @Test
+    public void removeOrigin() throws Exception {
         Path mPath = new Path();
         Section test_Section = new Section("BobStreet", 3, 5);
         Location test_Section_Ori = new Location("00BobStreet", 0, 0);
@@ -84,7 +81,8 @@ public class PathTest extends TestCase {
 
     }
 
-    public void test_removeDestination() throws Exception {
+    @Test
+    public void removeDestination() throws Exception {
         Path mPath = new Path();
         Section test_Section = new Section("BobStreet", 3, 5);
         Location test_Section_Ori = new Location("00BobStreet", 0, 0);

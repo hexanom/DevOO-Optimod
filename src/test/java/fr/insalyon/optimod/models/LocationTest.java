@@ -1,38 +1,45 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class LocationTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class LocationTest {
     private Map mMap;
     private Location mLocation;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mMap = new Map();
         mLocation = new Location("TestLocation", 1, 2);
         mMap.addLocation(mLocation);
     }
 
-    public void testDefaultConstructor() throws Exception {
+    @Test
+    public void defaultConstructor() throws Exception {
         assertNotNull(mLocation.getAddress());
         assertNotNull(mLocation.getX());
         assertNotNull(mLocation.getY());
     }
 
-    public void test_getAddress() throws Exception {
+    @Test
+    public void getAddress() throws Exception {
         assertEquals("TestLocation", mLocation.getAddress());
     }
 
-    public void test_getX() throws Exception {
+    @Test
+    public void getX() throws Exception {
         assertEquals(1, mLocation.getX());
     }
 
-    public void test_getY() throws Exception {
+    @Test
+    public void getY() throws Exception {
         assertEquals(2, mLocation.getY());
     }
 
-    public void test_connectTo() throws Exception {
+    @Test
+    public void connectTo() throws Exception {
         Location otherLocation = new Location();
         assertNull(mLocation.connectTo(otherLocation));
         assertTrue(mLocation.getOuts().size() == 0);
@@ -41,8 +48,8 @@ public class LocationTest extends TestCase {
         Section section = mLocation.connectTo(otherLocation, "TestStreet", 10, 100);
         assertNotNull(section);
         assertEquals("TestStreet", section.getStreetName());
-        assertEquals(10.0, section.getSpeed());
-        assertEquals(100.0, section.getLength());
+        assertEquals(10.0, section.getSpeed(), 0.1);
+        assertEquals(100.0, section.getLength(), 0.1);
         assertTrue(mLocation.getOuts().size() > 0);
         assertEquals(section.getOrigin(), mLocation);
         assertEquals(section.getDestination(), otherLocation);
@@ -55,7 +62,8 @@ public class LocationTest extends TestCase {
         mLocation.deleteConnectedSection(section);
     }
 
-    public void test_getConnectedSections() throws Exception {
+    @Test
+    public void getConnectedSections() throws Exception {
         Location otherLocation = new Location();
         mMap.addLocation(otherLocation);
         assertTrue(mLocation.getConnectedSections().size() == 0);
@@ -69,7 +77,8 @@ public class LocationTest extends TestCase {
         assertTrue(mLocation.getConnectedSections().size() == 0);
     }
 
-    public void test_getMap() throws Exception {
+    @Test
+    public void getMap() throws Exception {
         assertEquals(mMap, mLocation.getMap());
     }
 }

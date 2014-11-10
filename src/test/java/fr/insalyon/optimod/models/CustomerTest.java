@@ -1,25 +1,30 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class CustomerTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class CustomerTest {
     private Customer mCustomer;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mCustomer = new Customer("TestCustomer");
     }
 
-    public void testDefaultConstructor() throws Exception {
+    @Test
+    public void defaultConstructor() throws Exception {
         assertNotNull(new Customer().getName());
     }
 
-    public void test_getName() throws Exception {
+    @Test
+    public void getName() throws Exception {
         assertEquals(mCustomer.getName(), "TestCustomer");
     }
 
-    public void test_addDelivery() throws Exception {
+    @Test
+    public void addDelivery() throws Exception {
         Delivery delivery = new Delivery();
         mCustomer.addDelivery(delivery);
         assertTrue(mCustomer.getDeliveries().size() > 0);
@@ -27,7 +32,8 @@ public class CustomerTest extends TestCase {
         mCustomer.deleteDelivery(delivery);
     }
 
-    public void test_deleteTomorrowDeliveries() throws Exception {
+    @Test
+    public void deleteTomorrowDeliveries() throws Exception {
         Delivery delivery = new Delivery();
         mCustomer.addDelivery(delivery);
         mCustomer.deleteDelivery(delivery);

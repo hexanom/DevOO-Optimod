@@ -1,23 +1,21 @@
 package fr.insalyon.optimod.models;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TomorrowDeliveriesTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+public class TomorrowDeliveriesTest {
 
-    }
-
-    public void test_getArea() throws Exception {
+    @Test
+    public void getArea() throws Exception {
         TomorrowDeliveries mTomorrowDeliveries = new  TomorrowDeliveries();
         Area test_Area = new Area();
         mTomorrowDeliveries.setArea(test_Area);
         assertEquals(mTomorrowDeliveries.getArea(),test_Area);
     }
 
-    public void test_addDelivery() throws Exception {
+    @Test
+    public void addDelivery() throws Exception {
         TomorrowDeliveries mTomorrowDeliveries = new  TomorrowDeliveries();
         Delivery test_Delivery_1 = new Delivery();
         Delivery test_Delivery_2 = new Delivery();
@@ -31,7 +29,8 @@ public class TomorrowDeliveriesTest extends TestCase {
         assertEquals(mTomorrowDeliveries.getDeliveries().get(2),test_Delivery_2);
     }
 
-    public void test_deleteDelivery() throws Exception {
+    @Test
+    public void deleteDelivery() throws Exception {
         TomorrowDeliveries mTomorrowDeliveries = new  TomorrowDeliveries();
         Delivery test_Delivery_1 = new Delivery();
         Delivery test_Delivery_2 = new Delivery();
@@ -44,7 +43,8 @@ public class TomorrowDeliveriesTest extends TestCase {
         assertEquals(mTomorrowDeliveries.getDeliveries().size(),0);
     }
 
-    public void test_addRoadMap() throws Exception {
+    @Test
+    public void addRoadMap() throws Exception {
         TomorrowDeliveries mTomorrowDeliveries = new  TomorrowDeliveries();
         RoadMap test_RoadMap_1 = new RoadMap();
         RoadMap test_RoadMap_2 = new RoadMap();
@@ -58,7 +58,8 @@ public class TomorrowDeliveriesTest extends TestCase {
         assertEquals(mTomorrowDeliveries.getRoadMaps().get(2),test_RoadMap_2);
     }
 
-    public void test_deleteRoadMap() throws Exception {
+    @Test
+    public void deleteRoadMap() throws Exception {
         TomorrowDeliveries mTomorrowDeliveries = new  TomorrowDeliveries();
         RoadMap test_RoadMap_1 = new RoadMap();
         RoadMap test_RoadMap_2 = new RoadMap();

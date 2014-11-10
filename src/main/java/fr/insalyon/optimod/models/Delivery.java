@@ -7,14 +7,13 @@ import org.w3c.dom.Element;
  */
 
 
-public class Delivery extends Location{
-
+public class Delivery {
 
     private String mPayload;
     private TomorrowDeliveries mTomorrowDeliveries;
     private Customer mCustomer;
     private TimeWindow mTimeWindow;
-
+    private Location mLocation;
 
 
     /**
@@ -32,18 +31,18 @@ public class Delivery extends Location{
         mPayload = payload;
     }
 
-
-
-
-
     /**
-     * Payload and address constructor
+     * Payload and location constructor
+     * @param location
      * @param payload
-     * @param address
      */
-    public Delivery(String payload, String address) {
-        super(address, 0,0);
+    public Delivery(Location location, String payload) {
+        mLocation = location;
         mPayload = payload;
+    }
+
+    public Location getLocation() {
+        return mLocation;
     }
     /**
      * Gets the payload
@@ -91,18 +90,17 @@ public class Delivery extends Location{
 
     /**
      * Deserializes a delivery from a dom node
+     *
+     * @param location Location of the delivery
      * @param node A dom node
      * @return A delivery
      */
-    public static Delivery deserialize(Element node) throws DeserializationException {
+    public static Delivery deserialize(Location location, Element node) throws DeserializationException {
 
-        //attributes
-        // id ??
         String payload = node.getAttribute("id");
-        String address = node.getAttribute("adresse");
         String customerName = node.getAttribute("client");
 
-        Delivery delivery = new Delivery(payload, address);
+        Delivery delivery = new Delivery(location, payload);
         delivery.setCustomer(new Customer(customerName));
 
         return delivery;

@@ -36,8 +36,8 @@ public class LocationsGraphTest {
     public void testWithXml() throws Exception {
         TomorrowDeliveries tomorrowDeliveries = mDeliveriesFactory.create();
         List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
-        Location wareHouse = tomorrowDeliveries.getWareHouse();
-        LocationsGraph locationsGraph = new LocationsGraph(wareHouse, deliveries);
+        Location warehouse = tomorrowDeliveries.getWarehouse();
+        LocationsGraph locationsGraph = new LocationsGraph(warehouse, deliveries);
 
     }*/
 
