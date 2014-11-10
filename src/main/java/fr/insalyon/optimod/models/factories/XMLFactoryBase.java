@@ -70,8 +70,7 @@ public abstract class XMLFactoryBase {
         Element racine = null;
         if(mPath != null && !mPath.isEmpty()) {
             URL xsdURL = getClass().getClassLoader().getResource(xsdFile);
-            URL xmlURL = getClass().getClassLoader().getResource(mPath);
-            File xml = new File(xmlURL.toURI());
+            File xml = new File(mPath);
             boolean isValid = validateXMLwithXSD(xml, new File(xsdURL.toURI()));
 
             if(isValid) {
