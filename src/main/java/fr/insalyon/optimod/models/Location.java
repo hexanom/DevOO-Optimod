@@ -10,8 +10,8 @@ import java.util.List;
  * Represents a graph node
  */
 public class Location {
-    private final long mX;
-    private final long mY;
+    private final int mX;
+    private final int mY;
     private final String mAddress;
     private List<Section> mIns = new ArrayList<Section>();
     private List<Section> mOuts = new ArrayList<Section>();
@@ -32,7 +32,7 @@ public class Location {
      * @param x The x coord <strong>in meters</strong>
      * @param y The y coord <strong>in meters</strong>
      */
-    public Location(String address, long x, long y) {
+    public Location(String address, int x, int y) {
         mAddress = address;
         mX = x;
         mY = y;
@@ -50,7 +50,7 @@ public class Location {
      * Gets the x position
      * @return A length <strong>in meters</strong>
      */
-    public long getX() {
+    public int getX() {
         return mX;
     }
 
@@ -58,7 +58,7 @@ public class Location {
      * Gets the y position
      * @return A length <strong>in meters</strong>
      */
-    public long getY() {
+    public int getY() {
         return mY;
     }
 
@@ -184,8 +184,8 @@ public class Location {
 
         //attributes
         String address = node.getAttribute("id");
-        long x = Long.parseLong(node.getAttribute("x"));
-        long y = Long.parseLong(node.getAttribute("y"));
+        int x = Integer.parseInt(node.getAttribute("x"));
+        int y = Integer.parseInt(node.getAttribute("y"));
 
         return new Location(address, x, y);
     }

@@ -84,6 +84,26 @@ public class TomorrowDeliveries {
     }
 
     /**
+     * Get a Delivery which has the given address
+     * @param address
+     * @return A delivery with the given address
+     */
+    public Delivery getDeliveryByAddress(String address)
+    {
+        Delivery delivery = null;
+        for(Delivery d : mDeliveries)
+        {
+            if(d.getAddress().equals((address))){
+
+                delivery = d;
+                break;
+            }
+        }
+
+        return delivery;
+    }
+
+    /**
      * Returns a read-only list
      * @return A list of RoadMap
      */

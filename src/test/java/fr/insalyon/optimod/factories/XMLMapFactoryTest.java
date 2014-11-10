@@ -1,19 +1,22 @@
 package fr.insalyon.optimod.factories;
 
-import junit.framework.TestCase;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.models.Section;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
+import junit.framework.TestCase;
+
+import java.net.URI;
 
 public class XMLMapFactoryTest extends TestCase {
 
     private XMLMapFactory mMapFactory;
-     @Override
+    @Override
     public void setUp() throws Exception {
         super.setUp();
-         String filename = "plan10x10.xml";
-        mMapFactory = new XMLMapFactory(filename);
+        String filename = "plan10x10.xml";
+        URI uri = getClass().getClassLoader().getResource(filename).toURI();
+        mMapFactory = new XMLMapFactory(uri);
 
     }
 

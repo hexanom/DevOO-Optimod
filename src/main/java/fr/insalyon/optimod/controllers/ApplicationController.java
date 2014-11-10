@@ -11,9 +11,17 @@ import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
+<<<<<<< HEAD
 import fr.insalyon.optimod.views.*;
+=======
+import fr.insalyon.optimod.views.ApplicationView;
+>>>>>>> origin/master
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.nio.file.Paths;
 
 /**
  * Dispatch the User interactions to the UI components
@@ -82,7 +90,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onImportMapAction() {
         String path = mFileSelectionIntentListener.onFileSelectionIntent();
         if(path != null) {
-            XMLMapFactory factory = new XMLMapFactory(path);
+            URI uri = Paths.get(path).toUri();
+            XMLMapFactory factory = new XMLMapFactory(uri);
             try {
                 mMap = factory.create();
                 mMapChangeListener.onMapChanged(mMap);
@@ -97,7 +106,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onImportDeliveriesAction() {
         String path = mFileSelectionIntentListener.onFileSelectionIntent();
         if(path != null) {
-            XMLTomorrowDeliveriesFactory factory = new XMLTomorrowDeliveriesFactory(path, mMap);
+            URI uri = Paths.get(path).toUri();
+            XMLTomorrowDeliveriesFactory factory = new XMLTomorrowDeliveriesFactory(uri, mMap);
             try {
                 mTomorrowDeliveries = factory.create();
                 mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);

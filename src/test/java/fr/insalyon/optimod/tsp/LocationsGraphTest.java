@@ -9,6 +9,8 @@ import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -21,11 +23,13 @@ public class LocationsGraphTest {
     @Before
     public void setUp() throws Exception {
         String mapFilename = "plan10x10.xml";
-        XMLMapFactory mMapFactory = new XMLMapFactory(mapFilename);
+        URI mapURL = getClass().getClassLoader().getResource(mapFilename).toURI();
+        XMLMapFactory mMapFactory = new XMLMapFactory(mapURL);
         Map map = mMapFactory.create();
 
         String deliveryFilename = "livraison10x10-1.xml";
-        mDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveryFilename, map);
+        URI deliveryURL = getClass().getClassLoader().getResource(deliveryFilename).toURI();
+        mDeliveriesFactory = new XMLTomorrowDeliveriesFactory(deliveryURL, map);
     }
 
   /*  @Test

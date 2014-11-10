@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.LinkedList;
 
 /**
@@ -37,11 +39,12 @@ public class DijkstraAlgorithmTest extends TestCase {
     }
 
     @Test
-    public void test_launch_xml_fail() {
+    public void test_launch_xml_fail() throws Exception {
 
         for(int i=0; i<10;i++) {
             String filename =("Ftest_plan_" + i + ".xml");
-            mMapFactory = new XMLMapFactory(filename);
+            URI uri = getClass().getClassLoader().getResource(filename).toURI();
+            mMapFactory = new XMLMapFactory(uri);
             Map map = null;
             try {
                 map = mMapFactory.create();
@@ -52,10 +55,11 @@ public class DijkstraAlgorithmTest extends TestCase {
         }
     }
 
-    public void test_launch_xml_success(){
+    public void test_launch_xml_success() throws Exception {
         for(int i=0;i<3;i++){
             String filename =("Stest_plan_" + i + ".xml");
-            mMapFactory = new XMLMapFactory(filename);
+            URI uri = getClass().getClassLoader().getResource(filename).toURI();
+            mMapFactory = new XMLMapFactory(uri);
             Map map = null;
             try {
                 map = mMapFactory.create();

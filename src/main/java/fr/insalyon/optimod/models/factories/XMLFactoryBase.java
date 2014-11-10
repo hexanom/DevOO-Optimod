@@ -3,8 +3,8 @@ package fr.insalyon.optimod.models.factories;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import fr.insalyon.optimod.models.DeserializationException;
 import org.w3c.dom.Document;
@@ -25,13 +25,13 @@ import javax.xml.validation.Validator;
  * XML Loader
  */
 public abstract class XMLFactoryBase {
-    private String mPath;
+    private URI mPath;
 
     /**
      * Path constructor
      * @param path The path to the file
      */
-    public XMLFactoryBase(String path) {
+    public XMLFactoryBase(URI path) {
         mPath = path;
     }
 
@@ -68,10 +68,10 @@ public abstract class XMLFactoryBase {
     protected Element loadXMLFile(String xsdFile) throws ParserConfigurationException, IOException, SAXException, DeserializationException, URISyntaxException {
 
         Element racine = null;
-        if(mPath != null && !mPath.isEmpty()) {
-            URL xsdURL = getClass().getClassLoader().getResource(xsdFile);
+        if(mPath != null) {
+            URI xsdURL = getClass().getClassLoader().getResource(xsdFile).toURI();
             File xml = new File(mPath);
-            boolean isValid = validateXMLwithXSD(xml, new File(xsdURL.toURI()));
+            boolean isValid = validateXMLwithXSD(xml, new File(xsdURL));
 
             if(isValid) {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
