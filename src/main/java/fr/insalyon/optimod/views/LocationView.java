@@ -66,6 +66,11 @@ public class LocationView {
         g.setColor(savedColor);
     }
 
+    public boolean contains(int x, int y) {
+        Point center = getCenter();
+        return Math.pow((x - center.x), 2) + Math.pow((y - center.y), 2) <= Math.pow(mRadius, 2);
+    }
+
     public Point getCenter() {
         int halfRadius = (int) (((float) mRadius) / 2f);
         return new Point(mX + halfRadius, mY + halfRadius);

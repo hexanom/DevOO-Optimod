@@ -70,7 +70,16 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public Location matchLocation(int x, int y) {
-        // TODO: go through all the subviews and call matchLocation on it, the first one to respond not null wins
+
+        if(mLocationViews == null) {
+            return null;
+        }
+
+        for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
+            if(e.getValue().contains(x, y)) {
+                return e.getKey();
+            }
+        }
         return null;
     }
 
