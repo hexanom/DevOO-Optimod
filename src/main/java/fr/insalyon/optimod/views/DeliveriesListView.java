@@ -47,6 +47,10 @@ public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliv
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
-        setSelectedValue(location, true);
+        if (location != null && location.getDelivery() != null) {
+            setSelectedValue(location.getDelivery(), true);
+        } else {
+            clearSelection();
+        }
     }
 }
