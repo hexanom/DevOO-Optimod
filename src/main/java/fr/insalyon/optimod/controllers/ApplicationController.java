@@ -10,6 +10,7 @@ import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
+import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
@@ -93,10 +94,18 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onImportDeliveriesAction() {
-        String filename = mFileSelectionIntentListener.onFileSelectionIntent();
-        // TODO: Open a dialog & load the xml TDs into mTDs
-        // NOTE: Erase the command history
-        mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+        String path = mFileSelectionIntentListener.onFileSelectionIntent();
+        if(path != null) {
+            URI uri = Paths.get(path).toUri();
+            XMLTomorrowDeliveriesFactory factory = new XMLTomorrowDeliveriesFactory(uri, mMap);
+            try {
+                mTomorrowDeliveries = factory.create();
+                mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
+            } catch (Exception e) {
+                mShowErrorIntentListener.onErrorIntent("Import Error", e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
