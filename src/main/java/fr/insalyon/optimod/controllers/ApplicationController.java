@@ -1,6 +1,5 @@
 package fr.insalyon.optimod.controllers;
 
-import fr.insalyon.optimod.controllers.actions.DeleteDeliveryAction;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
@@ -15,7 +14,6 @@ import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Paths;
 
@@ -33,7 +31,6 @@ public class ApplicationController extends HistoryEnabledController implements F
     private final SelectionIntentListener mSelectionIntentListener;
     private final FileSelectionIntentListener mFileSelectionIntentListener;
     private final ShowErrorIntentListener mShowErrorIntentListener;
-    private Delivery mSelectedDelivery;
     private Map mMap;
     private TomorrowDeliveries mTomorrowDeliveries;
     private RoadMap mRoadMap;
@@ -139,10 +136,6 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onSelectLocation(Location location) {
         mSelectionIntentListener.onSelectIntentOnLocation(location);
-        if(location != null && location.getDelivery() != null) {
-            mSelectedDelivery = location.getDelivery();
-        }
-
     }
 
     @Override
