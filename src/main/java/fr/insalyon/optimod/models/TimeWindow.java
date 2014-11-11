@@ -17,7 +17,7 @@ public class TimeWindow {
     public static final Comparator<TimeWindow> COMPARATOR = new Comparator<TimeWindow>() {
         @Override
         public int compare(TimeWindow tw1, TimeWindow tw2) {
-            return (int)(tw2.getStart().getTime() - tw1.getStart().getTime());
+            return (int)(tw1.getStart().getTime() - tw2.getStart().getTime());
         }
     };
 
