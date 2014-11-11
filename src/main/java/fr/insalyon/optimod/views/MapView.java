@@ -35,7 +35,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     private static final int MARGIN = 20;
 
-    private static final long sectionsColorsSeed = 123456789l;
+    private static final long locationsColorsSeed = 123456789l;
 
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
@@ -136,31 +136,15 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
 
-        java.util.Map<TimeWindow, Color> colors = new HashMap<>(roadMap.getTimeWindows().size());
-        Random rand = new Random(sectionsColorsSeed);
-
-        for(TimeWindow tw : roadMap.getTimeWindows()) {
-            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
-        }
-
         //reset colors
         for(SectionView sectionView : mSectionViews.values()) {
-            sectionView.setColor(SectionView.DEFAULT_COLOR);
+            sectionView.unused();
         }
 
         for(Path path : roadMap.getPaths()) {
-            Color col = null;
-            if(path.getDestination() == roadMap.getWarehouse()) { // last tw
-                col = colors.get(roadMap.getTimeWindows().last());
-            }
-            else {
-                Delivery delivery = path.getDestination().getDelivery();
-                col = colors.get(delivery.getTimeWindow());
-            }
-
             for (Section section : path.getOrderedSections()) {
                 SectionView sectionView = mSectionViews.get(section);
-                sectionView.setColor(col);
+                sectionView.used();
             }
 
         }
@@ -174,12 +158,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // Reset color
         if(mSelectedLocation != null) {
             LocationView oldView = mLocationViews.get(mSelectedLocation);
-            boolean isDelivery = mSelectedLocation.getDelivery() != null;
-
-            if(oldView == null) { // From the roadmap
-                oldView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
-            }
-            oldView.setColor(isDelivery ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
+            oldView.unselect();
         }
 
         mSelectedLocation = location;
@@ -187,10 +166,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // New color
         if(mSelectedLocation != null) {
             LocationView newView = mLocationViews.get(mSelectedLocation);
-            if(newView == null) { // From the roadmap
-                newView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
-            }
-            newView.setColor(LocationView.SELECTED_COLOR);
+            newView.select();
         }
 
         repaint();
@@ -201,11 +177,24 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
 
+        java.util.Map<TimeWindow, Color> colors = new HashMap<>(tomorrowDeliveries.getTimeWindows().size());
+        Random rand = new Random(locationsColorsSeed);
+
+        for(TimeWindow tw : tomorrowDeliveries.getTimeWindows()) {
+            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+        }
+
         // Reset colors
         for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
             Location loc = e.getKey();
             LocationView locView = e.getValue();
-            locView.setColor(loc.getDelivery() != null ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
+            Delivery delivery = loc.getDelivery();
+            if(delivery == null) {
+                locView.unselect();
+            }
+            else {
+                locView.setColor(colors.get(delivery.getTimeWindow()));
+            }
         }
 
         repaint();

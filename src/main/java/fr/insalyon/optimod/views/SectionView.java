@@ -15,7 +15,8 @@ public class SectionView {
     private static final int CURVATURE = 20;
     private static final int DEFAULT_WIDTH = 3;
     private static final int DEFAULT_BORDER_WIDTH = 1;
-    public static final Color DEFAULT_COLOR = Color.WHITE;
+    private static final Color DEFAULT_COLOR = Color.WHITE;
+    private static final Color USED_COLOR = Color.red;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
@@ -107,6 +108,20 @@ public class SectionView {
         double Py = ( 0.5 * Dy ) + (0.5 * Ey);
 
         return new Point((int)Px, (int)Py);
+    }
+
+    /**
+     * Mark the section as used
+     */
+    public void used() {
+        mColor = USED_COLOR;
+    }
+
+    /**
+     * Mark the section as un-used
+     */
+    public void unused() {
+        mColor = DEFAULT_COLOR;
     }
 
     /** Draws an arrow head

@@ -158,9 +158,7 @@ public class RoadMap {
      * @throws NoPathFoundException
      */
     public static RoadMap fromTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) throws NoPathFoundException {
-        List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
-        Location warehouse = tomorrowDeliveries.getWarehouse();
-        LocationsGraph locationsGraph = new LocationsGraph(warehouse, deliveries);
+        LocationsGraph locationsGraph = new LocationsGraph(tomorrowDeliveries);
         TSP tsp = new TSP(locationsGraph);
         tsp.solve(20000, locationsGraph.getNbVertices()*locationsGraph.getMaxArcCost()+1);
         SolutionState solutionState = tsp.getSolutionState();
@@ -170,6 +168,9 @@ public class RoadMap {
         }
 
         int[] succesors = tsp.getNext();
+
+        List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
+        Location warehouse = tomorrowDeliveries.getWarehouse();
 
         RoadMap roadMap = new RoadMap(warehouse);
         roadMap.setTomorrowDeliveries(tomorrowDeliveries);

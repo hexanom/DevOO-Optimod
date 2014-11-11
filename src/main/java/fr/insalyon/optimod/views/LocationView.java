@@ -7,16 +7,15 @@ import java.awt.*;
  */
 public class LocationView {
 
-    public static final Color LOCATION_COLOR = Color.BLUE;
-    public static final Color DELIVERY_COLOR = Color.RED;
     public static final Color SELECTED_COLOR = Color.GREEN;
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
-    private static final Color DEFAULT_COLOR = LOCATION_COLOR;
+    private static final Color DEFAULT_COLOR = Color.BLUE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
+    private Color mOldColor;
     private Color mColor;
     private Color mBorderColor;
     private Color mTextColor;
@@ -85,6 +84,21 @@ public class LocationView {
     public Point getCenter() {
         int halfRadius = (int) (((float) mRadius) / 2f);
         return new Point(mX + halfRadius, mY + halfRadius);
+    }
+
+    /**
+     * Toggle on selection
+     */
+    public void select() {
+        mOldColor = mColor;
+        mColor = SELECTED_COLOR;
+    }
+
+    /**
+     * Toggle off selection
+     */
+    public void unselect() {
+        mColor = mOldColor;
     }
 
     public void setColor(Color mColor) {
