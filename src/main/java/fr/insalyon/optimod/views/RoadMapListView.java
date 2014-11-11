@@ -24,6 +24,8 @@ public class RoadMapListView extends JList<Location> implements RoadMapListener,
 
     public RoadMapListView(SelectionListener selectionListener) {
         mSelectionListener = selectionListener;
+        setCellRenderer(new LocationListViewRenderer());
+        addListSelectionListener(this);
     }
 
     @Override
