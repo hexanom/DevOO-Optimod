@@ -1,10 +1,6 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.models.Location;
-import fr.insalyon.optimod.models.Section;
-
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 

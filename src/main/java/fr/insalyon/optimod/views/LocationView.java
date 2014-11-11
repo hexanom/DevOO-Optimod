@@ -1,10 +1,6 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.models.Location;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by edouard on 10/11/14.
@@ -31,16 +27,16 @@ public class LocationView {
     private int mX;
     private int mY;
 
-    public LocationView(Location location) {
+    public LocationView(String label, int x, int y) {
         mColor = DEFAULT_COLOR;
         mRadius = DEFAULT_RADIUS;
         mBorderColor = DEFAULT_BORDER_COLOR;
         mBorderWidth = DEFAULT_BORDER_WIDTH;
         mTextColor = DEFAULT_TEXT_COLOR;
 
-        mLabel = location.getAddress();
-        mX = location.getX();
-        mY = location.getY();
+        mLabel = label;
+        mX = x;
+        mY = y;
     }
 
     /**
