@@ -74,10 +74,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mainToolbar.add(mImportDeliveriesButton);
 
 
-        mExportRoadMapButton = new JButton("Export");
-        mExportRoadMapButton.setEnabled(false);
-        mExportRoadMapButton.addActionListener(this);
-        mainToolbar.add(mExportRoadMapButton);
+            mExportRoadMapButton = new JButton("Export");
+            mExportRoadMapButton.setEnabled(false);
+            mExportRoadMapButton.addActionListener(this);
+            mainToolbar.add(mExportRoadMapButton);
         add(mainToolbar, BorderLayout.PAGE_START);
 
         mMapView = new MapView(mMapClickListener);
@@ -87,10 +87,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mTabbedPane.setPreferredSize(new Dimension(300, 400));
         mTabbedPane.addChangeListener(this);
             JComponent deliveriesTab = new JPanel(new BorderLayout());
-        JScrollPane tdSPane = new JScrollPane();
-        mDeliveriesListView = new DeliveriesListView(mSelectionListener);
-        tdSPane.getViewport().add(mDeliveriesListView);
-        deliveriesTab.add(tdSPane, BorderLayout.CENTER);
+                JScrollPane tdSPane = new JScrollPane();
+                    mDeliveriesListView = new DeliveriesListView(mSelectionListener);
+                    tdSPane.getViewport().add(mDeliveriesListView);
+                deliveriesTab.add(tdSPane, BorderLayout.CENTER);
             mTabbedPane.addTab("Deliveries", deliveriesTab);
 
             JComponent roadMapTab = new JPanel(new BorderLayout());
@@ -111,10 +111,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                     roadMapToolbar.add(mDeleteDeliveryButton);
                 roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
 
-        JScrollPane rmSPane = new JScrollPane();
-        mRoadMapListView = new RoadMapListView(mSelectionListener);
-        rmSPane.getViewport().add(mRoadMapListView);
-        roadMapTab.add(rmSPane, BorderLayout.CENTER);
+                JScrollPane rmSPane = new JScrollPane();
+                    mRoadMapListView = new RoadMapListView(mSelectionListener);
+                    rmSPane.getViewport().add(mRoadMapListView);
+                roadMapTab.add(rmSPane, BorderLayout.CENTER);
             mTabbedPane.addTab("Road Map", roadMapTab);
         add(mTabbedPane, BorderLayout.EAST);
     }
