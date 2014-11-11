@@ -3,7 +3,7 @@ package fr.insalyon.optimod.models;
 import fr.insalyon.optimod.tsp.LocationsGraph;
 import fr.insalyon.optimod.tsp.TSP;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -14,7 +14,7 @@ public class RoadMap {
     private TomorrowDeliveries tomorrowDeliveries;
     private Courier mCourier;
     private Location mWarehouse;
-    private List<Path> mPaths = new ArrayList<>();
+    private LinkedList<Path> mPaths = new LinkedList<>();
     private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
 
     /**
@@ -103,7 +103,7 @@ public class RoadMap {
      * Returns a read-only list
      * @return A list of paths
      */
-    public final List<Path> getPaths() {
+    public final LinkedList<Path> getPaths() {
         return mPaths;
     }
 
