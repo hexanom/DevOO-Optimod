@@ -35,7 +35,8 @@ public class LocationsGraph implements Graph {
 
         // Discriminate by timewindow for fast search afterwards
         Map<TimeWindow, List<Delivery>> twDeliveries = discriminateByTimeWindow(deliveries);
-        TreeSet<TimeWindow> timeWindows = new TreeSet<>(twDeliveries.keySet());
+        TreeSet<TimeWindow> timeWindows = new TreeSet<>(TimeWindow.COMPARATOR);
+        timeWindows.addAll(twDeliveries.keySet());
 
         // Connect warehouse to deliveries in the first time window
         TimeWindow firstTw = timeWindows.first();
@@ -44,7 +45,7 @@ public class LocationsGraph implements Graph {
         succ.add(0, firstSuccessors);
 
         // Connect deliveries
-        int i = 0;
+        int i = 1;
         for (Delivery delivery : deliveries) {
             Location deliveryLocation = delivery.getLocation();
 

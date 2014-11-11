@@ -1,15 +1,20 @@
 package fr.insalyon.optimod.models;
 
+import fr.insalyon.optimod.tsp.LocationsGraph;
+import fr.insalyon.optimod.tsp.TSP;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
  * Represents a Courier's Road map
  */
 public class RoadMap {
-    private TomorrowDeliveries mTomorrowDeliveries;
+    private TomorrowDeliveries tomorrowDeliveries;
     private Courier mCourier;
     private Location mWarehouse;
-    private TreeSet<Path> mPaths = new TreeSet<Path>(Path.COMPARATOR);
+    private List<Path> mPaths = new ArrayList<>();
     private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
 
     /**
@@ -31,11 +36,11 @@ public class RoadMap {
      * @return A TomorrowDeliveries
      */
     public TomorrowDeliveries getTomorrowDeliveries() {
-        return mTomorrowDeliveries;
+        return tomorrowDeliveries;
     }
 
-    void setTomorrowDeliveries(TomorrowDeliveries deliveries) {
-        mTomorrowDeliveries = deliveries;
+    public void setTomorrowDeliveries(TomorrowDeliveries deliveries) {
+        tomorrowDeliveries = deliveries;
     }
 
     /**
@@ -98,7 +103,7 @@ public class RoadMap {
      * Returns a read-only list
      * @return A list of paths
      */
-    public final TreeSet<Path> getPaths() {
+    public final List<Path> getPaths() {
         return mPaths;
     }
 
@@ -115,5 +120,39 @@ public class RoadMap {
      */
     public Location getWarehouse() {
         return mWarehouse;
+    }
+
+    public static RoadMap fromTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) {
+        List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
+        Location warehouse = tomorrowDeliveries.getWarehouse();
+        LocationsGraph locationsGraph = new LocationsGraph(warehouse, deliveries);
+        TSP tsp = new TSP(locationsGraph);
+        tsp.solve(20000, locationsGraph.getNbVertices()*locationsGraph.getMaxArcCost()+1);
+
+        // TODO : traiter cas où ca bug !
+        // TODO : traiter le cas où la tournée est infaisable en restant dans les délais !
+
+        int[] succesors = tsp.getNext();
+
+        RoadMap roadMap = new RoadMap(warehouse);
+        roadMap.setTomorrowDeliveries(tomorrowDeliveries);
+        for(Delivery d : deliveries) {
+            roadMap.addTimeWindow(d.getTimeWindow());
+        }
+
+        Location origin;
+        Location dest = warehouse;
+
+        int next = succesors[0];
+        while(next != 0) {
+            origin = dest;
+            dest = deliveries.get(next - 1).getLocation();
+
+            roadMap.addPath(Path.fromTwoLocations(origin, dest));
+
+            next = succesors[next];
+        }
+
+        return roadMap;
     }
 }

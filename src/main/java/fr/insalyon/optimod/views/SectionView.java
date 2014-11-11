@@ -10,12 +10,9 @@ import java.awt.*;
  */
 public class SectionView {
 
-    public static final Color SECTION_COLOR = Color.WHITE;
-    public static final Color PATH_COLOR = Color.RED;
-
     private static final int DEFAULT_WIDTH = 3;
     private static final int DEFAULT_BORDER_WIDTH = 2;
-    private static final Color DEFAULT_COLOR = SECTION_COLOR;
+    public static final Color DEFAULT_COLOR = Color.WHITE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
@@ -49,6 +46,10 @@ public class SectionView {
         Color savedColor = g.getColor();
         Stroke savedStroke = g2d.getStroke();
 
+        if(mX1 == 384 && mY1 == 71 && mX2 == 467 && mY2 == 100) {
+            System.out.println("I am " + mColor);
+        }
+
         // Border
         g.setColor(mBorderColor);
         g2d.setStroke(new BasicStroke(mWidth + mBorderWidth));
@@ -59,20 +60,20 @@ public class SectionView {
         g2d.setStroke(new BasicStroke(mWidth));
         g.drawLine(mX1, mY1, mX2, mY2);
 
-        g.setColor(savedColor);
-        g2d.setStroke(savedStroke);
-
         // Draw text
         Point center = getCenter();
         g.setColor(mTextColor);
         g.drawString(mLabel, center.x, center.y);
+
+        g.setColor(savedColor);
+        g2d.setStroke(savedStroke);
     }
 
     public Point getCenter() {
         return new Point((int) (((float)mX1 + mX2) / 2f), (int) (((float)mY1 + mY2) / 2f));
     }
 
-    public void setColor(Color mColor) {
-        this.mColor = mColor;
+    public void setColor(Color color) {
+        this.mColor = color;
     }
 }
