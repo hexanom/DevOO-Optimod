@@ -2,11 +2,10 @@ package fr.insalyon.optimod.models;
 
 import fr.insalyon.optimod.tsp.LocationsGraph;
 import fr.insalyon.optimod.tsp.NoPathFoundException;
+import fr.insalyon.optimod.tsp.SolutionState;
 import fr.insalyon.optimod.tsp.TSP;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Represents a Courier's Road map
@@ -116,6 +115,35 @@ public class RoadMap {
     }
 
     /**
+     * Verify if the roadmap is respecting the timewindows
+     * @return True if timewindows are respected
+     */
+    public boolean isRespectingTimeWindows() {
+        Date startTime = mTimeWindows.first().getStart();
+        Calendar timeOfDay = Calendar.getInstance();
+        timeOfDay.setTime(startTime);
+
+        for(Path path : mPaths) {
+            Delivery delivery = path.getDestination().getDelivery();
+
+            if(delivery == null) { // it means we are back to the warehouse
+                break;
+            }
+
+            int pathTime = (int) path.getTotalTime();
+            timeOfDay.add(Calendar.SECOND, pathTime);
+
+            Calendar timeWindowEnd = Calendar.getInstance();
+            timeWindowEnd.setTime(delivery.getTimeWindow().getEnd());
+            if(timeOfDay.after(timeWindowEnd)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Gets the starting warehouse
      * @return A warehouse
      */
@@ -123,15 +151,23 @@ public class RoadMap {
         return mWarehouse;
     }
 
+    /**
+     * Create a roadmap from tomorrowDeliveries. Will calculate all the required pathingfinding.
+     * @param tomorrowDeliveries
+     * @return
+     * @throws NoPathFoundException
+     */
     public static RoadMap fromTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) throws NoPathFoundException {
         List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
         Location warehouse = tomorrowDeliveries.getWarehouse();
         LocationsGraph locationsGraph = new LocationsGraph(warehouse, deliveries);
         TSP tsp = new TSP(locationsGraph);
         tsp.solve(20000, locationsGraph.getNbVertices()*locationsGraph.getMaxArcCost()+1);
+        SolutionState solutionState = tsp.getSolutionState();
 
-        // TODO : traiter cas où ca bug !
-        // TODO : traiter le cas où la tournée est infaisable en restant dans les délais !
+        if(solutionState == SolutionState.NO_SOLUTION_FOUND || solutionState == SolutionState.INCONSISTENT) {
+            throw new NoPathFoundException("Solution State : " + solutionState.name());
+        }
 
         int[] succesors = tsp.getNext();
 
@@ -154,6 +190,10 @@ public class RoadMap {
             next = succesors[next];
         }
         roadMap.addPath(Path.fromTwoLocations(dest, warehouse));
+
+        if(!roadMap.isRespectingTimeWindows()) {
+            throw new NoPathFoundException("Roadmap not respecting time windows");
+        }
 
         return roadMap;
     }
