@@ -7,7 +7,10 @@ import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
-import fr.insalyon.optimod.models.*;
+import fr.insalyon.optimod.models.Location;
+import fr.insalyon.optimod.models.Map;
+import fr.insalyon.optimod.models.RoadMap;
+import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 import fr.insalyon.optimod.views.ApplicationView;
@@ -164,6 +167,5 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onExportRoadMapAction() {
         // TODO: generate a text file from the roadmap
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 }
