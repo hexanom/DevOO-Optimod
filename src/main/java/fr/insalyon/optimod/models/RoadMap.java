@@ -153,6 +153,7 @@ public class RoadMap {
 
             next = succesors[next];
         }
+        roadMap.addPath(Path.fromTwoLocations(dest, warehouse));
 
         return roadMap;
     }
