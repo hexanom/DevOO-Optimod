@@ -12,6 +12,7 @@ import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
 import fr.insalyon.optimod.tsp.DijkstraAlgorithm;
 import fr.insalyon.optimod.tsp.LocationsGraph;
+import fr.insalyon.optimod.tsp.NoPathFoundException;
 import fr.insalyon.optimod.tsp.TSP;
 import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
@@ -155,9 +156,13 @@ public class ApplicationController extends HistoryEnabledController implements F
             return;
         }
 
-        mRoadMap = RoadMap.fromTomorrowDeliveries(mTomorrowDeliveries);
-
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        try {
+            mRoadMap = RoadMap.fromTomorrowDeliveries(mTomorrowDeliveries);
+            mRoadMapListener.onRoadMapChanged(mRoadMap);
+        } catch(Exception e) {
+            mShowErrorIntentListener.onErrorIntent("RoadMap Calculation Error", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.insalyon.optimod.models;
 
 import fr.insalyon.optimod.tsp.LocationsGraph;
+import fr.insalyon.optimod.tsp.NoPathFoundException;
 import fr.insalyon.optimod.tsp.TSP;
 
 import java.util.LinkedList;
@@ -122,7 +123,7 @@ public class RoadMap {
         return mWarehouse;
     }
 
-    public static RoadMap fromTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) {
+    public static RoadMap fromTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) throws NoPathFoundException {
         List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
         Location warehouse = tomorrowDeliveries.getWarehouse();
         LocationsGraph locationsGraph = new LocationsGraph(warehouse, deliveries);
