@@ -189,7 +189,10 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             Location loc = e.getKey();
             LocationView locView = e.getValue();
             Delivery delivery = loc.getDelivery();
-            if(delivery == null) {
+            if(loc == mTomorrowDeliveries.getWarehouse()) {
+                locView.setColor(LocationView.WAREHOUSE_COLOR);
+            }
+            else if(delivery == null) {
                 locView.unselect();
             }
             else {

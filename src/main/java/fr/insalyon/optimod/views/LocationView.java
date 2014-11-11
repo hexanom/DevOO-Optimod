@@ -11,6 +11,7 @@ public class LocationView {
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
+    public static final Color WAREHOUSE_COLOR = Color.RED;
     private static final Color DEFAULT_COLOR = Color.BLUE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
