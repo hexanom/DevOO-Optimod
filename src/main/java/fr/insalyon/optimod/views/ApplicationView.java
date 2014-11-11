@@ -1,6 +1,6 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.controllers.*;
+import fr.insalyon.optimod.controllers.ApplicationController;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
@@ -48,6 +48,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private MapView mMapView;
     private JMenuItem mAddAfterMenuItem;
     private JButton mAddAfterButton;
+    private RoadMapListView mRoadMapListView;
+    private JLabel mAddressDetail;
 
     public ApplicationView(ApplicationController controller) {
         mFinishListener = controller;
@@ -71,45 +73,60 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mImportDeliveriesButton.setEnabled(false);
             mImportDeliveriesButton.addActionListener(this);
             mainToolbar.add(mImportDeliveriesButton);
+
+
+            mExportRoadMapButton = new JButton("Export");
+            mExportRoadMapButton.setEnabled(false);
+            mExportRoadMapButton.addActionListener(this);
+            mainToolbar.add(mExportRoadMapButton);
         add(mainToolbar, BorderLayout.PAGE_START);
 
         mMapView = new MapView(mMapClickListener);
         add(mMapView, BorderLayout.CENTER);
 
-        mTabbedPane = new JTabbedPane();
-        mTabbedPane.setPreferredSize(new Dimension(300, 400));
-        mTabbedPane.addChangeListener(this);
-            JComponent deliveriesTab = new JPanel(new BorderLayout());
-                mDeliveriesListView = new DeliveriesListView(mSelectionListener);
-                deliveriesTab.add(mDeliveriesListView, BorderLayout.CENTER);
-            mTabbedPane.addTab("Deliveries", deliveriesTab);
+        JPanel sidebar = new JPanel(new GridLayout(2, 1));
+        sidebar.setPreferredSize(new Dimension(300, 400));
+            mTabbedPane = new JTabbedPane();
+            mTabbedPane.addChangeListener(this);
+                JComponent deliveriesTab = new JPanel(new BorderLayout());
+                    JScrollPane tdSPane = new JScrollPane();
+                        mDeliveriesListView = new DeliveriesListView(mSelectionListener);
+                        tdSPane.getViewport().add(mDeliveriesListView);
+                    deliveriesTab.add(tdSPane, BorderLayout.CENTER);
+                mTabbedPane.addTab("Deliveries", deliveriesTab);
 
-            JComponent roadMapTab = new JPanel(new BorderLayout());
-                JComponent roadMapToolbar = new JPanel(new FlowLayout());
-                    mAddBeforeButton = new JButton("<+");
-                    mAddBeforeButton.setEnabled(false);
-                    mAddBeforeButton.addActionListener(this);
-                    roadMapToolbar.add(mAddBeforeButton);
+                JComponent roadMapTab = new JPanel(new BorderLayout());
+                    JComponent roadMapToolbar = new JPanel(new FlowLayout());
+                        mAddBeforeButton = new JButton("<+");
+                        mAddBeforeButton.setEnabled(false);
+                        mAddBeforeButton.addActionListener(this);
+                        roadMapToolbar.add(mAddBeforeButton);
 
-                    mAddAfterButton = new JButton("+>");
-                    mAddAfterButton.setEnabled(false);
-                    mAddAfterButton.addActionListener(this);
-                    roadMapToolbar.add(mAddAfterButton);
+                        mAddAfterButton = new JButton("+>");
+                        mAddAfterButton.setEnabled(false);
+                        mAddAfterButton.addActionListener(this);
+                        roadMapToolbar.add(mAddAfterButton);
 
-                    mDeleteDeliveryButton = new JButton("-");
-                    mDeleteDeliveryButton.setEnabled(false);
-                    mDeleteDeliveryButton.addActionListener(this);
-                    roadMapToolbar.add(mDeleteDeliveryButton);
+                        mDeleteDeliveryButton = new JButton("-");
+                        mDeleteDeliveryButton.setEnabled(false);
+                        mDeleteDeliveryButton.addActionListener(this);
+                        roadMapToolbar.add(mDeleteDeliveryButton);
+                    roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
 
-                    mExportRoadMapButton = new JButton("Export");
-                    mExportRoadMapButton.setEnabled(false);
-                    mExportRoadMapButton.addActionListener(this);
-                    roadMapToolbar.add(mExportRoadMapButton);
-                roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
+                    JScrollPane rmSPane = new JScrollPane();
+                        mRoadMapListView = new RoadMapListView(mSelectionListener);
+                        rmSPane.getViewport().add(mRoadMapListView);
+                    roadMapTab.add(rmSPane, BorderLayout.CENTER);
+                mTabbedPane.addTab("Road Map", roadMapTab);
+            sidebar.add(mTabbedPane);
 
-                // TODO: insert RM list view
-            mTabbedPane.addTab("Road Map", roadMapTab);
-        add(mTabbedPane, BorderLayout.EAST);
+            JPanel details = new JPanel(new GridLayout(1, 2));
+                details.add(new JLabel("Address: "));
+
+                mAddressDetail = new JLabel();
+                details.add(mAddressDetail);
+            sidebar.add(details);
+        add(sidebar, BorderLayout.EAST);
     }
 
     private void initWindow() {
@@ -206,16 +223,12 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         if(roadMap != null) {
             mExportRoadMapButton.setEnabled(true);
             mExportRoadMapMenuItem.setEnabled(true);
-            mAddBeforeButton.setEnabled(true);
-            mAddBeforeMenuItem.setEnabled(true);
         } else {
             mExportRoadMapButton.setEnabled(false);
             mExportRoadMapMenuItem.setEnabled(false);
-            mAddBeforeButton.setEnabled(false);
-            mAddBeforeMenuItem.setEnabled(false);
         }
         mMapView.onRoadMapChanged(roadMap);
-        // TODO: update RM list
+        mRoadMapListView.onRoadMapChanged(roadMap);
     }
 
     @Override
@@ -234,13 +247,24 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         if(location != null) {
             mDeleteDeliveryButton.setEnabled(true);
             mDeleteDeliveryMenuItem.setEnabled(true);
+            mAddBeforeButton.setEnabled(true);
+            mAddBeforeMenuItem.setEnabled(true);
+            mAddAfterButton.setEnabled(true);
+            mAddAfterMenuItem.setEnabled(true);
         } else {
             mDeleteDeliveryButton.setEnabled(false);
             mDeleteDeliveryMenuItem.setEnabled(false);
+            mAddBeforeButton.setEnabled(false);
+            mAddBeforeMenuItem.setEnabled(false);
+            mAddAfterButton.setEnabled(false);
+            mAddAfterMenuItem.setEnabled(false);
         }
         mMapView.onSelectIntentOnLocation(location);
         mDeliveriesListView.onSelectIntentOnLocation(location);
-        // TODO: Select in RM list
+        mRoadMapListView.onSelectIntentOnLocation(location);
+        if(location != null) {
+            mAddressDetail.setText(location.getAddress());
+        }
     }
 
     @Override
@@ -267,8 +291,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     @Override
     public void stateChanged(ChangeEvent e) {
         if(mTabbedPane.getSelectedIndex() == 0) {
+            mExportRoadMapButton.setEnabled(false);
             mTabSelectionListener.onDeliveriesTabSelected();
         } else {
+            mExportRoadMapButton.setEnabled(true);
             mTabSelectionListener.onRoadMapTabSelected();
         }
     }

@@ -7,13 +7,12 @@ import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
-import fr.insalyon.optimod.models.*;
+import fr.insalyon.optimod.models.Location;
+import fr.insalyon.optimod.models.Map;
+import fr.insalyon.optimod.models.RoadMap;
+import fr.insalyon.optimod.models.TomorrowDeliveries;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
-import fr.insalyon.optimod.tsp.DijkstraAlgorithm;
-import fr.insalyon.optimod.tsp.LocationsGraph;
-import fr.insalyon.optimod.tsp.NoPathFoundException;
-import fr.insalyon.optimod.tsp.TSP;
 import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
@@ -23,8 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Dispatch the User interactions to the UI components
@@ -40,7 +37,6 @@ public class ApplicationController extends HistoryEnabledController implements F
     private final SelectionIntentListener mSelectionIntentListener;
     private final FileSelectionIntentListener mFileSelectionIntentListener;
     private final ShowErrorIntentListener mShowErrorIntentListener;
-    private Delivery mSelectedDelivery;
     private Map mMap;
     private TomorrowDeliveries mTomorrowDeliveries;
     private RoadMap mRoadMap;
@@ -147,10 +143,6 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onSelectLocation(Location location) {
         mSelectionIntentListener.onSelectIntentOnLocation(location);
-        if(location != null && location.getDelivery() != null) {
-            mSelectedDelivery = location.getDelivery();
-        }
-
     }
 
     @Override

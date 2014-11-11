@@ -17,31 +17,32 @@ import java.util.List;
 /**
  * The TDs list view
  */
-public class DeliveriesListView extends JList<Delivery> implements TomorrowDeliveriesListener, ListSelectionListener, SelectionIntentListener {
+public class DeliveriesListView extends JList<Location> implements TomorrowDeliveriesListener, ListSelectionListener, SelectionIntentListener {
     private final SelectionListener mSelectionListener;
-    private List<Delivery> mDeliveries;
+    private ArrayList<Location> mLocations;
 
     public DeliveriesListView(SelectionListener selectionListener) {
         mSelectionListener = selectionListener;
-        setCellRenderer(new DeliveryListViewRenderer());
+        setCellRenderer(new LocationListViewRenderer());
         addListSelectionListener(this);
     }
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
+        mLocations = new ArrayList<>();
         if(tomorrowDeliveries != null) {
-            mDeliveries = tomorrowDeliveries.getDeliveries();
-        } else {
-            mDeliveries = new ArrayList<Delivery>();
+            for(Delivery d : tomorrowDeliveries.getDeliveries()) {
+                mLocations.add(d.getLocation());
+            }
         }
-        setModel(new GenericListModel<Delivery>(mDeliveries));
+        setModel(new GenericListModel<>(mLocations));
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if(getSelectedIndex() >= 0) {
-            Delivery selectedDelivery = mDeliveries.get(getSelectedIndex());
-            mSelectionListener.onSelectLocation(selectedDelivery.getLocation());
+            Location location = mLocations.get(getSelectedIndex());
+            mSelectionListener.onSelectLocation(location);
         }
     }
 
