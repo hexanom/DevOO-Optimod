@@ -7,8 +7,6 @@ import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +63,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private void drawLocations() {
         List<Location> locations = mMap.getLocations();
         Dimension size = getSize();
-        Bounds bounds = getBounds(locations);
+        Rectangle bounds = getBounds(locations);
 
         // Rescale to fit on the map
         double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
@@ -101,7 +99,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
      * @param locations
      * @return
      */
-    private Bounds getBounds(List<Location> locations) {
+    private Rectangle getBounds(List<Location> locations) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
@@ -114,7 +112,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             maxY = Math.max(maxY, loc.getY());
         }
 
-        return new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+        return new Rectangle(minX, minY, maxX - minX, maxY - minY);
     }
 
     @Override
