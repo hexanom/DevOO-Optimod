@@ -5,7 +5,11 @@ import fr.insalyon.optimod.tsp.NoPathFoundException;
 import fr.insalyon.optimod.tsp.SolutionState;
 import fr.insalyon.optimod.tsp.TSP;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents a Courier's Road map
@@ -16,6 +20,9 @@ public class RoadMap {
     private Location mWarehouse;
     private LinkedList<Path> mPaths = new LinkedList<>();
     private TreeSet<TimeWindow> mTimeWindows = new TreeSet<TimeWindow>(TimeWindow.COMPARATOR);
+
+    private static final int TRUCK_UNLOAD_TIME = 10*60; // in seconds
+    private static final String NEWLINE =  System.getProperty("line.separator");
 
     /**
      * Default constructor
@@ -115,32 +122,129 @@ public class RoadMap {
     }
 
     /**
-     * Verify if the roadmap is respecting the timewindows
-     * @return True if timewindows are respected
+     * Is the present instance of roadmap respecting the time constraints ?
+     * @return
      */
     public boolean isRespectingTimeWindows() {
-        Date startTime = mTimeWindows.first().getStart();
-        Calendar timeOfDay = Calendar.getInstance();
-        timeOfDay.setTime(startTime);
+        LinkedHashMap<Location, Date> detailedRoadmap = detailedRoadmap();
 
-        for(Path path : mPaths) {
-            Delivery delivery = path.getDestination().getDelivery();
+        for(Map.Entry<Location, Date> e : detailedRoadmap.entrySet()) {
+            Location loc = e.getKey();
+            Date time = e.getValue();
 
-            if(delivery == null) { // it means we are back to the warehouse
-                break;
-            }
-
-            int pathTime = (int) path.getTotalTime();
-            timeOfDay.add(Calendar.SECOND, pathTime);
-
-            Calendar timeWindowEnd = Calendar.getInstance();
-            timeWindowEnd.setTime(delivery.getTimeWindow().getEnd());
-            if(timeOfDay.after(timeWindowEnd)) {
-                return false;
+            Delivery delivery = loc.getDelivery();
+            if(delivery != null) {
+                if(time.after(delivery.getTimeWindow().getEnd())) {
+                    return false;
+                }
             }
         }
 
         return true;
+    }
+
+    /**
+     * Export a roadmap in a String format for a text file
+     * @return
+     */
+    public String exportRoadmap() {
+        LinkedHashMap<Location, Date> detailedRoadmap = detailedRoadmap();
+        StringBuilder sb = new StringBuilder();
+        DateFormat df = new SimpleDateFormat("HH:mm");
+
+        sb.append("[").append(df.format(detailedRoadmap.get(mWarehouse))).append("] Departure from the warehouse");
+        sb.append(NEWLINE);
+        detailedRoadmap.remove(mWarehouse);
+
+        for (Path path : mPaths) {
+            Location origin = path.getOrigin();
+            Location dest = path.getDestination();
+
+            for (Section section : path.getOrderedSections()) {
+                sb.append('\t').append("Take the ").append(section.getStreetName()).append(" street (");
+                sb.append(section.getOrigin().getAddress()).append(" -> ");
+                sb.append(section.getDestination().getAddress()).append(").");
+                sb.append(" Estimated navigation time: ").append(prettyTime((long)section.getTime())).append(".");
+                sb.append(NEWLINE);
+            }
+
+
+            if(dest != mWarehouse) {
+                Date arrivalTime = detailedRoadmap.get(dest);
+                sb.append("[").append(df.format(arrivalTime)).append("] Arrival at ").append(dest.getAddress());
+                sb.append(NEWLINE);
+
+                Calendar departure = Calendar.getInstance();
+                departure.setTime(arrivalTime);
+                departure.add(Calendar.SECOND, TRUCK_UNLOAD_TIME);
+                sb.append("[").append(df.format(departure.getTime())).append("] Departure from ").append(dest.getAddress());
+                sb.append(NEWLINE);
+            }
+            else {
+                Calendar warehouseArrival = Calendar.getInstance();
+                warehouseArrival.setTime(detailedRoadmap.get(origin));
+                warehouseArrival.add(Calendar.SECOND, TRUCK_UNLOAD_TIME);
+                warehouseArrival.add(Calendar.SECOND, (int) path.getTotalTime());
+                sb.append("[").append(df.format(warehouseArrival.getTime())).append("] Arrival at the warehouse");
+                sb.append(NEWLINE);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Prettifies time display
+     * @param time in seconds
+     * @return
+     */
+    private String prettyTime(long time) {
+        return String.format("%02d′%02d″",
+                TimeUnit.SECONDS.toMinutes(time),
+                TimeUnit.SECONDS.toSeconds(time) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(time))
+        );
+    }
+
+    /**
+     * Create a detail roadmap : where are we at each position in time
+     * @return
+     */
+    public LinkedHashMap<Location, Date> detailedRoadmap() {
+
+        LinkedHashMap<Location, Date> detailedRoadmap = new LinkedHashMap<>();
+
+        Date startTime = mTimeWindows.first().getStart();
+        Calendar timeOfDay = Calendar.getInstance();
+        timeOfDay.setTime(startTime);
+        timeOfDay.add(Calendar.SECOND, (int) -mPaths.peekFirst().getTotalTime()); // the truck must arrive at o'clock
+
+        detailedRoadmap.put(mWarehouse, timeOfDay.getTime());
+
+        for(Path path : mPaths) {
+            Location origin = path.getOrigin();
+            Location destination = path.getDestination();
+            Delivery origDelivery = origin.getDelivery();
+
+            if(origDelivery != null) {
+                Date origTwStart = origDelivery.getTimeWindow().getStart();
+                if(timeOfDay.getTime().before(origTwStart)) { // we are early
+                    timeOfDay.setTime(origTwStart); // wait in the truck
+                }
+            }
+
+            if(destination != mWarehouse) {
+                int pathTime = (int) path.getTotalTime();
+                timeOfDay.add(Calendar.SECOND, pathTime);
+
+                detailedRoadmap.put(destination, timeOfDay.getTime());
+            }
+
+            timeOfDay.add(Calendar.SECOND, TRUCK_UNLOAD_TIME);
+
+        }
+
+        return detailedRoadmap;
     }
 
     /**

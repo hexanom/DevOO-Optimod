@@ -270,14 +270,25 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     }
 
     @Override
-    public String onFileSelectionIntent() {
-        FileDialog fd = new FileDialog(this, "Open a file", FileDialog.LOAD);
-        fd.setFile("*.xml");
-        fd.setVisible(true);
-        if(fd.getFile() != null) {
-            return fd.getDirectory() + fd.getFile();
-        } else {
-            return null;
+    public String onFileSelectionIntent(boolean save) {
+        if(save) {
+            FileDialog fd = new FileDialog(this, "Save a file", FileDialog.SAVE);
+            fd.setVisible(true);
+            if (fd.getFile() != null) {
+                return fd.getDirectory() + fd.getFile();
+            } else {
+                return null;
+            }
+        }
+        else {
+            FileDialog fd = new FileDialog(this, "Open a file", FileDialog.LOAD);
+            fd.setFile("*.xml");
+            fd.setVisible(true);
+            if (fd.getFile() != null) {
+                return fd.getDirectory() + fd.getFile();
+            } else {
+                return null;
+            }
         }
     }
 

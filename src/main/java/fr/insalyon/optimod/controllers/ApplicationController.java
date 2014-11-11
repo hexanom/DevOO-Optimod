@@ -18,7 +18,10 @@ import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,7 +91,7 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onImportMapAction() {
-        String path = mFileSelectionIntentListener.onFileSelectionIntent();
+        String path = mFileSelectionIntentListener.onFileSelectionIntent(false);
         if(path != null) {
             URI uri = Paths.get(path).toUri();
             XMLMapFactory factory = new XMLMapFactory(uri);
@@ -108,7 +111,7 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onImportDeliveriesAction() {
-        String path = mFileSelectionIntentListener.onFileSelectionIntent();
+        String path = mFileSelectionIntentListener.onFileSelectionIntent(false);
         if(path != null) {
             URI uri = Paths.get(path).toUri();
             XMLTomorrowDeliveriesFactory factory = new XMLTomorrowDeliveriesFactory(uri, mMap);
@@ -174,7 +177,19 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onExportRoadMapAction() {
-        // TODO: generate a text file from the roadmap
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        String path = mFileSelectionIntentListener.onFileSelectionIntent(true);
+
+        if(path != null) {
+
+            String textualDescription = mRoadMap.exportRoadmap();
+
+            try {
+                Files.write(Paths.get(path), textualDescription.getBytes());
+            } catch (Exception e) {
+                mShowErrorIntentListener.onErrorIntent("Export Error", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
     }
 }
