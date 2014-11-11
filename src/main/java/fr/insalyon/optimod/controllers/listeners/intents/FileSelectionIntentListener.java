@@ -9,5 +9,5 @@ public interface FileSelectionIntentListener {
      *
      * @return A file path
      */
-    public String onFileSelectionIntent();
+    public String onFileSelectionIntent(boolean save);
 }

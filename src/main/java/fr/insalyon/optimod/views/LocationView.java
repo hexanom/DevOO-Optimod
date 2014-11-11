@@ -1,26 +1,22 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.models.Location;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by edouard on 10/11/14.
  */
 public class LocationView {
 
-    public static final Color LOCATION_COLOR = Color.BLUE;
-    public static final Color DELIVERY_COLOR = Color.RED;
     public static final Color SELECTED_COLOR = Color.GREEN;
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
-    private static final Color DEFAULT_COLOR = LOCATION_COLOR;
+    public static final Color WAREHOUSE_COLOR = Color.RED;
+    private static final Color DEFAULT_COLOR = Color.BLUE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
+    private Color mOldColor;
     private Color mColor;
     private Color mBorderColor;
     private Color mTextColor;
@@ -31,16 +27,16 @@ public class LocationView {
     private int mX;
     private int mY;
 
-    public LocationView(Location location) {
+    public LocationView(String label, int x, int y) {
         mColor = DEFAULT_COLOR;
         mRadius = DEFAULT_RADIUS;
         mBorderColor = DEFAULT_BORDER_COLOR;
         mBorderWidth = DEFAULT_BORDER_WIDTH;
         mTextColor = DEFAULT_TEXT_COLOR;
 
-        mLabel = location.getAddress();
-        mX = location.getX();
-        mY = location.getY();
+        mLabel = label;
+        mX = x;
+        mY = y;
     }
 
     /**
@@ -89,6 +85,21 @@ public class LocationView {
     public Point getCenter() {
         int halfRadius = (int) (((float) mRadius) / 2f);
         return new Point(mX + halfRadius, mY + halfRadius);
+    }
+
+    /**
+     * Toggle on selection
+     */
+    public void select() {
+        mOldColor = mColor;
+        mColor = SELECTED_COLOR;
+    }
+
+    /**
+     * Toggle off selection
+     */
+    public void unselect() {
+        mColor = mOldColor;
     }
 
     public void setColor(Color mColor) {

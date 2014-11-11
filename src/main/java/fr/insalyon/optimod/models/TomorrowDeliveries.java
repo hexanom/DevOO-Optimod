@@ -3,8 +3,7 @@ package fr.insalyon.optimod.models;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents the deliveries for a day
@@ -89,6 +88,19 @@ public class TomorrowDeliveries {
      */
     public final List<RoadMap> getRoadMaps() {
         return mRoadMaps;
+    }
+
+    /**
+     * Get the deliveries ordered by time windows
+     * @return
+     */
+    public TreeSet<TimeWindow> getTimeWindows() {
+        TreeSet<TimeWindow> timeWindows = new TreeSet<>(TimeWindow.COMPARATOR);
+
+        for (Delivery del : mDeliveries) {
+            timeWindows.add(del.getTimeWindow());
+        }
+        return timeWindows;
     }
 
     /**

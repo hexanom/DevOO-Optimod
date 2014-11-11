@@ -6,7 +6,6 @@ import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.*;
-import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
 
 import javax.swing.*;
@@ -15,8 +14,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A Canvas showing the map and other stuff
@@ -31,7 +31,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private java.util.Map<Location, LocationView> mLocationViews;
     private java.util.Map<Section, SectionView> mSectionViews;
 
-    private static final long sectionsColorsSeed = 123456789l;
+    private static final int MARGIN = 20;
+
+    private static final long locationsColorsSeed = 123456789l;
 
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
@@ -49,13 +51,37 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mLocationViews = new HashMap<>(mMap.getLocations().size());
         mSectionViews = new HashMap<>(mMap.getLocations().size());
 
+        drawLocations();
+        drawSections();
+
+        repaint();
+    }
+
+    /**
+     * Draw map locations on the view
+     */
+    private void drawLocations() {
         List<Location> locations = mMap.getLocations();
+        Dimension size = getSize();
+        Rectangle bounds = getBounds(locations);
+
+        // Rescale to fit on the map
+        double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
+        double scaleY = (size.getHeight() - 2d * MARGIN) / bounds.getHeight();
+
         for(Location loc : locations) {
-            LocationView locationView = new LocationView(loc);
+            int x = (int) ((loc.getX() - bounds.getMinX())  * scaleX + MARGIN);
+            int y = (int) ((loc.getY() - bounds.getMinY()) * scaleY + MARGIN);
+            LocationView locationView = new LocationView(loc.getAddress(), x, y);
             mLocationViews.put(loc, locationView);
         }
+    }
 
-        // We need this in 2 loops, dont "optimize" !
+    /**
+     * Draw map sections on the view
+     */
+    private void drawSections() {
+        List<Location> locations = mMap.getLocations();
         for(Location origin : locations) {
             for(Section section : origin.getOuts()) {
 
@@ -66,8 +92,27 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
                 mSectionViews.put(section, sectionView);
             }
         }
+    }
 
-        repaint();
+    /**
+     * Calcule the coords bounds (min/max X Y) of a list of locations.
+     * @param locations
+     * @return
+     */
+    private Rectangle getBounds(List<Location> locations) {
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+
+        for(Location loc : locations) {
+            minX = Math.min(minX, loc.getX());
+            maxX = Math.max(maxX, loc.getX());
+            minY = Math.min(minY, loc.getY());
+            maxY = Math.max(maxY, loc.getY());
+        }
+
+        return new Rectangle(minX, minY, maxX - minX, maxY - minY);
     }
 
     @Override
@@ -89,31 +134,15 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
 
-        java.util.Map<TimeWindow, Color> colors = new HashMap<>(roadMap.getTimeWindows().size());
-        Random rand = new Random(sectionsColorsSeed);
-
-        for(TimeWindow tw : roadMap.getTimeWindows()) {
-            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
-        }
-
         //reset colors
         for(SectionView sectionView : mSectionViews.values()) {
-            sectionView.setColor(SectionView.DEFAULT_COLOR);
+            sectionView.unused();
         }
 
         for(Path path : roadMap.getPaths()) {
-            Color col = null;
-            if(path.getDestination() == roadMap.getWarehouse()) { // last tw
-                col = colors.get(roadMap.getTimeWindows().last());
-            }
-            else {
-                Delivery delivery = path.getDestination().getDelivery();
-                col = colors.get(delivery.getTimeWindow());
-            }
-
             for (Section section : path.getOrderedSections()) {
                 SectionView sectionView = mSectionViews.get(section);
-                sectionView.setColor(col);
+                sectionView.used();
             }
 
         }
@@ -127,12 +156,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // Reset color
         if(mSelectedLocation != null) {
             LocationView oldView = mLocationViews.get(mSelectedLocation);
-            boolean isDelivery = mSelectedLocation.getDelivery() != null;
-
-            if(oldView == null) { // From the roadmap
-                oldView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
-            }
-            oldView.setColor(isDelivery ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
+            oldView.unselect();
         }
 
         mSelectedLocation = location;
@@ -140,10 +164,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         // New color
         if(mSelectedLocation != null) {
             LocationView newView = mLocationViews.get(mSelectedLocation);
-            if(newView == null) { // From the roadmap
-                newView = mLocationViews.get(mMap.getLocationByAddress(mSelectedLocation.getAddress()));
-            }
-            newView.setColor(LocationView.SELECTED_COLOR);
+            newView.select();
         }
 
         repaint();
@@ -154,11 +175,27 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
 
+        java.util.Map<TimeWindow, Color> colors = new HashMap<>(tomorrowDeliveries.getTimeWindows().size());
+        Random rand = new Random(locationsColorsSeed);
+
+        for(TimeWindow tw : tomorrowDeliveries.getTimeWindows()) {
+            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+        }
+
         // Reset colors
         for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
             Location loc = e.getKey();
             LocationView locView = e.getValue();
-            locView.setColor(loc.getDelivery() != null ? LocationView.DELIVERY_COLOR : LocationView.LOCATION_COLOR);
+            Delivery delivery = loc.getDelivery();
+            if(loc == mTomorrowDeliveries.getWarehouse()) {
+                locView.setColor(LocationView.WAREHOUSE_COLOR);
+            }
+            else if(delivery == null) {
+                locView.unselect();
+            }
+            else {
+                locView.setColor(colors.get(delivery.getTimeWindow()));
+            }
         }
 
         repaint();
