@@ -38,16 +38,19 @@ public abstract class XMLFactoryBase {
     /**
      * Validate the given xml file according to the given xsd file
      * @param xml
-     * @param xsd
+     * @param xsdFile
      * @throws IOException
      * @throws SAXException
      */
-    private boolean validateXMLwithXSD(File xml, File xsd) {
+    private boolean validateXMLwithXSD(File xml, String xsdFile) {
+
+        InputStream xsdStream = getClass().getClassLoader().getResourceAsStream(xsdFile);
+        StreamSource xsdSource = new StreamSource(xsdStream);
 
         Source xmlFile = new StreamSource(xml);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
-            Schema schema = schemaFactory.newSchema(xsd);
+            Schema schema = schemaFactory.newSchema(xsdSource);
             Validator validator = schema.newValidator();
             validator.validate(xmlFile);
         } catch (SAXException se) {
@@ -69,9 +72,8 @@ public abstract class XMLFactoryBase {
 
         Element racine = null;
         if(mPath != null) {
-            URI xsdURL = getClass().getClassLoader().getResource(xsdFile).toURI();
             File xml = new File(mPath);
-            boolean isValid = validateXMLwithXSD(xml, new File(xsdURL));
+            boolean isValid = validateXMLwithXSD(xml, xsdFile);
 
             if(isValid) {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

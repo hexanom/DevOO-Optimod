@@ -96,6 +96,11 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
         }
 
+        //reset colors
+        for(SectionView sectionView : mSectionViews.values()) {
+            sectionView.setColor(SectionView.DEFAULT_COLOR);
+        }
+
         for(Path path : roadMap.getPaths()) {
             Color col = null;
             if(path.getDestination() == roadMap.getWarehouse()) { // last tw
@@ -112,6 +117,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             }
 
         }
+
         repaint();
     }
 
@@ -161,6 +167,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

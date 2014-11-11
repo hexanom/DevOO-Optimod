@@ -21,7 +21,7 @@ public class LocationsGraph implements Graph {
 
     private static final int WAREHOUSE_INDEX = 0;
 
-    public LocationsGraph(Location warehouse, List<Delivery> deliveries) {
+    public LocationsGraph(Location warehouse, List<Delivery> deliveries) throws NoPathFoundException {
 
         this.deliveries = deliveries;
         this.warehouse = warehouse;
@@ -35,7 +35,8 @@ public class LocationsGraph implements Graph {
 
         // Discriminate by timewindow for fast search afterwards
         Map<TimeWindow, List<Delivery>> twDeliveries = discriminateByTimeWindow(deliveries);
-        TreeSet<TimeWindow> timeWindows = new TreeSet<>(twDeliveries.keySet());
+        TreeSet<TimeWindow> timeWindows = new TreeSet<>(TimeWindow.COMPARATOR);
+        timeWindows.addAll(twDeliveries.keySet());
 
         // Connect warehouse to deliveries in the first time window
         TimeWindow firstTw = timeWindows.first();
@@ -44,7 +45,7 @@ public class LocationsGraph implements Graph {
         succ.add(0, firstSuccessors);
 
         // Connect deliveries
-        int i = 0;
+        int i = 1;
         for (Delivery delivery : deliveries) {
             Location deliveryLocation = delivery.getLocation();
 
@@ -91,7 +92,8 @@ public class LocationsGraph implements Graph {
         return twDeliveries;
     }
 
-    private List<Integer> connectLocationToDeliveries(int deliveryIndex, Location origin, List<Delivery> destinations) {
+    private List<Integer> connectLocationToDeliveries(int deliveryIndex, Location origin, List<Delivery> destinations)
+            throws NoPathFoundException {
         List<Integer> successors = new ArrayList<>(destinations.size());
         for (Delivery delivery : destinations) {
 
@@ -119,10 +121,16 @@ public class LocationsGraph implements Graph {
         maxArcCost = Math.max(maxArcCost, pathCost);
     }
 
-    private int costBetweenLocations(Location delivery, Location otherDelivery) {
+    private int costBetweenLocations(Location delivery, Location otherDelivery) throws NoPathFoundException {
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm();
         dijkstra.execute(delivery);
         LinkedList<Location> path = dijkstra.getPath(otherDelivery);
+
+        if(path == null) {
+            throw new NoPathFoundException("No path found between " + delivery.getAddress()
+                    + " and " + otherDelivery.getAddress() + ".");
+        }
+
         return (int) pathTimeSum(path);
     }
 
