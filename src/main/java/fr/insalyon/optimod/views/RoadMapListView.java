@@ -2,10 +2,7 @@ package fr.insalyon.optimod.views;
 
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
-import fr.insalyon.optimod.models.Delivery;
-import fr.insalyon.optimod.models.Location;
-import fr.insalyon.optimod.models.Path;
-import fr.insalyon.optimod.models.RoadMap;
+import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.views.listeners.action.SelectionListener;
 import fr.insalyon.optimod.views.utils.GenericListModel;
 
@@ -40,10 +37,12 @@ public class RoadMapListView extends JList<Location> implements RoadMapListener,
     public void onRoadMapChanged(RoadMap roadMap) {
         mLocations = new ArrayList<>();
         if(roadMap != null) {
-            Path last = null;
+            Section last = null;
             for(Path p : roadMap.getPaths()) {
-                mLocations.add(p.getOrigin());
-                last = p;
+                for(Section s : p.getOrderedSections()) {
+                    mLocations.add(s.getOrigin());
+                    last = s;
+                }
             }
             if(last != null) {
                 mLocations.add(last.getDestination());
