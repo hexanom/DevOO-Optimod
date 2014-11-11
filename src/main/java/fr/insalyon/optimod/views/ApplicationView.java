@@ -197,6 +197,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mMapView.onMapChanged(map);
     }
 
+    public void switchToDeliveriesTab() {
+        mTabbedPane.setSelectedIndex(0);
+    }
+
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
         if(roadMap != null) {

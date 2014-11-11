@@ -120,6 +120,7 @@ public class ApplicationController extends HistoryEnabledController implements F
                 mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
                 mRoadMap = new RoadMap();
                 mRoadMapListener.onRoadMapChanged(mRoadMap);
+                mView.switchToDeliveriesTab();
             } catch (Exception e) {
                 mShowErrorIntentListener.onErrorIntent("Import Error", e.getMessage());
                 e.printStackTrace();
@@ -155,7 +156,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onRoadMapTabSelected() {
 
-        if(mTomorrowDeliveries == null) {
+        if(mTomorrowDeliveries == null || mTomorrowDeliveries.getTimeWindows().isEmpty()) {
             return;
         }
 
