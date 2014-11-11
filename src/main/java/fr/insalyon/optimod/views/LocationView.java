@@ -43,6 +43,10 @@ public class LocationView {
         mY = location.getY();
     }
 
+    /**
+     * Paints the view
+     * @param g
+     */
     public void paint(Graphics g) {
         Color savedColor = g.getColor();
 
@@ -62,16 +66,26 @@ public class LocationView {
         // Draw text
         Point center = getCenter();
         g.setColor(mTextColor);
-        g.drawString(mLabel, center.x, center.y - mRadius);
+        //g.drawString(mLabel, center.x, center.y - mRadius);
 
         g.setColor(savedColor);
     }
 
+    /**
+     * Tests if a point(x,y) is inside this view
+     * @param x
+     * @param y
+     * @return True if the point is inside the view
+     */
     public boolean contains(int x, int y) {
         Point center = getCenter();
         return Math.pow((x - center.x), 2) + Math.pow((y - center.y), 2) <= Math.pow(mRadius, 2);
     }
 
+    /**
+     * Get the center coordinates of the view
+     * @return The point of the center of the view
+     */
     public Point getCenter() {
         int halfRadius = (int) (((float) mRadius) / 2f);
         return new Point(mX + halfRadius, mY + halfRadius);

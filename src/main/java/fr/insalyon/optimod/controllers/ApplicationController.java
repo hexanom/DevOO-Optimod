@@ -1,6 +1,5 @@
 package fr.insalyon.optimod.controllers;
 
-import fr.insalyon.optimod.controllers.actions.DeleteDeliveryAction;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
@@ -11,13 +10,18 @@ import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.models.factories.XMLMapFactory;
 import fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory;
+import fr.insalyon.optimod.tsp.DijkstraAlgorithm;
+import fr.insalyon.optimod.tsp.LocationsGraph;
+import fr.insalyon.optimod.tsp.NoPathFoundException;
+import fr.insalyon.optimod.tsp.TSP;
 import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Dispatch the User interactions to the UI components
@@ -147,8 +151,18 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onRoadMapTabSelected() {
-        // TODO: Generate paths and assign mRoadmap
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+
+        if(mTomorrowDeliveries == null) {
+            return;
+        }
+
+        try {
+            mRoadMap = RoadMap.fromTomorrowDeliveries(mTomorrowDeliveries);
+            mRoadMapListener.onRoadMapChanged(mRoadMap);
+        } catch(Exception e) {
+            mShowErrorIntentListener.onErrorIntent("RoadMap Calculation Error", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override

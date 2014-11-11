@@ -1,5 +1,7 @@
 package fr.insalyon.optimod.models;
 
+import fr.insalyon.optimod.tsp.DijkstraAlgorithm;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -115,5 +117,35 @@ public class Path {
             sum += section.getTime();
         }
         return sum;
+    }
+
+    public static Path fromTwoLocations(Location origin, Location dest) {
+
+        Path path = new Path();
+
+        DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
+        dijkstraAlgorithm.execute(origin);
+        LinkedList<Location> locPath = dijkstraAlgorithm.getPath(dest);
+
+        for(int i = 0; i < locPath.size() - 1; i++) {
+            Location start = locPath.get(i);
+            Location end = locPath.get(i + 1);
+            Section section = null;
+
+            for (Section sec : start.getOuts()) {
+                if(sec.getDestination() == end) {
+                    section = sec;
+                    break;
+                }
+            }
+
+            if(section == null) {
+                throw new IllegalStateException();
+            }
+
+            path.appendSection(section);
+        }
+
+        return path;
     }
 }

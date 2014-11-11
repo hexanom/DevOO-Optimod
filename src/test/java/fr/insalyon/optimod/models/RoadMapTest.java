@@ -61,8 +61,8 @@ public class RoadMapTest {
         assertEquals(mRoadMap.getPaths().size(),1);
         mRoadMap.addPath(test_path_2);
         assertEquals(mRoadMap.getPaths().size(),2);
-        assertEquals(mRoadMap.getPaths().first(),test_path_1);
-        assertEquals(mRoadMap.getPaths().last(),test_path_2);
+        assertEquals(mRoadMap.getPaths().peekFirst(),test_path_1);
+        assertEquals(mRoadMap.getPaths().peekLast(),test_path_2);
     }
 
     @Test
@@ -80,8 +80,8 @@ public class RoadMapTest {
         mRoadMap.addPath(test_path_2);
         mRoadMap.deletePath(test_path_1);
         assertEquals(mRoadMap.getPaths().size(),1);
-        assertEquals(mRoadMap.getPaths().first(),test_path_2);
-        assertEquals(mRoadMap.getPaths().last(),test_path_2);
+        assertEquals(mRoadMap.getPaths().peekFirst(),test_path_2);
+        assertEquals(mRoadMap.getPaths().peekLast(),test_path_2);
         mRoadMap.deletePath(test_path_2);
         assertEquals(mRoadMap.getPaths().size(),0);
     }
