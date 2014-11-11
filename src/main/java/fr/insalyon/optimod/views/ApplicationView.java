@@ -48,6 +48,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private MapView mMapView;
     private JMenuItem mAddAfterMenuItem;
     private JButton mAddAfterButton;
+    private RoadMapListView mRoadMapListView;
 
     public ApplicationView(ApplicationController controller) {
         mFinishListener = controller;
@@ -107,7 +108,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                     roadMapToolbar.add(mExportRoadMapButton);
                 roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
 
-                // TODO: insert RM list view
+                mRoadMapListView = new RoadMapListView(mSelectionListener);
+                roadMapTab.add(mRoadMapListView, BorderLayout.CENTER);
             mTabbedPane.addTab("Road Map", roadMapTab);
         add(mTabbedPane, BorderLayout.EAST);
     }
@@ -202,16 +204,12 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         if(roadMap != null) {
             mExportRoadMapButton.setEnabled(true);
             mExportRoadMapMenuItem.setEnabled(true);
-            mAddBeforeButton.setEnabled(true);
-            mAddBeforeMenuItem.setEnabled(true);
         } else {
             mExportRoadMapButton.setEnabled(false);
             mExportRoadMapMenuItem.setEnabled(false);
-            mAddBeforeButton.setEnabled(false);
-            mAddBeforeMenuItem.setEnabled(false);
         }
         mMapView.onRoadMapChanged(roadMap);
-        // TODO: update RM list
+        mRoadMapListView.onRoadMapChanged(roadMap);
     }
 
     @Override
@@ -230,9 +228,17 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         if(location != null) {
             mDeleteDeliveryButton.setEnabled(true);
             mDeleteDeliveryMenuItem.setEnabled(true);
+            mAddBeforeButton.setEnabled(true);
+            mAddBeforeMenuItem.setEnabled(true);
+            mAddAfterButton.setEnabled(true);
+            mAddAfterMenuItem.setEnabled(true);
         } else {
             mDeleteDeliveryButton.setEnabled(false);
             mDeleteDeliveryMenuItem.setEnabled(false);
+            mAddBeforeButton.setEnabled(false);
+            mAddBeforeMenuItem.setEnabled(false);
+            mAddAfterButton.setEnabled(false);
+            mAddAfterMenuItem.setEnabled(false);
         }
         mMapView.onSelectIntentOnLocation(location);
         mDeliveriesListView.onSelectIntentOnLocation(location);
