@@ -17,8 +17,6 @@ import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -165,6 +163,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onDeliveriesTabSelected() {
         if(mRoadMapListener != null) { // mRoadMapListener is null when initializing...
             mRoadMapListener.onRoadMapChanged(new RoadMap());
+
         }
     }
 
@@ -172,7 +171,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onExportRoadMapAction() {
         String path = mFileSelectionIntentListener.onFileSelectionIntent(true);
 
-        if(path != null) {
+        if(path != null && mRoadMap != null) {
 
             String textualDescription = mRoadMap.exportRoadmap();
 

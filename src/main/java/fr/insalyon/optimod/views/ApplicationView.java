@@ -220,7 +220,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
-        if(roadMap != null) {
+        if(roadMap != null && roadMap.getPaths().size() > 0) {
             mExportRoadMapButton.setEnabled(true);
             mExportRoadMapMenuItem.setEnabled(true);
         } else {

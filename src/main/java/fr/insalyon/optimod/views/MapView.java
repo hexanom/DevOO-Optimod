@@ -134,20 +134,22 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     public void onRoadMapChanged(RoadMap roadMap) {
         mRoadMap = roadMap;
 
-        //reset colors
-        for(SectionView sectionView : mSectionViews.values()) {
-            sectionView.unused();
-        }
-
-        for(Path path : roadMap.getPaths()) {
-            for (Section section : path.getOrderedSections()) {
-                SectionView sectionView = mSectionViews.get(section);
-                sectionView.used();
+        if(mRoadMap != null && mSectionViews != null) {
+            //reset colors
+            for(SectionView sectionView : mSectionViews.values()) {
+                sectionView.unused();
             }
 
-        }
+            for(Path path : roadMap.getPaths()) {
+                for (Section section : path.getOrderedSections()) {
+                    SectionView sectionView = mSectionViews.get(section);
+                    sectionView.used();
+                }
 
-        repaint();
+            }
+
+            repaint();
+        }
     }
 
     @Override
