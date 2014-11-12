@@ -7,6 +7,7 @@ import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.*;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
+import fr.insalyon.optimod.views.listeners.action.MapListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ import java.util.Random;
 /**
  * A Canvas showing the map and other stuff
  */
-public class MapView extends JPanel implements MapChangeListener, MapPositionMatcher, SelectionIntentListener, RoadMapListener, TomorrowDeliveriesListener, ComponentListener, MouseListener {
+public class MapView extends JPanel implements MapChangeListener, MapPositionMatcher, SelectionIntentListener, RoadMapListener, TomorrowDeliveriesListener, ComponentListener, MouseListener, MapListener {
     private final MapClickListener mMapClickListener;
     private Map mMap;
     private RoadMap mRoadMap;
@@ -30,6 +31,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     private java.util.Map<Location, LocationView> mLocationViews;
     private java.util.Map<Section, SectionView> mSectionViews;
+
+    private boolean mShowSectionNames = true;
+    private boolean mShowLocationNames = true;
 
     private static final int MARGIN = 20;
 
@@ -73,6 +77,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             int x = (int) ((loc.getX() - bounds.getMinX())  * scaleX + MARGIN);
             int y = (int) ((loc.getY() - bounds.getMinY()) * scaleY + MARGIN);
             LocationView locationView = new LocationView(loc.getAddress(), x, y);
+            locationView.toggleLabelDisplay(mShowLocationNames);
             mLocationViews.put(loc, locationView);
         }
     }
@@ -89,6 +94,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
                 LocationView destView = mLocationViews.get(section.getDestination());
 
                 SectionView sectionView = new SectionView(originView.getCenter(), destView.getCenter(), section.getStreetName());
+                sectionView.toggleLabelDisplay(mShowSectionNames);
                 mSectionViews.put(section, sectionView);
             }
         }
@@ -200,6 +206,36 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             }
         }
 
+        repaint();
+    }
+
+    @Override
+    public void toggleSectionNames(boolean enabled) {
+
+        mShowSectionNames = enabled;
+
+        if(mSectionViews == null) {
+            return;
+        }
+
+        for (SectionView sectionView : mSectionViews.values()) {
+            sectionView.toggleLabelDisplay(enabled);
+        }
+        repaint();
+    }
+
+    @Override
+    public void toggleLocationNames(boolean enabled) {
+
+        mShowLocationNames = enabled;
+
+        if(mLocationViews == null) {
+            return;
+        }
+
+        for (LocationView locationView : mLocationViews.values()) {
+            locationView.toggleLabelDisplay(enabled);
+        }
         repaint();
     }
 

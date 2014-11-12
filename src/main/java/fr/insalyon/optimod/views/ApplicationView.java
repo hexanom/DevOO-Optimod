@@ -7,6 +7,7 @@ import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.MapDisplayListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.Location;
@@ -26,8 +27,9 @@ import java.util.Calendar;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener, MapListener {
     private final FinishListener mFinishListener;
+    private final MapDisplayListener mMapDisplayListener;
     private final MainToolBarListener mMainToolbarListener;
     private final MapClickListener mMapClickListener;
     private final RoadMapToolbarListener mRoadMapToolbarListener;
@@ -53,6 +55,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private RoadMapListView mRoadMapListView;
     private JLabel mAddressDetail;
     private JLabel mTimeRangeDetail;
+    private JCheckBoxMenuItem mDisplayLocationNamesItem;
+    private JCheckBoxMenuItem mDisplaySectionNamesItem;
 
     public ApplicationView(ApplicationController controller) {
         mFinishListener = controller;
@@ -61,6 +65,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mRoadMapToolbarListener = controller;
         mSelectionListener = controller;
         mTabSelectionListener = controller;
+        mMapDisplayListener = controller;
         initWindow();
         initChildren();
     }
@@ -200,6 +205,18 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                 mDeleteDeliveryMenuItem.addActionListener(this);
                 editMenu.add(mDeleteDeliveryMenuItem);
             menuBar.add(editMenu);
+
+            JMenu displayMenu = new JMenu("Display");
+                mDisplaySectionNamesItem = new JCheckBoxMenuItem("Display roads names");
+                mDisplaySectionNamesItem.addActionListener(this);
+                mDisplaySectionNamesItem.setState(true);
+                displayMenu.add(mDisplaySectionNamesItem);
+
+                mDisplayLocationNamesItem = new JCheckBoxMenuItem("Display locations names");
+                mDisplayLocationNamesItem.addActionListener(this);
+                mDisplayLocationNamesItem.setState(true);
+                displayMenu.add(mDisplayLocationNamesItem);
+            menuBar.add(displayMenu);
         setJMenuBar(menuBar);
     }
 
@@ -305,6 +322,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mMainToolbarListener.onUndoAction();
         } else if(e.getSource().equals(mRedoMenuItem)) {
             mMainToolbarListener.onRedoAction();
+        } else if(e.getSource().equals(mDisplayLocationNamesItem)) {
+            mMapDisplayListener.toggleLocationNames(mDisplayLocationNamesItem.getState());
+        } else if(e.getSource().equals(mDisplaySectionNamesItem)) {
+            mMapDisplayListener.toggleSectionNames(mDisplaySectionNamesItem.getState());
         }
     }
 
@@ -371,5 +392,15 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void onHistoryChanged(boolean hasHistory, boolean hasFuture) {
         mUndoMenuItem.setEnabled(hasHistory);
         mUndoMenuItem.setEnabled(hasFuture);
+    }
+
+    @Override
+    public void toggleSectionNames(boolean enabled) {
+        mMapView.toggleSectionNames(enabled);
+    }
+
+    @Override
+    public void toggleLocationNames(boolean enabled) {
+        mMapView.toggleLocationNames(enabled);
     }
 }

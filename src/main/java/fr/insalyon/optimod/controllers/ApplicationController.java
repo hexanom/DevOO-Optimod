@@ -8,6 +8,7 @@ import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.MapDisplayListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.Location;
@@ -27,7 +28,7 @@ import java.nio.file.Paths;
 /**
  * Dispatch the User interactions to the UI components
  */
-public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
+public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener, MapDisplayListener {
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
@@ -221,5 +222,15 @@ public class ApplicationController extends HistoryEnabledController implements F
             }
         }
 
+    }
+
+    @Override
+    public void toggleSectionNames(boolean enabled) {
+        mView.toggleSectionNames(enabled);
+    }
+
+    @Override
+    public void toggleLocationNames(boolean enabled) {
+        mView.toggleLocationNames(enabled);
     }
 }

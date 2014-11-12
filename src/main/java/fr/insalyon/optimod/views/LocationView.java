@@ -15,6 +15,7 @@ public class LocationView {
     private static final Color DEFAULT_COLOR = Color.BLUE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
+    private static final boolean DEFAULT_SHOW_LABEL = true;
 
     private Color mOldColor;
     private Color mColor;
@@ -23,6 +24,7 @@ public class LocationView {
     private int mRadius;
     private int mBorderWidth;
 
+    private boolean mShowLabel;
     private String mLabel;
     private int mX;
     private int mY;
@@ -34,6 +36,7 @@ public class LocationView {
         mBorderWidth = DEFAULT_BORDER_WIDTH;
         mTextColor = DEFAULT_TEXT_COLOR;
 
+        mShowLabel = DEFAULT_SHOW_LABEL;
         mLabel = label;
         mX = x;
         mY = y;
@@ -60,9 +63,11 @@ public class LocationView {
         g.fillOval(mX, mY, mRadius, mRadius);
 
         // Draw text
-        Point center = getCenter();
-        g.setColor(mTextColor);
-        //g.drawString(mLabel, center.x, center.y - mRadius);
+        if(mShowLabel) {
+            Point center = getCenter();
+            g.setColor(mTextColor);
+            g.drawString(mLabel, center.x, center.y - mRadius);
+        }
 
         g.setColor(savedColor);
     }
@@ -93,6 +98,10 @@ public class LocationView {
     public void select() {
         mOldColor = mColor;
         mColor = SELECTED_COLOR;
+    }
+
+    public void toggleLabelDisplay(boolean show) {
+        mShowLabel = show;
     }
 
     /**
