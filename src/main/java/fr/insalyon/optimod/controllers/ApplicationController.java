@@ -55,6 +55,7 @@ public class ApplicationController extends HistoryEnabledController implements F
         mSelectionIntentListener = mView;
         mFileSelectionIntentListener = mView;
         mShowErrorIntentListener = mView;
+        setHistoryListener(mView);
     }
 
     @Override

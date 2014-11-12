@@ -2,6 +2,7 @@ package fr.insalyon.optimod.views;
 
 import fr.insalyon.optimod.controllers.ApplicationController;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
+import fr.insalyon.optimod.controllers.listeners.data.HistoryChangedListener;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
@@ -25,7 +26,7 @@ import java.util.Calendar;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener {
     private final FinishListener mFinishListener;
     private final MainToolBarListener mMainToolbarListener;
     private final MapClickListener mMapClickListener;
@@ -366,4 +367,9 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void windowDeactivated(WindowEvent e) {}
 
 
+    @Override
+    public void onHistoryChanged(boolean hasHistory, boolean hasFuture) {
+        mUndoMenuItem.setEnabled(hasHistory);
+        mUndoMenuItem.setEnabled(hasFuture);
+    }
 }
