@@ -1,34 +1,39 @@
 package fr.insalyon.optimod.controllers.actions;
 
-import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.Location;
-import fr.insalyon.optimod.models.TomorrowDeliveries;
+import fr.insalyon.optimod.models.RoadMap;
 
 /**
  * An action able to add a location in tomorrow deliveries
  */
 public class AddDeliveryAction implements Action {
-    private final TomorrowDeliveries mDeliveries;
-    private final Delivery mDelivery;
+    private final RoadMap mRoadMap;
+    private final Location mAfter;
+    private final Location mLocation;
+    private final Location mBefore;
 
     /**
      * Creates the action
      *
-     * @param deliveries The deliveries to add in
-     * @param delivery The delivery to add
+     * @param roadMap The roadMap to add in
+     * @param after Add after this location
+     * @param location Add this location as a delivery
+     * @param before Add before this location
      */
-    public AddDeliveryAction(TomorrowDeliveries deliveries, Delivery delivery) {
-        mDeliveries = deliveries;
-        mDelivery = delivery;
+    public AddDeliveryAction(RoadMap roadMap, Location after, Location location, Location before) {
+        mRoadMap = roadMap;
+        mAfter = after;
+        mLocation = location;
+        mBefore = before;
     }
 
     @Override
     public void doAction() {
-        mDeliveries.addDelivery(mDelivery);
+        // TODO
     }
 
     @Override
     public void undoAction() {
-        mDeliveries.deleteDelivery(mDelivery);
+        // TODO
     }
 }

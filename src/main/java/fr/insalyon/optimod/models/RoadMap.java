@@ -302,4 +302,24 @@ public class RoadMap {
 
         return roadMap;
     }
+
+    /**
+     * Gets the location with a delivery right before the selected location
+     *
+     * @param location The selected location
+     * @return The location right before
+     */
+    public Location getDeliveryLocationBefore(Location location) {
+        return null; // TODO
+    }
+
+    /**
+     * Gets the location with a delivery right after the selected location
+     *
+     * @param location The selected location
+     * @return The location right after
+     */
+    public Location getDeliveryLocationAfter(Location location) {
+        return null; // TODO
+    }
 }

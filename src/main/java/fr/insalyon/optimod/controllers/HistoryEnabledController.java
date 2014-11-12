@@ -2,7 +2,8 @@ package fr.insalyon.optimod.controllers;
 
 import fr.insalyon.optimod.controllers.actions.Action;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Defines a controller that supports undo/redo actions
@@ -43,6 +44,11 @@ public abstract class HistoryEnabledController implements Controller {
             mHistory.addLast(action);
             action.doAction();
         }
+    }
+
+    protected void clearHistory() {
+        mFuture.clear();
+        mHistory.clear();
     }
 
     /**
