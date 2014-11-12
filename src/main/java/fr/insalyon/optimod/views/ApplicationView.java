@@ -25,7 +25,7 @@ import java.util.Calendar;
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener {
     private final FinishListener mFinishListener;
     private final MainToolBarListener mMainToolbarListener;
     private final MapClickListener mMapClickListener;
@@ -91,7 +91,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mTabbedPane.addChangeListener(this);
             JComponent deliveriesTab = new JPanel(new BorderLayout());
                 JScrollPane tdSPane = new JScrollPane();
-                    mDeliveriesListView = new DeliveriesListView(mSelectionListener);
+                    mDeliveriesListView = new DeliveriesListView(this);
                     tdSPane.getViewport().add(mDeliveriesListView);
                 deliveriesTab.add(tdSPane, BorderLayout.CENTER);
             mTabbedPane.addTab("Deliveries", deliveriesTab);
@@ -115,7 +115,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                 roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
 
                 JScrollPane rmSPane = new JScrollPane();
-                    mRoadMapListView = new RoadMapListView(mSelectionListener);
+                    mRoadMapListView = new RoadMapListView(this);
                     rmSPane.getViewport().add(mRoadMapListView);
                 roadMapTab.add(rmSPane, BorderLayout.CENTER);
             mTabbedPane.addTab("Road Map", roadMapTab);
@@ -249,7 +249,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
-        if(location != null) {
+        if(location != null && location.getDelivery() != null) {
             mDeleteDeliveryButton.setEnabled(true);
             mDeleteDeliveryMenuItem.setEnabled(true);
             mAddBeforeButton.setEnabled(true);
@@ -346,6 +346,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         JOptionPane.showMessageDialog(this, content, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    @Override
+    public void onSelectLocation(Location location) {
+        mSelectionListener.onSelectLocation(location);
+    }
+
     // Note: we don't want to do anything with those but we have to implement them
     @Override
     public void windowOpened(WindowEvent e) {}
@@ -359,4 +364,6 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void windowActivated(WindowEvent e) {}
     @Override
     public void windowDeactivated(WindowEvent e) {}
+
+
 }
