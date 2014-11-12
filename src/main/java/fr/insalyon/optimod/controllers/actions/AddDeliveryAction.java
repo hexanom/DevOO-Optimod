@@ -24,7 +24,7 @@ public class AddDeliveryAction implements Action {
      * @param location Add this location as a delivery
      * @param before Add before this location
      */
-    public AddDeliveryAction(RoadMap roadMap, Location after, Location location, Location before) {
+    public AddDeliveryAction(RoadMap roadMap, Location before, Location location, Location after) {
         mRoadMap = roadMap;
         mAfter = after;
         mLocation = location;
