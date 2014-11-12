@@ -115,6 +115,22 @@ public class RoadMap {
     }
 
     /**
+     * Get the path between 2 locations inside the roadmap.
+     * Returns null if the path is non existant
+     * @param loc1
+     * @param loc2
+     * @return
+     */
+    public Path getPathBetweenLocations(Location loc1, Location loc2) {
+        for (Path path : mPaths) {
+            if(path.getOrigin() == loc1 && path.getDestination() == loc2) {
+                return path;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Generate the possible paths
      */
     public void generatePaths() {
