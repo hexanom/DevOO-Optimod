@@ -1,8 +1,10 @@
 package fr.insalyon.optimod.controllers;
 
 import fr.insalyon.optimod.controllers.actions.Action;
+import fr.insalyon.optimod.controllers.listeners.data.HistoryChangedListener;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Defines a controller that supports undo/redo actions
@@ -10,6 +12,7 @@ import java.util.*;
 public abstract class HistoryEnabledController implements Controller {
     Deque<Action> mHistory = new ArrayDeque<Action>();
     Deque<Action> mFuture = new ArrayDeque<Action>();
+    private HistoryChangedListener mListener;
 
     /**
      * Does an action for the first time
@@ -31,6 +34,9 @@ public abstract class HistoryEnabledController implements Controller {
             Action action = mHistory.pollLast();
             mFuture.addLast(action);
             action.undoAction();
+            if(mListener != null) {
+                mListener.onHistoryChanged(canUndo(), canRedo());
+            }
         }
     }
 
@@ -42,6 +48,17 @@ public abstract class HistoryEnabledController implements Controller {
             Action action = mFuture.pollLast();
             mHistory.addLast(action);
             action.doAction();
+            if(mListener != null) {
+                mListener.onHistoryChanged(canUndo(), canRedo());
+            }
+        }
+    }
+
+    protected void clearHistory() {
+        mFuture.clear();
+        mHistory.clear();
+        if(mListener != null) {
+            mListener.onHistoryChanged(false, false);
         }
     }
 
@@ -61,5 +78,14 @@ public abstract class HistoryEnabledController implements Controller {
      */
     private boolean canRedo() {
         return !mFuture.isEmpty();
+    }
+
+    /**
+     * Sets a listener on history changes
+     *
+     * @param listener A view usually
+     */
+    protected void setHistoryListener(HistoryChangedListener listener) {
+        mListener = listener;
     }
 }

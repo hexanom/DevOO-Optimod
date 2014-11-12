@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Represents a Courier's Road map
  */
 public class RoadMap {
-    private TomorrowDeliveries tomorrowDeliveries;
+    private TomorrowDeliveries mTomorrowDeliveries;
     private Courier mCourier;
     private Location mWarehouse;
     private LinkedList<Path> mPaths = new LinkedList<>();
@@ -43,11 +43,11 @@ public class RoadMap {
      * @return A TomorrowDeliveries
      */
     public TomorrowDeliveries getTomorrowDeliveries() {
-        return tomorrowDeliveries;
+        return mTomorrowDeliveries;
     }
 
     public void setTomorrowDeliveries(TomorrowDeliveries deliveries) {
-        tomorrowDeliveries = deliveries;
+        mTomorrowDeliveries = deliveries;
     }
 
     /**
@@ -317,5 +317,49 @@ public class RoadMap {
         }
 
         return roadMap;
+    }
+
+    /**
+     * Gets the location with a delivery right before the selected location
+     *
+     * @param location The selected location
+     * @return The location right before
+     */
+    public Location getDeliveryLocationBefore(Location location) {
+        List<Delivery> deliveries = mTomorrowDeliveries.getDeliveries();
+        Delivery delivery = location.getDelivery();
+
+        if(delivery == null) {
+            throw new IllegalStateException();
+        }
+
+        int i = deliveries.indexOf(delivery);
+        if(i <= 0) {
+            return null;
+        }
+
+        return deliveries.get(i - 1).getLocation();
+    }
+
+    /**
+     * Gets the location with a delivery right after the selected location
+     *
+     * @param location The selected location
+     * @return The location right after
+     */
+    public Location getDeliveryLocationAfter(Location location) {
+        List<Delivery> deliveries = mTomorrowDeliveries.getDeliveries();
+        Delivery delivery = location.getDelivery();
+
+        if(delivery == null) {
+            throw new IllegalStateException();
+        }
+
+        int i = deliveries.indexOf(delivery);
+        if(i < 0 || i == deliveries.size() - 1) {
+            return null;
+        }
+
+        return deliveries.get(i + 1).getLocation();
     }
 }

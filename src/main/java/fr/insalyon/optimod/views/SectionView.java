@@ -19,6 +19,7 @@ public class SectionView {
     private static final Color USED_COLOR = Color.red;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
+    private static final boolean DEFAULT_SHOW_LABEL = true;
 
     private Color mColor;
     private Color mBorderColor;
@@ -30,6 +31,7 @@ public class SectionView {
     private int mY1;
     private int mX2;
     private int mY2;
+    private boolean mShowLabel;
     private String mLabel;
 
     public SectionView(Point origin, Point dest, String label) {
@@ -38,11 +40,13 @@ public class SectionView {
         mWidth = DEFAULT_WIDTH;
         mBorderWidth = DEFAULT_BORDER_WIDTH;
         mTextColor = DEFAULT_TEXT_COLOR;
+
         mX1 = origin.x;
         mY1 = origin.y;
         mX2 = dest.x;
         mY2 = dest.y;
         mLabel = label;
+        mShowLabel = DEFAULT_SHOW_LABEL;
     }
 
     /**
@@ -84,8 +88,10 @@ public class SectionView {
         drawArrow(g2d, Math.atan2(mY2 - mY1, mX2 - mX1), bezierMiddle.x, bezierMiddle.y);
 
         // Draw text
-        g.setColor(mTextColor);
-        //g.drawString(mLabel, center.x, center.y);
+        if(mShowLabel) {
+            g.setColor(mTextColor);
+            g.drawString(mLabel, center.x, center.y);
+        }
 
         g.setColor(savedColor);
         g2d.setStroke(savedStroke);
@@ -139,6 +145,10 @@ public class SectionView {
         x = x0 - ARROW_LENGTH * Math.cos(theta - ARROW_PHI);
         y = y0 - ARROW_LENGTH * Math.sin(theta - ARROW_PHI);
         g2.draw(new Line2D.Double(x0, y0, x, y));
+    }
+
+    public void toggleLabelDisplay(boolean show) {
+        mShowLabel = show;
     }
 
     /**

@@ -1,6 +1,5 @@
 package fr.insalyon.optimod.views;
 
-import fr.insalyon.optimod.models.Delivery;
 import fr.insalyon.optimod.models.Location;
 
 import javax.swing.*;
@@ -11,6 +10,7 @@ import java.awt.*;
  */
 public class LocationListViewRenderer extends JLabel implements ListCellRenderer<Location> {
     private static final Color HIGHLIGHT_COLOR = Color.BLUE;
+    private static final Color DELIVERY_HIGHLIGHT_COLOR = Color.GREEN;
 
     public LocationListViewRenderer() {
         setOpaque(true);
@@ -19,13 +19,26 @@ public class LocationListViewRenderer extends JLabel implements ListCellRenderer
 
     @Override
     public Component getListCellRendererComponent(JList list, Location location, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(location.getAddress());
+        if(location.getDelivery() == null) {
+            setText("Waypoint at " + location.getAddress());
+        } else {
+            setText("Delivery at " + location.getAddress());
+        }
         if (isSelected) {
-            setBackground(HIGHLIGHT_COLOR);
+            if(location.getDelivery() == null) {
+                setBackground(HIGHLIGHT_COLOR);
+            } else {
+                setBackground(DELIVERY_HIGHLIGHT_COLOR);
+            }
+
             setForeground(Color.white);
         } else {
             setBackground(Color.white);
-            setForeground(Color.black);
+            if(location.getDelivery() == null) {
+                setForeground(Color.black);
+            } else {
+                setForeground(DELIVERY_HIGHLIGHT_COLOR);
+            }
         }
         return this;
     }

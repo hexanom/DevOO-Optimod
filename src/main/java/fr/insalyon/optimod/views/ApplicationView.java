@@ -2,10 +2,12 @@ package fr.insalyon.optimod.views;
 
 import fr.insalyon.optimod.controllers.ApplicationController;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
+import fr.insalyon.optimod.controllers.listeners.data.HistoryChangedListener;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.MapDisplayListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.Location;
@@ -20,12 +22,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
 
 /**
  * Represents the application as a main window
  */
-public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener {
+public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener, MapListener {
     private final FinishListener mFinishListener;
+    private final MapDisplayListener mMapDisplayListener;
     private final MainToolBarListener mMainToolbarListener;
     private final MapClickListener mMapClickListener;
     private final RoadMapToolbarListener mRoadMapToolbarListener;
@@ -50,6 +54,9 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private JButton mAddAfterButton;
     private RoadMapListView mRoadMapListView;
     private JLabel mAddressDetail;
+    private JLabel mTimeRangeDetail;
+    private JCheckBoxMenuItem mDisplayLocationNamesItem;
+    private JCheckBoxMenuItem mDisplaySectionNamesItem;
 
     public ApplicationView(ApplicationController controller) {
         mFinishListener = controller;
@@ -58,6 +65,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mRoadMapToolbarListener = controller;
         mSelectionListener = controller;
         mTabSelectionListener = controller;
+        mMapDisplayListener = controller;
         initWindow();
         initChildren();
     }
@@ -84,49 +92,52 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mMapView = new MapView(mMapClickListener);
         add(mMapView, BorderLayout.CENTER);
 
-        JPanel sidebar = new JPanel(new GridLayout(2, 1));
-        sidebar.setPreferredSize(new Dimension(300, 400));
-            mTabbedPane = new JTabbedPane();
-            mTabbedPane.addChangeListener(this);
-                JComponent deliveriesTab = new JPanel(new BorderLayout());
-                    JScrollPane tdSPane = new JScrollPane();
-                        mDeliveriesListView = new DeliveriesListView(mSelectionListener);
-                        tdSPane.getViewport().add(mDeliveriesListView);
-                    deliveriesTab.add(tdSPane, BorderLayout.CENTER);
-                mTabbedPane.addTab("Deliveries", deliveriesTab);
+        mTabbedPane = new JTabbedPane();
+        mTabbedPane.setPreferredSize(new Dimension(300, 400));
+        mTabbedPane.addChangeListener(this);
+            JComponent deliveriesTab = new JPanel(new BorderLayout());
+                JScrollPane tdSPane = new JScrollPane();
+                    mDeliveriesListView = new DeliveriesListView(this);
+                    tdSPane.getViewport().add(mDeliveriesListView);
+                deliveriesTab.add(tdSPane, BorderLayout.CENTER);
+            mTabbedPane.addTab("Deliveries", deliveriesTab);
 
-                JComponent roadMapTab = new JPanel(new BorderLayout());
-                    JComponent roadMapToolbar = new JPanel(new FlowLayout());
-                        mAddBeforeButton = new JButton("<+");
-                        mAddBeforeButton.setEnabled(false);
-                        mAddBeforeButton.addActionListener(this);
-                        roadMapToolbar.add(mAddBeforeButton);
+            JComponent roadMapTab = new JPanel(new BorderLayout());
+                JComponent roadMapToolbar = new JPanel(new FlowLayout());
+                    mAddBeforeButton = new JButton("<+");
+                    mAddBeforeButton.setEnabled(false);
+                    mAddBeforeButton.addActionListener(this);
+                    roadMapToolbar.add(mAddBeforeButton);
 
-                        mAddAfterButton = new JButton("+>");
-                        mAddAfterButton.setEnabled(false);
-                        mAddAfterButton.addActionListener(this);
-                        roadMapToolbar.add(mAddAfterButton);
+                    mAddAfterButton = new JButton("+>");
+                    mAddAfterButton.setEnabled(false);
+                    mAddAfterButton.addActionListener(this);
+                    roadMapToolbar.add(mAddAfterButton);
 
-                        mDeleteDeliveryButton = new JButton("-");
-                        mDeleteDeliveryButton.setEnabled(false);
-                        mDeleteDeliveryButton.addActionListener(this);
-                        roadMapToolbar.add(mDeleteDeliveryButton);
-                    roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
+                    mDeleteDeliveryButton = new JButton("-");
+                    mDeleteDeliveryButton.setEnabled(false);
+                    mDeleteDeliveryButton.addActionListener(this);
+                    roadMapToolbar.add(mDeleteDeliveryButton);
+                roadMapTab.add(roadMapToolbar, BorderLayout.PAGE_END);
 
-                    JScrollPane rmSPane = new JScrollPane();
-                        mRoadMapListView = new RoadMapListView(mSelectionListener);
-                        rmSPane.getViewport().add(mRoadMapListView);
-                    roadMapTab.add(rmSPane, BorderLayout.CENTER);
-                mTabbedPane.addTab("Road Map", roadMapTab);
-            sidebar.add(mTabbedPane);
+                JScrollPane rmSPane = new JScrollPane();
+                    mRoadMapListView = new RoadMapListView(this);
+                    rmSPane.getViewport().add(mRoadMapListView);
+                roadMapTab.add(rmSPane, BorderLayout.CENTER);
+            mTabbedPane.addTab("Road Map", roadMapTab);
+        add(mTabbedPane, BorderLayout.EAST);
 
-            JPanel details = new JPanel(new GridLayout(1, 2));
-                details.add(new JLabel("Address: "));
+        JPanel details = new JPanel();
+            details.add(new JLabel("Address: "));
 
-                mAddressDetail = new JLabel();
-                details.add(mAddressDetail);
-            sidebar.add(details);
-        add(sidebar, BorderLayout.EAST);
+            mAddressDetail = new JLabel();
+            details.add(mAddressDetail);
+
+            details.add(new JLabel("Deliver between: "));
+
+            mTimeRangeDetail = new JLabel();
+            details.add(mTimeRangeDetail);
+        add(details, BorderLayout.SOUTH);
     }
 
     private void initWindow() {
@@ -194,6 +205,18 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                 mDeleteDeliveryMenuItem.addActionListener(this);
                 editMenu.add(mDeleteDeliveryMenuItem);
             menuBar.add(editMenu);
+
+            JMenu displayMenu = new JMenu("Display");
+                mDisplaySectionNamesItem = new JCheckBoxMenuItem("Display roads names");
+                mDisplaySectionNamesItem.addActionListener(this);
+                mDisplaySectionNamesItem.setState(true);
+                displayMenu.add(mDisplaySectionNamesItem);
+
+                mDisplayLocationNamesItem = new JCheckBoxMenuItem("Display locations names");
+                mDisplayLocationNamesItem.addActionListener(this);
+                mDisplayLocationNamesItem.setState(true);
+                displayMenu.add(mDisplayLocationNamesItem);
+            menuBar.add(displayMenu);
         setJMenuBar(menuBar);
     }
 
@@ -220,7 +243,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
-        if(roadMap != null) {
+        if(roadMap != null && roadMap.getPaths().size() > 0) {
             mExportRoadMapButton.setEnabled(true);
             mExportRoadMapMenuItem.setEnabled(true);
         } else {
@@ -244,7 +267,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
-        if(location != null) {
+        if(location != null && location.getDelivery() != null) {
             mDeleteDeliveryButton.setEnabled(true);
             mDeleteDeliveryMenuItem.setEnabled(true);
             mAddBeforeButton.setEnabled(true);
@@ -264,6 +287,20 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mRoadMapListView.onSelectIntentOnLocation(location);
         if(location != null) {
             mAddressDetail.setText(location.getAddress());
+            if(location.getDelivery() != null) {
+                Calendar start = Calendar.getInstance();
+                start.setTime(location.getDelivery().getTimeWindow().getStart());
+                Calendar end = Calendar.getInstance();
+                end.setTime(location.getDelivery().getTimeWindow().getEnd());
+                mTimeRangeDetail.setText(String.format(
+                        "%d:%d and %d:%d",
+                        start.get(Calendar.HOUR_OF_DAY),
+                        start.get(Calendar.MINUTE),
+                        end.get(Calendar.HOUR_OF_DAY),
+                        end.get(Calendar.MINUTE)));
+            } else {
+                mTimeRangeDetail.setText("-");
+            }
         }
     }
 
@@ -285,6 +322,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mMainToolbarListener.onUndoAction();
         } else if(e.getSource().equals(mRedoMenuItem)) {
             mMainToolbarListener.onRedoAction();
+        } else if(e.getSource().equals(mDisplayLocationNamesItem)) {
+            mMapDisplayListener.toggleLocationNames(mDisplayLocationNamesItem.getState());
+        } else if(e.getSource().equals(mDisplaySectionNamesItem)) {
+            mMapDisplayListener.toggleSectionNames(mDisplaySectionNamesItem.getState());
         }
     }
 
@@ -327,6 +368,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         JOptionPane.showMessageDialog(this, content, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    @Override
+    public void onSelectLocation(Location location) {
+        mSelectionListener.onSelectLocation(location);
+    }
+
     // Note: we don't want to do anything with those but we have to implement them
     @Override
     public void windowOpened(WindowEvent e) {}
@@ -340,4 +386,21 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void windowActivated(WindowEvent e) {}
     @Override
     public void windowDeactivated(WindowEvent e) {}
+
+
+    @Override
+    public void onHistoryChanged(boolean hasHistory, boolean hasFuture) {
+        mUndoMenuItem.setEnabled(hasHistory);
+        mUndoMenuItem.setEnabled(hasFuture);
+    }
+
+    @Override
+    public void toggleSectionNames(boolean enabled) {
+        mMapView.toggleSectionNames(enabled);
+    }
+
+    @Override
+    public void toggleLocationNames(boolean enabled) {
+        mMapView.toggleLocationNames(enabled);
+    }
 }

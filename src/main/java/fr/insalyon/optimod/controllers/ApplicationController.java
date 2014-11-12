@@ -1,10 +1,14 @@
 package fr.insalyon.optimod.controllers;
 
+import fr.insalyon.optimod.controllers.actions.Action;
+import fr.insalyon.optimod.controllers.actions.AddDeliveryAction;
+import fr.insalyon.optimod.controllers.actions.DeleteDeliveryAction;
 import fr.insalyon.optimod.controllers.listeners.MapPositionMatcher;
 import fr.insalyon.optimod.controllers.listeners.data.MapChangeListener;
 import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.FileSelectionIntentListener;
+import fr.insalyon.optimod.controllers.listeners.intents.MapDisplayListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.controllers.listeners.intents.ShowErrorIntentListener;
 import fr.insalyon.optimod.models.Location;
@@ -17,8 +21,6 @@ import fr.insalyon.optimod.views.ApplicationView;
 import fr.insalyon.optimod.views.listeners.action.*;
 import fr.insalyon.optimod.views.listeners.activity.FinishListener;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,7 +28,7 @@ import java.nio.file.Paths;
 /**
  * Dispatch the User interactions to the UI components
  */
-public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener {
+public class ApplicationController extends HistoryEnabledController implements FinishListener, MainToolBarListener, MapClickListener, SelectionListener, TabSelectionListener, RoadMapToolbarListener, MapDisplayListener {
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
@@ -40,6 +42,9 @@ public class ApplicationController extends HistoryEnabledController implements F
     private Map mMap;
     private TomorrowDeliveries mTomorrowDeliveries;
     private RoadMap mRoadMap;
+    private boolean mSelectionMode = false;
+    private boolean mAddBefore = false;
+    private Location mSelectedLocation = null;
 
     public ApplicationController() {
         mView = new ApplicationView(this);
@@ -51,6 +56,7 @@ public class ApplicationController extends HistoryEnabledController implements F
         mSelectionIntentListener = mView;
         mFileSelectionIntentListener = mView;
         mShowErrorIntentListener = mView;
+        setHistoryListener(mView);
     }
 
     @Override
@@ -66,27 +72,32 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onAddBeforeAction() {
-        // TODO
-        // NOTE: Don't forget the Command-pattern
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        mSelectionMode = true;
+        mAddBefore = true;
     }
 
     @Override
     public void onAddAfterAction() {
-        // TODO
-        // NOTE: Don't forget the Command-pattern
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        mSelectionMode = true;
+        mAddBefore = false;
     }
 
     @Override
     public void onRemoveDeliveryAction() {
-        // TODO
-        // NOTE: Don't forget the Command-pattern
-        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        mSelectionMode = false;
+        if(mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
+            doAction(new DeleteDeliveryAction(mRoadMap,
+                    mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
+                    mSelectedLocation,
+                    mRoadMap.getDeliveryLocationAfter(mSelectedLocation)));
+            mRoadMapListener.onRoadMapChanged(mRoadMap);
+        }
     }
 
     @Override
     public void onImportMapAction() {
+        clearHistory();
+        mSelectionMode = false;
         String path = mFileSelectionIntentListener.onFileSelectionIntent(false);
         if(path != null) {
             URI uri = Paths.get(path).toUri();
@@ -107,6 +118,8 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onImportDeliveriesAction() {
+        clearHistory();
+        mSelectionMode = false;
         String path = mFileSelectionIntentListener.onFileSelectionIntent(false);
         if(path != null) {
             URI uri = Paths.get(path).toUri();
@@ -126,12 +139,16 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onUndoAction() {
+        mSelectionMode = false;
         undo();
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
     public void onRedoAction() {
+        mSelectionMode = false;
         redo();
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
     }
 
     @Override
@@ -142,6 +159,24 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onSelectLocation(Location location) {
+        if(mSelectionMode && mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
+            Action addAction;
+            if(mAddBefore) {
+                addAction = new AddDeliveryAction(mRoadMap,
+                        mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
+                        location,
+                        mSelectedLocation);
+            } else {
+                addAction = new AddDeliveryAction(mRoadMap,
+                        mSelectedLocation,
+                        location,
+                        mRoadMap.getDeliveryLocationAfter(mSelectedLocation));
+            }
+            doAction(addAction);
+            mRoadMapListener.onRoadMapChanged(mRoadMap);
+            mSelectionMode = false;
+        }
+        mSelectedLocation = location;
         mSelectionIntentListener.onSelectIntentOnLocation(location);
     }
 
@@ -163,8 +198,11 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onDeliveriesTabSelected() {
+        clearHistory();
+        mSelectionMode = false;
         if(mRoadMapListener != null) { // mRoadMapListener is null when initializing...
             mRoadMapListener.onRoadMapChanged(new RoadMap());
+
         }
     }
 
@@ -172,7 +210,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onExportRoadMapAction() {
         String path = mFileSelectionIntentListener.onFileSelectionIntent(true);
 
-        if(path != null) {
+        if(path != null && mRoadMap != null) {
 
             String textualDescription = mRoadMap.exportRoadmap();
 
@@ -184,5 +222,15 @@ public class ApplicationController extends HistoryEnabledController implements F
             }
         }
 
+    }
+
+    @Override
+    public void toggleSectionNames(boolean enabled) {
+        mView.toggleSectionNames(enabled);
+    }
+
+    @Override
+    public void toggleLocationNames(boolean enabled) {
+        mView.toggleLocationNames(enabled);
     }
 }

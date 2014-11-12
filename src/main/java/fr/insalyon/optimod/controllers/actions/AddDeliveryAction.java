@@ -53,7 +53,6 @@ public class AddDeliveryAction implements Action {
         paths.add(i + 1, pathFromLoc);
         paths.add(i, pathToLoc);
         paths.remove(pathToReplace);
-
     }
 
     @Override
@@ -76,6 +75,5 @@ public class AddDeliveryAction implements Action {
 
         paths.remove(pathToDelete1);
         paths.remove(pathToDelete2);
-
     }
 }
