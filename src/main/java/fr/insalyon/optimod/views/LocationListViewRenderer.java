@@ -19,7 +19,11 @@ public class LocationListViewRenderer extends JLabel implements ListCellRenderer
 
     @Override
     public Component getListCellRendererComponent(JList list, Location location, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(location.getAddress());
+        if(location.getDelivery() == null) {
+            setText("Waypoint at " + location.getAddress());
+        } else {
+            setText("Delivery at " + location.getAddress());
+        }
         if (isSelected) {
             if(location.getDelivery() == null) {
                 setBackground(HIGHLIGHT_COLOR);
