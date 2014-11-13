@@ -29,6 +29,7 @@ import java.util.Calendar;
  * Represents the application as a main window
  */
 public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener, MapListener {
+    private static final Font BOLD = new Font("DialogInput", Font.BOLD, 13);
     private final FinishListener mFinishListener;
     private final MapDisplayListener mMapDisplayListener;
     private final MainToolBarListener mMainToolbarListener;
@@ -135,12 +136,16 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         add(mTabbedPane, BorderLayout.EAST);
 
         JPanel details = new JPanel();
-            details.add(new JLabel("Address: "));
+            JLabel addrLabel = new JLabel("Address: ");
+            addrLabel.setFont(BOLD);
+            details.add(addrLabel);
 
             mAddressDetail = new JLabel("-");
             details.add(mAddressDetail);
 
-            details.add(new JLabel("Deliver between: "));
+            JLabel delLabel = new JLabel("Deliver between: ");
+            delLabel.setFont(BOLD);
+            details.add(delLabel);
 
             mTimeRangeDetail = new JLabel("-");
             details.add(mTimeRangeDetail);
