@@ -86,7 +86,7 @@ public class ApplicationController extends HistoryEnabledController implements F
     public void onRemoveDeliveryAction() {
         mSelectionMode = false;
         if(mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
-            doAction(new DeleteDeliveryAction(mRoadMap,
+            doAction(new DeleteDeliveryAction(mRoadMapListener, mTomorrowDeliveriesListener, mRoadMap,
                     mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
                     mSelectedLocation,
                     mRoadMap.getDeliveryLocationAfter(mSelectedLocation)));
@@ -163,12 +163,12 @@ public class ApplicationController extends HistoryEnabledController implements F
         if(mSelectionMode && mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
             Action addAction;
             if(mAddBefore) {
-                addAction = new AddDeliveryAction(mRoadMap,
+                addAction = new AddDeliveryAction(mRoadMapListener, mTomorrowDeliveriesListener, mRoadMap,
                         mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
                         location,
                         mSelectedLocation);
             } else {
-                addAction = new AddDeliveryAction(mRoadMap,
+                addAction = new AddDeliveryAction(mRoadMapListener, mTomorrowDeliveriesListener, mRoadMap,
                         mSelectedLocation,
                         location,
                         mRoadMap.getDeliveryLocationAfter(mSelectedLocation));
@@ -181,8 +181,6 @@ public class ApplicationController extends HistoryEnabledController implements F
                 return;
             }
 
-            mRoadMapListener.onRoadMapChanged(mRoadMap);
-            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
             mSelectionMode = false;
         }
         mSelectedLocation = location;

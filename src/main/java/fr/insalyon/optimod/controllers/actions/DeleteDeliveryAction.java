@@ -1,5 +1,7 @@
 package fr.insalyon.optimod.controllers.actions;
 
+import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
+import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.models.Location;
 import fr.insalyon.optimod.models.RoadMap;
 
@@ -17,8 +19,9 @@ public class DeleteDeliveryAction implements Action {
      * @param after Delete after this location
      * @param location Delete this location as a delivery
      */
-    public DeleteDeliveryAction(RoadMap roadMap, Location before, Location location, Location after) {
-        mAddDeliveryAction = new AddDeliveryAction(roadMap, before, location, after);
+    public DeleteDeliveryAction(RoadMapListener roadMapListener, TomorrowDeliveriesListener tomorrowDeliveriesListener,
+                                RoadMap roadMap, Location before, Location location, Location after) {
+        mAddDeliveryAction = new AddDeliveryAction(roadMapListener, tomorrowDeliveriesListener, roadMap, before, location, after);
     }
 
     @Override

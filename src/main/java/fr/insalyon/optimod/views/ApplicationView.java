@@ -130,12 +130,12 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         JPanel details = new JPanel();
             details.add(new JLabel("Address: "));
 
-            mAddressDetail = new JLabel();
+            mAddressDetail = new JLabel("-");
             details.add(mAddressDetail);
 
             details.add(new JLabel("Deliver between: "));
 
-            mTimeRangeDetail = new JLabel();
+            mTimeRangeDetail = new JLabel("-");
             details.add(mTimeRangeDetail);
         add(details, BorderLayout.SOUTH);
     }
@@ -301,6 +301,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             } else {
                 mTimeRangeDetail.setText("-");
             }
+        }
+        else {
+            mAddressDetail.setText("-");
+            mTimeRangeDetail.setText("-");
         }
     }
 

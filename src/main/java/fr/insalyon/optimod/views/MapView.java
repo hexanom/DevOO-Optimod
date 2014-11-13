@@ -38,6 +38,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private static final int MARGIN = 20;
 
     private static final long locationsColorsSeed = 123456789l;
+    private HashMap<TimeWindow, Color> mTimeWindowColors;
 
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
@@ -158,22 +159,43 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         }
     }
 
+    /**
+     * Updates a location view color corresponding to the state of its associated location.
+     * Valid states : warehouse, delivery, selected location, simple location.
+     * @param location Can be null, nothing will be done then
+     */
+    private void updateLocationColor(Location location) {
+
+        if(location == null) {
+            return;
+        }
+
+        Color col;
+        if(location == mSelectedLocation) {
+            col = LocationView.SELECTED_COLOR;
+        }
+        else if(mTomorrowDeliveries != null && location == mTomorrowDeliveries.getWarehouse()) {
+            col = LocationView.WAREHOUSE_COLOR;
+        }
+        else if(location.getDelivery() != null) {
+            col = mTimeWindowColors.get(location.getDelivery().getTimeWindow());
+        }
+        else {
+            col = LocationView.DEFAULT_COLOR;
+        }
+
+        LocationView locationView = mLocationViews.get(location);
+        locationView.setColor(col);
+    }
+
     @Override
     public void onSelectIntentOnLocation(Location location) {
 
-        // Reset color
-        if(mSelectedLocation != null) {
-            LocationView oldView = mLocationViews.get(mSelectedLocation);
-            oldView.unselect();
-        }
-
+        Location oldLocation = mSelectedLocation;
         mSelectedLocation = location;
 
-        // New color
-        if(mSelectedLocation != null) {
-            LocationView newView = mLocationViews.get(mSelectedLocation);
-            newView.select();
-        }
+        updateLocationColor(oldLocation);
+        updateLocationColor(location);
 
         repaint();
     }
@@ -183,27 +205,16 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
 
-        java.util.Map<TimeWindow, Color> colors = new HashMap<>(tomorrowDeliveries.getTimeWindows().size());
+        mTimeWindowColors = new HashMap<>(tomorrowDeliveries.getTimeWindows().size());
         Random rand = new Random(locationsColorsSeed);
 
         for(TimeWindow tw : tomorrowDeliveries.getTimeWindows()) {
-            colors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+            mTimeWindowColors.put(tw, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
         }
 
-        // Reset colors
-        for(java.util.Map.Entry<Location, LocationView> e : mLocationViews.entrySet()) {
-            Location loc = e.getKey();
-            LocationView locView = e.getValue();
-            Delivery delivery = loc.getDelivery();
-            if(loc == mTomorrowDeliveries.getWarehouse()) {
-                locView.setColor(LocationView.WAREHOUSE_COLOR);
-            }
-            else if(delivery == null) {
-                locView.unselect();
-            }
-            else {
-                locView.setColor(colors.get(delivery.getTimeWindow()));
-            }
+        // Set colors
+        for(Location loc : mLocationViews.keySet()) {
+            updateLocationColor(loc);
         }
 
         repaint();

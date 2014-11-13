@@ -7,12 +7,12 @@ import java.awt.*;
  */
 public class LocationView {
 
+    public static final Color WAREHOUSE_COLOR = Color.RED;
+    public static final Color DEFAULT_COLOR = Color.BLUE;
     public static final Color SELECTED_COLOR = Color.GREEN;
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
-    public static final Color WAREHOUSE_COLOR = Color.RED;
-    private static final Color DEFAULT_COLOR = Color.BLUE;
     private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final boolean DEFAULT_SHOW_LABEL = true;
@@ -92,23 +92,8 @@ public class LocationView {
         return new Point(mX + halfRadius, mY + halfRadius);
     }
 
-    /**
-     * Toggle on selection
-     */
-    public void select() {
-        mOldColor = mColor;
-        mColor = SELECTED_COLOR;
-    }
-
     public void toggleLabelDisplay(boolean show) {
         mShowLabel = show;
-    }
-
-    /**
-     * Toggle off selection
-     */
-    public void unselect() {
-        mColor = mOldColor;
     }
 
     public void setColor(Color mColor) {

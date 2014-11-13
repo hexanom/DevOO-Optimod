@@ -1,5 +1,7 @@
 package fr.insalyon.optimod.controllers.actions;
 
+import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
+import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.models.*;
 
 import java.util.LinkedList;
@@ -9,6 +11,8 @@ import java.util.LinkedList;
  */
 public class AddDeliveryAction implements Action {
 
+    private final RoadMapListener mRoadMapListener;
+    private final TomorrowDeliveriesListener mTomorrowDeliveriesListener;
     private final RoadMap mRoadMap;
     private final Location mAfter;
     private final Location mLocation;
@@ -22,7 +26,10 @@ public class AddDeliveryAction implements Action {
      * @param location Add this location as a delivery
      * @param before Add before this location
      */
-    public AddDeliveryAction(RoadMap roadMap, Location before, Location location, Location after) {
+    public AddDeliveryAction(RoadMapListener roadMapListener, TomorrowDeliveriesListener tomorrowDeliveriesListener,
+                             RoadMap roadMap, Location before, Location location, Location after) {
+        mRoadMapListener = roadMapListener;
+        mTomorrowDeliveriesListener = tomorrowDeliveriesListener;
         mRoadMap = roadMap;
         mAfter = after;
         mLocation = location;
@@ -52,6 +59,9 @@ public class AddDeliveryAction implements Action {
         paths.add(i + 1, pathFromLoc);
         paths.add(i, pathToLoc);
         paths.remove(pathToReplace);
+
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mRoadMap.getTomorrowDeliveries());
     }
 
     @Override
@@ -78,5 +88,8 @@ public class AddDeliveryAction implements Action {
 
         paths.remove(pathToDelete1);
         paths.remove(pathToDelete2);
+
+        mRoadMapListener.onRoadMapChanged(mRoadMap);
+        mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mRoadMap.getTomorrowDeliveries());
     }
 }
