@@ -16,6 +16,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -294,8 +295,11 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
                 repaint();
 
+                // Copy to avoid concurent modification errors
+                LinkedList<Path> paths = new LinkedList<>(mRoadMap.getPaths());
+
                 // 1 by 1
-                for (Path path : mRoadMap.getPaths()) {
+                for (Path path : paths) {
                     for(Section section : path.getOrderedSections()) {
 
                         SectionView sectionView = mSectionViews.get(section);
