@@ -24,6 +24,9 @@ public abstract class HistoryEnabledController implements Controller {
         mFuture.clear();
         mHistory.addLast(action);
         action.doAction();
+        if(mListener != null) {
+            mListener.onHistoryChanged(canUndo(), canRedo());
+        }
     }
 
     /**

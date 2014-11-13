@@ -391,7 +391,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     @Override
     public void onHistoryChanged(boolean hasHistory, boolean hasFuture) {
         mUndoMenuItem.setEnabled(hasHistory);
-        mUndoMenuItem.setEnabled(hasFuture);
+        mRedoMenuItem.setEnabled(hasFuture);
     }
 
     @Override
