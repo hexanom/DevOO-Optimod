@@ -266,6 +266,10 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mDeliveriesListView.onTomorrowDeliveryChanged(tomorrowDeliveries);
     }
 
+    private boolean isDeliveryTabActive() {
+        return mTabbedPane.getSelectedIndex() == 0;
+    }
+
     @Override
     public Location matchLocation(int x, int y) {
         return mMapView.matchLocation(x, y);
@@ -273,7 +277,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
 
     @Override
     public void onSelectIntentOnLocation(Location location) {
-        if(location != null && location.getDelivery() != null) {
+        if (!isDeliveryTabActive() && location != null && location.getDelivery() != null) {
             mDeleteDeliveryButton.setEnabled(true);
             mDeleteDeliveryMenuItem.setEnabled(true);
             mAddBeforeButton.setEnabled(true);
@@ -333,11 +337,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         } else if(e.getSource().equals(mRedoMenuItem)) {
             mMainToolbarListener.onRedoAction();
         } else if(e.getSource().equals(mDisplayLocationNamesItem)) {
-            mMapDisplayListener.toggleLocationNames(mDisplayLocationNamesItem.getState());
+            mMapDisplayListener.onToggleLocationNames(mDisplayLocationNamesItem.getState());
         } else if(e.getSource().equals(mDisplaySectionNamesItem)) {
-            mMapDisplayListener.toggleSectionNames(mDisplaySectionNamesItem.getState());
+            mMapDisplayListener.onToggleSectionNames(mDisplaySectionNamesItem.getState());
         } else if(e.getSource().equals(mAnimateRoadMapItem)) {
-            mMapDisplayListener.animateRoadmap();
+            mMapDisplayListener.onAnimateRoadmap();
         }
     }
 
