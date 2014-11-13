@@ -115,6 +115,22 @@ public class RoadMap {
     }
 
     /**
+     * Get the path between 2 locations inside the roadmap.
+     * Returns null if the path is non existant
+     * @param loc1
+     * @param loc2
+     * @return
+     */
+    public Path getPathBetweenLocations(Location loc1, Location loc2) {
+        for (Path path : mPaths) {
+            if(path.getOrigin() == loc1 && path.getDestination() == loc2) {
+                return path;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Generate the possible paths
      */
     public void generatePaths() {
@@ -310,19 +326,19 @@ public class RoadMap {
      * @return The location right before
      */
     public Location getDeliveryLocationBefore(Location location) {
-        List<Delivery> deliveries = mTomorrowDeliveries.getDeliveries();
         Delivery delivery = location.getDelivery();
 
         if(delivery == null) {
             throw new IllegalStateException();
         }
 
-        int i = deliveries.indexOf(delivery);
-        if(i <= 0) {
-            return null;
+        for(Path path : mPaths) {
+            if(path.getDestination() == location) {
+                return path.getOrigin();
+            }
         }
 
-        return deliveries.get(i - 1).getLocation();
+        return null;
     }
 
     /**
@@ -332,18 +348,18 @@ public class RoadMap {
      * @return The location right after
      */
     public Location getDeliveryLocationAfter(Location location) {
-        List<Delivery> deliveries = mTomorrowDeliveries.getDeliveries();
         Delivery delivery = location.getDelivery();
 
         if(delivery == null) {
             throw new IllegalStateException();
         }
 
-        int i = deliveries.indexOf(delivery);
-        if(i < 0 || i == deliveries.size() - 1) {
-            return null;
+        for(Path path : mPaths) {
+            if(path.getOrigin() == location) {
+                return path.getDestination();
+            }
         }
 
-        return deliveries.get(i + 1).getLocation();
+        return null;
     }
 }

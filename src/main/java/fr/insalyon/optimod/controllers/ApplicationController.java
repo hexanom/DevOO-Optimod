@@ -91,6 +91,7 @@ public class ApplicationController extends HistoryEnabledController implements F
                     mSelectedLocation,
                     mRoadMap.getDeliveryLocationAfter(mSelectedLocation)));
             mRoadMapListener.onRoadMapChanged(mRoadMap);
+            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
         }
     }
 
@@ -173,7 +174,15 @@ public class ApplicationController extends HistoryEnabledController implements F
                         mRoadMap.getDeliveryLocationAfter(mSelectedLocation));
             }
             doAction(addAction);
+
+            if(!mRoadMap.isRespectingTimeWindows()) {
+                mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Roadmap is not respecting the time windows");
+                onUndoAction();
+                return;
+            }
+
             mRoadMapListener.onRoadMapChanged(mRoadMap);
+            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
             mSelectionMode = false;
         }
         mSelectedLocation = location;

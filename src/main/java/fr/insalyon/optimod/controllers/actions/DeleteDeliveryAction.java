@@ -13,12 +13,12 @@ public class DeleteDeliveryAction implements Action {
      * Creates the action
      *
      * @param roadMap The roadMap to add in
+     * @param before Delete before this location
      * @param after Delete after this location
      * @param location Delete this location as a delivery
-     * @param before Delete before this location
      */
-    public DeleteDeliveryAction(RoadMap roadMap, Location after, Location location, Location before) {
-        mAddDeliveryAction = new AddDeliveryAction(roadMap, after, location, before);
+    public DeleteDeliveryAction(RoadMap roadMap, Location before, Location location, Location after) {
+        mAddDeliveryAction = new AddDeliveryAction(roadMap, before, location, after);
     }
 
     @Override

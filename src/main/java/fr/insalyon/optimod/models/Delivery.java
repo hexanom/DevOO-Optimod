@@ -60,7 +60,7 @@ public class Delivery {
         return mTomorrowDeliveries;
     }
 
-    void setTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) {
+    public void setTomorrowDeliveries(TomorrowDeliveries tomorrowDeliveries) {
         mTomorrowDeliveries = tomorrowDeliveries;
     }
 
@@ -84,7 +84,7 @@ public class Delivery {
         return mTimeWindow;
     }
 
-    void setTimeWindow(TimeWindow tw) {
+    public void setTimeWindow(TimeWindow tw) {
         mTimeWindow = tw;
     }
 
