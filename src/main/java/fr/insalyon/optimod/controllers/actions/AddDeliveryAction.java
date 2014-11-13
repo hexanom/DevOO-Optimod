@@ -14,8 +14,6 @@ public class AddDeliveryAction implements Action {
     private final Location mLocation;
     private final Location mBefore;
 
-    private Delivery mDelivery;
-
     /**
      * Creates the action
      *
@@ -34,15 +32,15 @@ public class AddDeliveryAction implements Action {
     @Override
     public void doAction() {
 
-        mDelivery = new Delivery(mLocation, null);
+        Delivery delivery = new Delivery(mLocation, null);
         TomorrowDeliveries tomorrowDeliveries = mRoadMap.getTomorrowDeliveries();
-        mDelivery.setTomorrowDeliveries(tomorrowDeliveries);
+        delivery.setTomorrowDeliveries(tomorrowDeliveries);
         TimeWindow timeWindow = mAfter.getDelivery().getTimeWindow();
-        mDelivery.setTimeWindow(timeWindow);
-        mLocation.setDelivery(mDelivery);
+        delivery.setTimeWindow(timeWindow);
+        mLocation.setDelivery(delivery);
 
-        timeWindow.addDelivery(mDelivery);
-        tomorrowDeliveries.addDelivery(mDelivery);
+        timeWindow.addDelivery(delivery);
+        tomorrowDeliveries.addDelivery(delivery);
 
         Path pathToLoc = Path.fromTwoLocations(mBefore, mLocation);
         Path pathFromLoc = Path.fromTwoLocations(mLocation, mAfter);
@@ -59,13 +57,15 @@ public class AddDeliveryAction implements Action {
     @Override
     public void undoAction() {
 
+        Delivery deliveryToDelete = mLocation.getDelivery();
+
         mLocation.setDelivery(null);
 
         TomorrowDeliveries tomorrowDeliveries = mRoadMap.getTomorrowDeliveries();
-        TimeWindow timeWindow = mDelivery.getTimeWindow();
+        TimeWindow timeWindow = deliveryToDelete.getTimeWindow();
 
-        timeWindow.deleteDelivery(mDelivery);
-        tomorrowDeliveries.deleteDelivery(mDelivery);
+        timeWindow.deleteDelivery(deliveryToDelete);
+        tomorrowDeliveries.deleteDelivery(deliveryToDelete);
 
         Path pathToDelete1 = mRoadMap.getPathBetweenLocations(mBefore, mLocation);
         Path pathToDelete2 = mRoadMap.getPathBetweenLocations(mLocation, mAfter);
