@@ -76,15 +76,18 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         JComponent mainToolbar = new JPanel();
         mainToolbar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
             mImportMapButton = new JButton("Import Map", createImageIcon("map.png", "Map"));
+            mImportMapButton.putClientProperty("JButton.buttonType", "textured");
             mImportMapButton.addActionListener(this);
             mainToolbar.add(mImportMapButton);
 
             mImportDeliveriesButton = new JButton("Import Deliveries", createImageIcon("deliveries.png", "Deliveries"));
+            mImportDeliveriesButton.putClientProperty("JButton.buttonType", "textured");
             mImportDeliveriesButton.setEnabled(false);
             mImportDeliveriesButton.addActionListener(this);
             mainToolbar.add(mImportDeliveriesButton);
 
             mExportRoadMapButton = new JButton("Export Road Map", createImageIcon("path.png", "Path"));
+            mExportRoadMapButton.putClientProperty("JButton.buttonType", "textured");
             mExportRoadMapButton.setEnabled(false);
             mExportRoadMapButton.addActionListener(this);
             mainToolbar.add(mExportRoadMapButton);
@@ -104,18 +107,21 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mTabbedPane.addTab("Deliveries", createImageIcon("deliveries.png", "Deliveries"), deliveriesTab);
 
             JComponent roadMapTab = new JPanel(new BorderLayout());
-                JComponent roadMapToolbar = new JPanel(new FlowLayout());
+                JComponent roadMapToolbar = new JPanel(new GridLayout(1, 3));
                     mAddBeforeButton = new JButton("", createImageIcon("before.png", "Before"));
+                    mAddBeforeButton.putClientProperty("JButton.buttonType", "gradient");
                     mAddBeforeButton.setEnabled(false);
                     mAddBeforeButton.addActionListener(this);
                     roadMapToolbar.add(mAddBeforeButton);
 
                     mAddAfterButton = new JButton("", createImageIcon("after.png", "After"));
+                    mAddAfterButton.putClientProperty("JButton.buttonType", "gradient");
                     mAddAfterButton.setEnabled(false);
                     mAddAfterButton.addActionListener(this);
                     roadMapToolbar.add(mAddAfterButton);
 
                     mDeleteDeliveryButton = new JButton("", createImageIcon("delete.png", "Delete"));
+                    mDeleteDeliveryButton.putClientProperty("JButton.buttonType", "gradient");
                     mDeleteDeliveryButton.setEnabled(false);
                     mDeleteDeliveryButton.addActionListener(this);
                     roadMapToolbar.add(mDeleteDeliveryButton);
