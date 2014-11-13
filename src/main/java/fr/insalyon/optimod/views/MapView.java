@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -352,7 +351,16 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         }
 
         for(SectionView sectionView : mSectionViews.values()) {
-            sectionView.paint(g);
+            if(!sectionView.isUsed()) {
+                sectionView.paint(g);
+            }
+        }
+
+        // Paint used sections OVER unused sections
+        for(SectionView sectionView : mSectionViews.values()) {
+            if(sectionView.isUsed()) {
+                sectionView.paint(g);
+            }
         }
 
         for(LocationView locationView : mLocationViews.values()) {
