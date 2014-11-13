@@ -164,8 +164,24 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void onSelectLocation(Location location) {
+
         if(mSelectionMode && mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
             Action addAction;
+
+            if(location == null) {
+                return;
+            }
+
+            if(location.getDelivery() != null) {
+                mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Cannot add a delivery on a location twice");
+                return;
+            }
+
+            if(location == mTomorrowDeliveries.getWarehouse()) {
+                mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Cannot add a delivery on the warehouse");
+                return;
+            }
+
             if(mAddBefore) {
                 addAction = new AddDeliveryAction(mRoadMapListener, mTomorrowDeliveriesListener, mRoadMap,
                         mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
