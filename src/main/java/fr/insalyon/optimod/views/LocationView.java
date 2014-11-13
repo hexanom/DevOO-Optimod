@@ -99,4 +99,17 @@ public class LocationView {
     public void setColor(Color mColor) {
         this.mColor = mColor;
     }
+
+    public void setCoordinates(int x, int y) {
+        mX = x;
+        mY = y;
+    }
+
+    public int getX() {
+        return mX;
+    }
+
+    public int getY() {
+        return mY;
+    }
 }

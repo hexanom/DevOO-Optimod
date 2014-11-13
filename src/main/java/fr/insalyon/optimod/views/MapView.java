@@ -6,6 +6,7 @@ import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.*;
+import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
 import fr.insalyon.optimod.views.listeners.action.MapListener;
 
@@ -15,11 +16,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.awt.geom.Point2D;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A Canvas showing the map and other stuff
@@ -64,8 +63,8 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mLocationViews = new HashMap<>(mMap.getLocations().size());
         mSectionViews = new HashMap<>(mMap.getLocations().size());
 
-        drawLocations();
-        drawSections();
+        addLocationViews();
+        addSectionViews();
 
         repaint();
     }
@@ -73,19 +72,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     /**
      * Draw map locations on the view
      */
-    private void drawLocations() {
-        List<Location> locations = mMap.getLocations();
-        Dimension size = getSize();
-        Rectangle bounds = getBounds(locations);
-
-        // Rescale to fit on the map
-        double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
-        double scaleY = (size.getHeight() - 2d * MARGIN) / bounds.getHeight();
-
-        for(Location loc : locations) {
-            int x = (int) ((loc.getX() - bounds.getMinX())  * scaleX + MARGIN);
-            int y = (int) ((loc.getY() - bounds.getMinY()) * scaleY + MARGIN);
-            LocationView locationView = new LocationView(loc.getAddress(), x, y);
+    private void addLocationViews() {
+        for(Location loc : mMap.getLocations()) {
+            LocationView locationView = new LocationView(loc.getAddress(), loc.getX(), loc.getY());
             locationView.toggleLabelDisplay(mShowLocationNames);
             mLocationViews.put(loc, locationView);
         }
@@ -94,7 +83,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     /**
      * Draw map sections on the view
      */
-    private void drawSections() {
+    private void addSectionViews() {
         List<Location> locations = mMap.getLocations();
         for(Location origin : locations) {
             for(Section section : origin.getOuts()) {
@@ -114,17 +103,17 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
      * @param locations
      * @return
      */
-    private Rectangle getBounds(List<Location> locations) {
+    private Rectangle getBounds(Collection<LocationView> locations) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
 
-        for(Location loc : locations) {
-            minX = Math.min(minX, loc.getX());
-            maxX = Math.max(maxX, loc.getX());
-            minY = Math.min(minY, loc.getY());
-            maxY = Math.max(maxY, loc.getY());
+        for(LocationView locView : locations) {
+            minX = Math.min(minX, locView.getX());
+            maxX = Math.max(maxX, locView.getX());
+            minY = Math.min(minY, locView.getY());
+            maxY = Math.max(maxY, locView.getY());
         }
 
         return new Rectangle(minX, minY, maxX - minX, maxY - minY);
@@ -280,55 +269,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
         stopAnimator();
 
-        final AtomicInteger deltaTime = new AtomicInteger(ANIMATOR_DELTA_TIME);
-
-        mAnimatorThread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                // Reset all
-                for (SectionView sectionView : mSectionViews.values()) {
-                    sectionView.unused();
-                }
-
-                repaint();
-
-                // Copy to avoid concurent modification errors
-                LinkedList<Path> paths = new LinkedList<>(mRoadMap.getPaths());
-
-                // 1 by 1
-                for (Path path : paths) {
-                    for(Section section : path.getOrderedSections()) {
-
-                        SectionView sectionView = mSectionViews.get(section);
-
-                        int milis = deltaTime.get();
-
-                        if(sectionView.isUsed() && milis > 0) {
-                            sectionView.unused();
-                            repaint();
-                            sleepFinishFastIfInterupted(BLINKING_PERIOD_ALREADY_USED);
-                        }
-
-                        sectionView.used();
-                        repaint();
-
-                        if(milis > 0) {
-                            sleepFinishFastIfInterupted(milis);
-                        }
-                    }
-                }
-            }
-
-            private void sleepFinishFastIfInterupted(int milis) {
-                try {
-                    Thread.sleep(milis);
-                } catch (InterruptedException e) {
-                    deltaTime.set(0);
-                }
-            }
-        });
+        mAnimatorThread = new Thread(new RoadMapAnimator());
 
         mAnimatorThread.start();
     }
@@ -350,20 +291,39 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             return;
         }
 
-        for(SectionView sectionView : mSectionViews.values()) {
-            if(!sectionView.isUsed()) {
-                sectionView.paint(g);
-            }
-        }
+        Dimension size = getSize();
+        Rectangle bounds = getBounds(mLocationViews.values());
 
-        // Paint used sections OVER unused sections
-        for(SectionView sectionView : mSectionViews.values()) {
-            if(sectionView.isUsed()) {
-                sectionView.paint(g);
-            }
-        }
+        // Rescale coefs to fit on the map view
+        double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
+        double scaleY = (size.getHeight() - 2d * MARGIN) / bounds.getHeight();
+        Point2D.Double scale = new Point2D.Double(scaleX, scaleY);
+        Point2D.Double offset = new Point2D.Double(bounds.getMinX(), bounds.getMinY());
 
+        paintSections(g, scale, offset);
+        paintLocations(g, scale, offset);
+    }
+
+    private void paintSections(Graphics g, Point2D.Double scale, Point2D.Double offset) {
+        for(SectionView sectionView : mSectionViews.values()) {
+
+            int x1 = (int) ((sectionView.getX1() - offset.x)  * scale.x + MARGIN);
+            int y1 = (int) ((sectionView.getY1() - offset.y) * scale.y + MARGIN);
+            int x2 = (int) ((sectionView.getX2() - offset.x)  * scale.x + MARGIN);
+            int y2 = (int) ((sectionView.getY2() - offset.y) * scale.y + MARGIN);
+
+            sectionView.setCoordinates(x1, y1, x2, y2);
+            sectionView.paint(g);
+        }
+    }
+
+    private void paintLocations(Graphics g, Point2D.Double scale, Point2D.Double offset) {
         for(LocationView locationView : mLocationViews.values()) {
+
+            int x = (int) ((locationView.getX() - offset.x)  * scale.x + MARGIN);
+            int y = (int) ((locationView.getY() - offset.y) * scale.y + MARGIN);
+
+            locationView.setCoordinates(x, y);
             locationView.paint(g);
         }
     }
@@ -393,4 +353,53 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    class RoadMapAnimator implements Runnable {
+
+        private int mDeltaTime = ANIMATOR_DELTA_TIME;
+
+        @Override
+        public void run() {
+
+            // Reset all
+            for (SectionView sectionView : mSectionViews.values()) {
+                sectionView.unused();
+            }
+
+            repaint();
+
+            // Copy to avoid concurent modification errors
+            LinkedList<Path> paths = new LinkedList<>(mRoadMap.getPaths());
+
+            // 1 by 1
+            for (Path path : paths) {
+                for(Section section : path.getOrderedSections()) {
+
+                    SectionView sectionView = mSectionViews.get(section);
+
+                    if(sectionView.isUsed() && mDeltaTime > 0) {
+                        sectionView.unused();
+                        repaint();
+                        sleepFinishFastIfInterupted(BLINKING_PERIOD_ALREADY_USED);
+                    }
+
+                    sectionView.used();
+                    repaint();
+
+                    if(mDeltaTime > 0) {
+                        sleepFinishFastIfInterupted(mDeltaTime);
+                    }
+                }
+            }
+        }
+
+        private void sleepFinishFastIfInterupted(int milis) {
+            try {
+                Thread.sleep(milis);
+            } catch (InterruptedException e) {
+                mDeltaTime = 0;
+            }
+        }
+
+    }
 }
