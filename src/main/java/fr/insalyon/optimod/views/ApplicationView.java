@@ -432,7 +432,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
         mMapView.stopAnimation();
     }
 
-    ImageIcon createImageIcon(String path, String description) {
+    private ImageIcon createImageIcon(String path, String description) {
         URL imgURL = getClass().getClassLoader().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
