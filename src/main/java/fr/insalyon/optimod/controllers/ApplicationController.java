@@ -174,6 +174,7 @@ public class ApplicationController extends HistoryEnabledController implements F
             }
             doAction(addAction);
             mRoadMapListener.onRoadMapChanged(mRoadMap);
+            mTomorrowDeliveriesListener.onTomorrowDeliveryChanged(mTomorrowDeliveries);
             mSelectionMode = false;
         }
         mSelectedLocation = location;

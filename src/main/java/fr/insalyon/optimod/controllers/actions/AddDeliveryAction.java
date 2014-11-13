@@ -39,6 +39,7 @@ public class AddDeliveryAction implements Action {
         mDelivery.setTomorrowDeliveries(tomorrowDeliveries);
         TimeWindow timeWindow = mAfter.getDelivery().getTimeWindow();
         mDelivery.setTimeWindow(timeWindow);
+        mLocation.setDelivery(mDelivery);
 
         timeWindow.addDelivery(mDelivery);
         tomorrowDeliveries.addDelivery(mDelivery);
@@ -57,6 +58,8 @@ public class AddDeliveryAction implements Action {
 
     @Override
     public void undoAction() {
+
+        mLocation.setDelivery(null);
 
         TomorrowDeliveries tomorrowDeliveries = mRoadMap.getTomorrowDeliveries();
         TimeWindow timeWindow = mDelivery.getTimeWindow();
