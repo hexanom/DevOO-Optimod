@@ -197,7 +197,8 @@ public class ApplicationController extends HistoryEnabledController implements F
 
             if(!mRoadMap.isRespectingTimeWindows()) {
                 mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Roadmap is not respecting the time windows");
-                onUndoAction();
+                undo();
+                clearFuture();
                 return;
             }
 

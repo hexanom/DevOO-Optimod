@@ -65,6 +65,13 @@ public abstract class HistoryEnabledController implements Controller {
         }
     }
 
+    protected void clearFuture() {
+        mFuture.clear();
+        if(mListener != null) {
+            mListener.onHistoryChanged(canUndo(), false);
+        }
+    }
+
     /**
      * Defines if the history is not empty
      *
