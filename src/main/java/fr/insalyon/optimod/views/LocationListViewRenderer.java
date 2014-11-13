@@ -10,8 +10,8 @@ import java.net.URL;
  * A JList Renderer for locations
  */
 public class LocationListViewRenderer extends JLabel implements ListCellRenderer<Location> {
-    private static final Color HIGHLIGHT_COLOR = Color.BLUE;
-    private static final Color DELIVERY_HIGHLIGHT_COLOR = Color.GREEN;
+    private static final Color HIGHLIGHT_COLOR = new Color(139, 200, 233);
+    private static final Color DELIVERY_HIGHLIGHT_COLOR = new Color(146, 219, 154);
     private final ImageIcon mDeliveryIcon;
     private final ImageIcon mWaypointIcon;
 

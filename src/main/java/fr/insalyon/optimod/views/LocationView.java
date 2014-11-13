@@ -7,13 +7,13 @@ import java.awt.*;
  */
 public class LocationView {
 
-    public static final Color WAREHOUSE_COLOR = Color.RED;
-    public static final Color DEFAULT_COLOR = Color.BLUE;
-    public static final Color SELECTED_COLOR = Color.GREEN;
+    public static final Color WAREHOUSE_COLOR = new Color(249, 163, 152);
+    public static final Color DEFAULT_COLOR = Color.WHITE;
+    public static final Color SELECTED_COLOR = new Color(139, 200, 233);
 
     private static final int DEFAULT_RADIUS = 15;
     private static final int DEFAULT_BORDER_WIDTH = 5;
-    private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final Color DEFAULT_BORDER_COLOR = Color.GRAY;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final boolean DEFAULT_SHOW_LABEL = true;
 

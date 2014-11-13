@@ -16,8 +16,8 @@ public class SectionView {
     private static final int DEFAULT_WIDTH = 3;
     private static final int DEFAULT_BORDER_WIDTH = 1;
     private static final Color DEFAULT_COLOR = Color.WHITE;
-    private static final Color USED_COLOR = Color.red;
-    private static final Color DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final Color USED_COLOR = new Color(249, 163, 152);
+    private static final Color DEFAULT_BORDER_COLOR = Color.GRAY;
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final boolean DEFAULT_SHOW_LABEL = true;
 
@@ -83,7 +83,7 @@ public class SectionView {
 
         // Arrow head
         g2d.setStroke(new BasicStroke());
-        g.setColor(Color.BLACK);
+        g.setColor(DEFAULT_BORDER_COLOR);
         Point bezierMiddle = getBezierMiddle(curve);
         drawArrow(g2d, Math.atan2(mY2 - mY1, mX2 - mX1), bezierMiddle.x, bezierMiddle.y);
 
