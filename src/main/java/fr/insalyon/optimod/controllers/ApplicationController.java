@@ -253,17 +253,17 @@ public class ApplicationController extends HistoryEnabledController implements F
     }
 
     @Override
-    public void toggleSectionNames(boolean enabled) {
+    public void onToggleSectionNames(boolean enabled) {
         mMapListener.toggleSectionNames(enabled);
     }
 
     @Override
-    public void toggleLocationNames(boolean enabled) {
+    public void onToggleLocationNames(boolean enabled) {
         mMapListener.toggleLocationNames(enabled);
     }
 
     @Override
-    public void animateRoadmap() {
+    public void onAnimateRoadmap() {
         mMapListener.animateRoadmap();
     }
 }

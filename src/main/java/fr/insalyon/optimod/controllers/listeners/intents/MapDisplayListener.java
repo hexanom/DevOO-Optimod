@@ -8,15 +8,15 @@ public interface MapDisplayListener {
     /**
      * Called when the user clicked on the "Show road names" menu item
      */
-    public void toggleSectionNames(boolean enabled);
+    public void onToggleSectionNames(boolean enabled);
 
     /**
      * Called when the user clicked on the "Show location names" menu item
      */
-    public void toggleLocationNames(boolean enabled);
+    public void onToggleLocationNames(boolean enabled);
 
     /**
      * Called when the user clicked on the "Animate roadmap" menu item
      */
-    public void animateRoadmap();
+    public void onAnimateRoadmap();
 }
