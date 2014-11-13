@@ -117,6 +117,13 @@ public class SectionView {
     }
 
     /**
+     * Is the section used ?
+     */
+    public boolean isUsed() {
+        return mColor == USED_COLOR;
+    }
+
+    /**
      * Mark the section as used
      */
     public void used() {

@@ -32,6 +32,7 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
+    private final MapListener mMapListener;
     private final MapChangeListener mMapChangeListener;
     private final RoadMapListener mRoadMapListener;
     private final TomorrowDeliveriesListener mTomorrowDeliveriesListener;
@@ -50,6 +51,7 @@ public class ApplicationController extends HistoryEnabledController implements F
         mView = new ApplicationView(this);
         // By doing so, we let us the possibility to bind to other views eventually
         mMapChangeListener = mView;
+        mMapListener = mView;
         mRoadMapListener = mView;
         mTomorrowDeliveriesListener = mView;
         mMapPositionMatcher = mView;
@@ -155,6 +157,8 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onMapClick(int x, int y) {
         Location location = mMapPositionMatcher.matchLocation(x, y);
+        mMapListener.stopAnimation();
+
         onSelectLocation(location);
     }
 
@@ -233,11 +237,16 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void toggleSectionNames(boolean enabled) {
-        mView.toggleSectionNames(enabled);
+        mMapListener.toggleSectionNames(enabled);
     }
 
     @Override
     public void toggleLocationNames(boolean enabled) {
-        mView.toggleLocationNames(enabled);
+        mMapListener.toggleLocationNames(enabled);
+    }
+
+    @Override
+    public void animateRoadmap() {
+        mMapListener.animateRoadmap();
     }
 }

@@ -18,11 +18,14 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A Canvas showing the map and other stuff
  */
 public class MapView extends JPanel implements MapChangeListener, MapPositionMatcher, SelectionIntentListener, RoadMapListener, TomorrowDeliveriesListener, ComponentListener, MouseListener, MapListener {
+
     private final MapClickListener mMapClickListener;
     private Map mMap;
     private RoadMap mRoadMap;
@@ -40,6 +43,10 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private static final long locationsColorsSeed = 123456789l;
     private HashMap<TimeWindow, Color> mTimeWindowColors;
 
+    private static final int ANIMATOR_DELTA_TIME = 800; // in ms
+    private static final int BLINKING_PERIOD_ALREADY_USED = 200; //in ms
+    private Thread mAnimatorThread;
+
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
         setBackground(Color.WHITE);
@@ -49,6 +56,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onMapChanged(Map map) {
+        stopAnimator();
         mMap = map;
         mSelectedLocation = null;
         mTomorrowDeliveries = null;
@@ -139,6 +147,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
+        stopAnimator();
         mRoadMap = roadMap;
 
         if(mRoadMap != null && mSectionViews != null) {
@@ -202,6 +211,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
+        stopAnimator();
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
 
@@ -248,6 +258,81 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             locationView.toggleLabelDisplay(enabled);
         }
         repaint();
+    }
+
+    private void stopAnimator() {
+        if(mAnimatorThread != null) {
+            mAnimatorThread.interrupt();
+            try {
+                mAnimatorThread.join();
+            } catch (InterruptedException e) {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void animateRoadmap() {
+
+        if(mRoadMap == null) {
+            return;
+        }
+
+        stopAnimator();
+
+        final AtomicInteger deltaTime = new AtomicInteger(ANIMATOR_DELTA_TIME);
+
+        mAnimatorThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // Reset all
+                for (SectionView sectionView : mSectionViews.values()) {
+                    sectionView.unused();
+                }
+
+                repaint();
+
+                // 1 by 1
+                for (Path path : mRoadMap.getPaths()) {
+                    for(Section section : path.getOrderedSections()) {
+
+                        SectionView sectionView = mSectionViews.get(section);
+
+                        int milis = deltaTime.get();
+
+                        if(sectionView.isUsed() && milis > 0) {
+                            sectionView.unused();
+                            repaint();
+                            sleepFinishFastIfInterupted(BLINKING_PERIOD_ALREADY_USED);
+                        }
+
+                        sectionView.used();
+                        repaint();
+
+                        if(milis > 0) {
+                            sleepFinishFastIfInterupted(milis);
+                        }
+                    }
+                }
+            }
+
+            private void sleepFinishFastIfInterupted(int milis) {
+                try {
+                    Thread.sleep(milis);
+                } catch (InterruptedException e) {
+                    deltaTime.set(0);
+                }
+            }
+        });
+
+        mAnimatorThread.start();
+    }
+
+    @Override
+    public void stopAnimation() {
+        stopAnimator();
     }
 
     @Override

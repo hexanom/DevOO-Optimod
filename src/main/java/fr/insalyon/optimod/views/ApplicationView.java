@@ -57,6 +57,7 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private JLabel mTimeRangeDetail;
     private JCheckBoxMenuItem mDisplayLocationNamesItem;
     private JCheckBoxMenuItem mDisplaySectionNamesItem;
+    private JMenuItem mAnimateRoadMapItem;
 
     public ApplicationView(ApplicationController controller) {
         mFinishListener = controller;
@@ -216,6 +217,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                 mDisplayLocationNamesItem.addActionListener(this);
                 mDisplayLocationNamesItem.setState(true);
                 displayMenu.add(mDisplayLocationNamesItem);
+
+                mAnimateRoadMapItem = new JMenuItem("Animate roadmap");
+                mAnimateRoadMapItem.addActionListener(this);
+                mAnimateRoadMapItem.setEnabled(false);
+                displayMenu.add(mAnimateRoadMapItem);
             menuBar.add(displayMenu);
         setJMenuBar(menuBar);
     }
@@ -330,6 +336,8 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
             mMapDisplayListener.toggleLocationNames(mDisplayLocationNamesItem.getState());
         } else if(e.getSource().equals(mDisplaySectionNamesItem)) {
             mMapDisplayListener.toggleSectionNames(mDisplaySectionNamesItem.getState());
+        } else if(e.getSource().equals(mAnimateRoadMapItem)) {
+            mMapDisplayListener.animateRoadmap();
         }
     }
 
@@ -337,9 +345,11 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void stateChanged(ChangeEvent e) {
         if(mTabbedPane.getSelectedIndex() == 0) {
             mExportRoadMapButton.setEnabled(false);
+            mAnimateRoadMapItem.setEnabled(false);
             mTabSelectionListener.onDeliveriesTabSelected();
         } else {
             mExportRoadMapButton.setEnabled(true);
+            mAnimateRoadMapItem.setEnabled(true);
             mTabSelectionListener.onRoadMapTabSelected();
         }
     }
@@ -406,5 +416,15 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     @Override
     public void toggleLocationNames(boolean enabled) {
         mMapView.toggleLocationNames(enabled);
+    }
+
+    @Override
+    public void animateRoadmap() {
+        mMapView.animateRoadmap();
+    }
+
+    @Override
+    public void stopAnimation() {
+        mMapView.stopAnimation();
     }
 }

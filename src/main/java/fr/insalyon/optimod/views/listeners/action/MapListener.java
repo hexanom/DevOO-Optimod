@@ -15,4 +15,14 @@ public interface MapListener {
      */
     public void toggleLocationNames(boolean enabled);
 
+    /**
+     * Used to animate the roadmap on the map
+     */
+    public void animateRoadmap();
+
+    /**
+     * Used to stop the animation the roadmap on the map
+     */
+    public void stopAnimation();
+
 }
