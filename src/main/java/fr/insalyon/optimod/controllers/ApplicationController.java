@@ -32,6 +32,7 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     private static final int TERMINATE_SUCCESS = 0;
     private final ApplicationView mView;
+    private final MapListener mMapListener;
     private final MapChangeListener mMapChangeListener;
     private final RoadMapListener mRoadMapListener;
     private final TomorrowDeliveriesListener mTomorrowDeliveriesListener;
@@ -50,6 +51,7 @@ public class ApplicationController extends HistoryEnabledController implements F
         mView = new ApplicationView(this);
         // By doing so, we let us the possibility to bind to other views eventually
         mMapChangeListener = mView;
+        mMapListener = mView;
         mRoadMapListener = mView;
         mTomorrowDeliveriesListener = mView;
         mMapPositionMatcher = mView;
@@ -155,13 +157,31 @@ public class ApplicationController extends HistoryEnabledController implements F
     @Override
     public void onMapClick(int x, int y) {
         Location location = mMapPositionMatcher.matchLocation(x, y);
+        mMapListener.stopAnimation();
+
         onSelectLocation(location);
     }
 
     @Override
     public void onSelectLocation(Location location) {
+
         if(mSelectionMode && mSelectedLocation != null && mSelectedLocation.getDelivery() != null) {
             Action addAction;
+
+            if(location == null) {
+                return;
+            }
+
+            if(location.getDelivery() != null) {
+                mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Cannot add a delivery on a location twice");
+                return;
+            }
+
+            if(location == mTomorrowDeliveries.getWarehouse()) {
+                mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Cannot add a delivery on the warehouse");
+                return;
+            }
+
             if(mAddBefore) {
                 addAction = new AddDeliveryAction(mRoadMapListener, mTomorrowDeliveriesListener, mRoadMap,
                         mRoadMap.getDeliveryLocationBefore(mSelectedLocation),
@@ -177,7 +197,8 @@ public class ApplicationController extends HistoryEnabledController implements F
 
             if(!mRoadMap.isRespectingTimeWindows()) {
                 mShowErrorIntentListener.onErrorIntent("RoadMap Error", "Roadmap is not respecting the time windows");
-                onUndoAction();
+                undo();
+                clearFuture();
                 return;
             }
 
@@ -233,11 +254,16 @@ public class ApplicationController extends HistoryEnabledController implements F
 
     @Override
     public void toggleSectionNames(boolean enabled) {
-        mView.toggleSectionNames(enabled);
+        mMapListener.toggleSectionNames(enabled);
     }
 
     @Override
     public void toggleLocationNames(boolean enabled) {
-        mView.toggleLocationNames(enabled);
+        mMapListener.toggleLocationNames(enabled);
+    }
+
+    @Override
+    public void animateRoadmap() {
+        mMapListener.animateRoadmap();
     }
 }

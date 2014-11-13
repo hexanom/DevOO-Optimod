@@ -6,6 +6,7 @@ import fr.insalyon.optimod.controllers.listeners.data.RoadMapListener;
 import fr.insalyon.optimod.controllers.listeners.data.TomorrowDeliveriesListener;
 import fr.insalyon.optimod.controllers.listeners.intents.SelectionIntentListener;
 import fr.insalyon.optimod.models.*;
+import fr.insalyon.optimod.models.Map;
 import fr.insalyon.optimod.views.listeners.action.MapClickListener;
 import fr.insalyon.optimod.views.listeners.action.MapListener;
 
@@ -15,14 +16,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
+import java.awt.geom.Point2D;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A Canvas showing the map and other stuff
  */
 public class MapView extends JPanel implements MapChangeListener, MapPositionMatcher, SelectionIntentListener, RoadMapListener, TomorrowDeliveriesListener, ComponentListener, MouseListener, MapListener {
+
     private final MapClickListener mMapClickListener;
     private Map mMap;
     private RoadMap mRoadMap;
@@ -40,6 +42,10 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     private static final long locationsColorsSeed = 123456789l;
     private HashMap<TimeWindow, Color> mTimeWindowColors;
 
+    private static final int ANIMATOR_DELTA_TIME = 800; // in ms
+    private static final int BLINKING_PERIOD_ALREADY_USED = 200; //in ms
+    private Thread mAnimatorThread;
+
     public MapView(MapClickListener mapClickListener) {
         mMapClickListener = mapClickListener;
         setBackground(Color.WHITE);
@@ -49,6 +55,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onMapChanged(Map map) {
+        stopAnimator();
         mMap = map;
         mSelectedLocation = null;
         mTomorrowDeliveries = null;
@@ -56,8 +63,8 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         mLocationViews = new HashMap<>(mMap.getLocations().size());
         mSectionViews = new HashMap<>(mMap.getLocations().size());
 
-        drawLocations();
-        drawSections();
+        addLocationViews();
+        addSectionViews();
 
         repaint();
     }
@@ -65,19 +72,9 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     /**
      * Draw map locations on the view
      */
-    private void drawLocations() {
-        List<Location> locations = mMap.getLocations();
-        Dimension size = getSize();
-        Rectangle bounds = getBounds(locations);
-
-        // Rescale to fit on the map
-        double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
-        double scaleY = (size.getHeight() - 2d * MARGIN) / bounds.getHeight();
-
-        for(Location loc : locations) {
-            int x = (int) ((loc.getX() - bounds.getMinX())  * scaleX + MARGIN);
-            int y = (int) ((loc.getY() - bounds.getMinY()) * scaleY + MARGIN);
-            LocationView locationView = new LocationView(loc.getAddress(), x, y);
+    private void addLocationViews() {
+        for(Location loc : mMap.getLocations()) {
+            LocationView locationView = new LocationView(loc.getAddress(), loc.getX(), loc.getY());
             locationView.toggleLabelDisplay(mShowLocationNames);
             mLocationViews.put(loc, locationView);
         }
@@ -86,7 +83,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     /**
      * Draw map sections on the view
      */
-    private void drawSections() {
+    private void addSectionViews() {
         List<Location> locations = mMap.getLocations();
         for(Location origin : locations) {
             for(Section section : origin.getOuts()) {
@@ -106,17 +103,17 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
      * @param locations
      * @return
      */
-    private Rectangle getBounds(List<Location> locations) {
+    private Rectangle getBounds(Collection<LocationView> locations) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
 
-        for(Location loc : locations) {
-            minX = Math.min(minX, loc.getX());
-            maxX = Math.max(maxX, loc.getX());
-            minY = Math.min(minY, loc.getY());
-            maxY = Math.max(maxY, loc.getY());
+        for(LocationView locView : locations) {
+            minX = Math.min(minX, locView.getX());
+            maxX = Math.max(maxX, locView.getX());
+            minY = Math.min(minY, locView.getY());
+            maxY = Math.max(maxY, locView.getY());
         }
 
         return new Rectangle(minX, minY, maxX - minX, maxY - minY);
@@ -139,6 +136,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onRoadMapChanged(RoadMap roadMap) {
+        stopAnimator();
         mRoadMap = roadMap;
 
         if(mRoadMap != null && mSectionViews != null) {
@@ -202,6 +200,7 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
 
     @Override
     public void onTomorrowDeliveryChanged(TomorrowDeliveries tomorrowDeliveries) {
+        stopAnimator();
         mTomorrowDeliveries = tomorrowDeliveries;
         mRoadMap = null;
 
@@ -250,6 +249,36 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
         repaint();
     }
 
+    private void stopAnimator() {
+        if(mAnimatorThread != null) {
+            mAnimatorThread.interrupt();
+            try {
+                mAnimatorThread.join();
+            } catch (InterruptedException e) {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void animateRoadmap() {
+
+        if(mRoadMap == null) {
+            return;
+        }
+
+        stopAnimator();
+
+        mAnimatorThread = new Thread(new RoadMapAnimator());
+
+        mAnimatorThread.start();
+    }
+
+    @Override
+    public void stopAnimation() {
+        stopAnimator();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -262,11 +291,39 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
             return;
         }
 
+        Dimension size = getSize();
+        Rectangle bounds = getBounds(mLocationViews.values());
+
+        // Rescale coefs to fit on the map view
+        double scaleX = (size.getWidth() - 2d * MARGIN) / bounds.getWidth();
+        double scaleY = (size.getHeight() - 2d * MARGIN) / bounds.getHeight();
+        Point2D.Double scale = new Point2D.Double(scaleX, scaleY);
+        Point2D.Double offset = new Point2D.Double(bounds.getMinX(), bounds.getMinY());
+
+        paintSections(g, scale, offset);
+        paintLocations(g, scale, offset);
+    }
+
+    private void paintSections(Graphics g, Point2D.Double scale, Point2D.Double offset) {
         for(SectionView sectionView : mSectionViews.values()) {
+
+            int x1 = (int) ((sectionView.getX1() - offset.x)  * scale.x + MARGIN);
+            int y1 = (int) ((sectionView.getY1() - offset.y) * scale.y + MARGIN);
+            int x2 = (int) ((sectionView.getX2() - offset.x)  * scale.x + MARGIN);
+            int y2 = (int) ((sectionView.getY2() - offset.y) * scale.y + MARGIN);
+
+            sectionView.setCoordinates(x1, y1, x2, y2);
             sectionView.paint(g);
         }
+    }
 
+    private void paintLocations(Graphics g, Point2D.Double scale, Point2D.Double offset) {
         for(LocationView locationView : mLocationViews.values()) {
+
+            int x = (int) ((locationView.getX() - offset.x)  * scale.x + MARGIN);
+            int y = (int) ((locationView.getY() - offset.y) * scale.y + MARGIN);
+
+            locationView.setCoordinates(x, y);
             locationView.paint(g);
         }
     }
@@ -296,4 +353,53 @@ public class MapView extends JPanel implements MapChangeListener, MapPositionMat
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    class RoadMapAnimator implements Runnable {
+
+        private int mDeltaTime = ANIMATOR_DELTA_TIME;
+
+        @Override
+        public void run() {
+
+            // Reset all
+            for (SectionView sectionView : mSectionViews.values()) {
+                sectionView.unused();
+            }
+
+            repaint();
+
+            // Copy to avoid concurent modification errors
+            LinkedList<Path> paths = new LinkedList<>(mRoadMap.getPaths());
+
+            // 1 by 1
+            for (Path path : paths) {
+                for(Section section : path.getOrderedSections()) {
+
+                    SectionView sectionView = mSectionViews.get(section);
+
+                    if(sectionView.isUsed() && mDeltaTime > 0) {
+                        sectionView.unused();
+                        repaint();
+                        sleepFinishFastIfInterupted(BLINKING_PERIOD_ALREADY_USED);
+                    }
+
+                    sectionView.used();
+                    repaint();
+
+                    if(mDeltaTime > 0) {
+                        sleepFinishFastIfInterupted(mDeltaTime);
+                    }
+                }
+            }
+        }
+
+        private void sleepFinishFastIfInterupted(int milis) {
+            try {
+                Thread.sleep(milis);
+            } catch (InterruptedException e) {
+                mDeltaTime = 0;
+            }
+        }
+
+    }
 }

@@ -117,6 +117,13 @@ public class SectionView {
     }
 
     /**
+     * Is the section used ?
+     */
+    public boolean isUsed() {
+        return mColor == USED_COLOR;
+    }
+
+    /**
      * Mark the section as used
      */
     public void used() {
@@ -159,7 +166,26 @@ public class SectionView {
         return new Point((int) (((float)mX1 + mX2) / 2f), (int) (((float)mY1 + mY2) / 2f));
     }
 
-    public void setColor(Color color) {
-        this.mColor = color;
+    public void setCoordinates(int x1, int y1, int x2, int y2) {
+        mX1 = x1;
+        mY1 = y1;
+        mX2 = x2;
+        mY2 = y2;
+    }
+
+    public int getX1() {
+        return mX1;
+    }
+
+    public int getY1() {
+        return mY1;
+    }
+
+    public int getY2() {
+        return mY2;
+    }
+
+    public int getX2() {
+        return mX2;
     }
 }

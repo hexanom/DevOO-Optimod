@@ -42,7 +42,16 @@ public class AddDeliveryAction implements Action {
         Delivery delivery = new Delivery(mLocation, null);
         TomorrowDeliveries tomorrowDeliveries = mRoadMap.getTomorrowDeliveries();
         delivery.setTomorrowDeliveries(tomorrowDeliveries);
-        TimeWindow timeWindow = mAfter.getDelivery().getTimeWindow();
+        TimeWindow timeWindow;
+        if(mAfter.getDelivery() != null) { // happens to be false when mAfter is the warehouse
+            timeWindow = mAfter.getDelivery().getTimeWindow();
+        }
+        else if(mBefore.getDelivery() != null) {
+            timeWindow = mBefore.getDelivery().getTimeWindow();
+        }
+        else {
+            throw new IllegalStateException();
+        }
         delivery.setTimeWindow(timeWindow);
         mLocation.setDelivery(delivery);
 
