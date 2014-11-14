@@ -7,33 +7,65 @@ DevOO-Optimod
 Usage
 -----
 
-### Run
+### From command-line
 
 #### OSX/Linux
 
 ```shell
+# start the app
 ./gradlew run
+# run the tests
+./gradlew check
+# package the app
+./gradlew distZip
 ```
 
 #### Windows
 
 ```shell
+# start the app
 gradlew.bat run
+# run the tests
+gradlew.bat check
+# package the app
+gradlew.bat distZip
 ```
 
-### Test
+### On IntelliJ IDEA
 
-#### OSX/Linux
+![Intellij Lauch: select Open](readme-res/IJ-Start.jpg)
 
-```shell
-./gradlew test
-```
+![Finder: select Project](readme-res/IJ-Finder.jpg)
 
-#### Windows
+![Intellij Import: ensure you use the gradle wrapper](readme-res/IJ-Import.jpg)
 
-```shell
-gradlew.bat test
-```
+![Intellij Launch: use the gradle panel](readme-res/IJ-Launch.jpg)
+
+License
+-------
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Robin Ricard, Edouard Oger, Modou Cisse, Romain Brunat, Bruno Sivanandan, Remi Latapy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
 
 Third-Party Licenses
 --------------------
