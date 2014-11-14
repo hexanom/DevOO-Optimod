@@ -47,15 +47,15 @@ gradlew.bat distZip
 
 Install all gradle plugins:
 
-![Eclipse Marketplace: search and install gradle plugins](readme-res\Ec-Market.jpg)
+![Eclipse Marketplace: search and install gradle plugins](readme-res/Ec-Market.jpg)
 
 And then accept everything and restart the IDE.
 
 Then: File > Import => Gradle Project
 
-![Eclipse Import: Build Model](readme-res\Ec-Import.jpg)
+![Eclipse Import: Build Model](readme-res/Ec-Import.jpg)
 
-![Eclipse Gradle](readme-res\Ec-Gradle.jpg)
+![Eclipse Gradle](readme-res/Ec-Gradle.jpg)
 
 
 
