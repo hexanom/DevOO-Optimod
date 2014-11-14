@@ -23,6 +23,14 @@ public class LocationsGraph implements Graph {
 
     private static final int WAREHOUSE_INDEX = 0;
 
+    /**
+     * Create a location graph from a tomorrowDeliveries object.
+     * Will link timewindow's own deliveries between themselves (complete graph).
+     * Will link the warehouse to the first timewindow's deliveries
+     * Will link the last timewindow's deliveries to the warehouse
+     * @param tomorrowDeliveries
+     * @throws NoPathFoundException
+     */
     public LocationsGraph(TomorrowDeliveries tomorrowDeliveries) throws NoPathFoundException {
 
         List<Delivery> deliveries = tomorrowDeliveries.getDeliveries();
