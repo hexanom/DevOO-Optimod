@@ -41,6 +41,24 @@ gradlew.bat distZip
 
 ![Intellij Launch: use the gradle panel](readme-res/IJ-Launch.jpg)
 
+### On Eclipse Luna
+
+![Eclipse Menu: Select Marketplace](readme-res/Ec-Menu.jpg)
+
+Install all gradle plugins:
+
+![Eclipse Marketplace: search and install gradle plugins](readme-res\Ec-Market.jpg)
+
+And then accept everything and restart the IDE.
+
+Then: File > Import => Gradle Project
+
+![Eclipse Import: Build Model](readme-res\Ec-Import.jpg)
+
+![Eclipse Gradle](readme-res\Ec-Gradle.jpg)
+
+
+
 License
 -------
 
