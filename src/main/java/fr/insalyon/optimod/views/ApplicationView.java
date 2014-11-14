@@ -22,12 +22,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import java.util.Calendar;
 
 /**
  * Represents the application as a main window
  */
 public class ApplicationView extends JFrame implements WindowListener, MapChangeListener, MapPositionMatcher, RoadMapListener, TomorrowDeliveriesListener, SelectionIntentListener, ActionListener, ChangeListener, FileSelectionIntentListener, ShowErrorIntentListener, SelectionListener, HistoryChangedListener, MapListener {
+    private static final Font BOLD = new Font("DialogInput", Font.BOLD, 13);
     private final FinishListener mFinishListener;
     private final MapDisplayListener mMapDisplayListener;
     private final MainToolBarListener mMainToolbarListener;
@@ -74,17 +76,19 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     private void initChildren() {
         JComponent mainToolbar = new JPanel();
         mainToolbar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-            mImportMapButton = new JButton("Import Map");
+            mImportMapButton = new JButton("Import Map", createImageIcon("map.png", "Map"));
+            mImportMapButton.putClientProperty("JButton.buttonType", "textured");
             mImportMapButton.addActionListener(this);
             mainToolbar.add(mImportMapButton);
 
-            mImportDeliveriesButton = new JButton("Import Deliveries");
+            mImportDeliveriesButton = new JButton("Import Deliveries", createImageIcon("deliveries.png", "Deliveries"));
+            mImportDeliveriesButton.putClientProperty("JButton.buttonType", "textured");
             mImportDeliveriesButton.setEnabled(false);
             mImportDeliveriesButton.addActionListener(this);
             mainToolbar.add(mImportDeliveriesButton);
 
-
-            mExportRoadMapButton = new JButton("Export");
+            mExportRoadMapButton = new JButton("Export Road Map", createImageIcon("path.png", "Path"));
+            mExportRoadMapButton.putClientProperty("JButton.buttonType", "textured");
             mExportRoadMapButton.setEnabled(false);
             mExportRoadMapButton.addActionListener(this);
             mainToolbar.add(mExportRoadMapButton);
@@ -101,21 +105,24 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                     mDeliveriesListView = new DeliveriesListView(this);
                     tdSPane.getViewport().add(mDeliveriesListView);
                 deliveriesTab.add(tdSPane, BorderLayout.CENTER);
-            mTabbedPane.addTab("Deliveries", deliveriesTab);
+            mTabbedPane.addTab("Deliveries", createImageIcon("deliveries.png", "Deliveries"), deliveriesTab);
 
             JComponent roadMapTab = new JPanel(new BorderLayout());
-                JComponent roadMapToolbar = new JPanel(new FlowLayout());
-                    mAddBeforeButton = new JButton("<+");
+                JComponent roadMapToolbar = new JPanel(new GridLayout(1, 3));
+                    mAddBeforeButton = new JButton("", createImageIcon("before.png", "Before"));
+                    mAddBeforeButton.putClientProperty("JButton.buttonType", "gradient");
                     mAddBeforeButton.setEnabled(false);
                     mAddBeforeButton.addActionListener(this);
                     roadMapToolbar.add(mAddBeforeButton);
 
-                    mAddAfterButton = new JButton("+>");
+                    mAddAfterButton = new JButton("", createImageIcon("after.png", "After"));
+                    mAddAfterButton.putClientProperty("JButton.buttonType", "gradient");
                     mAddAfterButton.setEnabled(false);
                     mAddAfterButton.addActionListener(this);
                     roadMapToolbar.add(mAddAfterButton);
 
-                    mDeleteDeliveryButton = new JButton("-");
+                    mDeleteDeliveryButton = new JButton("", createImageIcon("delete.png", "Delete"));
+                    mDeleteDeliveryButton.putClientProperty("JButton.buttonType", "gradient");
                     mDeleteDeliveryButton.setEnabled(false);
                     mDeleteDeliveryButton.addActionListener(this);
                     roadMapToolbar.add(mDeleteDeliveryButton);
@@ -125,16 +132,20 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
                     mRoadMapListView = new RoadMapListView(this);
                     rmSPane.getViewport().add(mRoadMapListView);
                 roadMapTab.add(rmSPane, BorderLayout.CENTER);
-            mTabbedPane.addTab("Road Map", roadMapTab);
+            mTabbedPane.addTab("Road Map", createImageIcon("path.png", "Path"), roadMapTab);
         add(mTabbedPane, BorderLayout.EAST);
 
         JPanel details = new JPanel();
-            details.add(new JLabel("Address: "));
+            JLabel addrLabel = new JLabel("Address: ");
+            addrLabel.setFont(BOLD);
+            details.add(addrLabel);
 
             mAddressDetail = new JLabel("-");
             details.add(mAddressDetail);
 
-            details.add(new JLabel("Deliver between: "));
+            JLabel delLabel = new JLabel("Deliver between: ");
+            delLabel.setFont(BOLD);
+            details.add(delLabel);
 
             mTimeRangeDetail = new JLabel("-");
             details.add(mTimeRangeDetail);
@@ -431,4 +442,15 @@ public class ApplicationView extends JFrame implements WindowListener, MapChange
     public void stopAnimation() {
         mMapView.stopAnimation();
     }
+
+    private ImageIcon createImageIcon(String path, String description) {
+        URL imgURL = getClass().getClassLoader().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + imgURL);
+            return null;
+        }
+    }
+
 }

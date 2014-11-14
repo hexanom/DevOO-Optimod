@@ -22,7 +22,6 @@ public class TomorrowDeliveriesTest {
         mTomorrowDeliveries.addDelivery(test_Delivery_1);
         assertEquals(mTomorrowDeliveries.getDeliveries().get(0),test_Delivery_1);
         mTomorrowDeliveries.addDelivery(test_Delivery_1);
-        //Non vérification de l'unicité de la commande
         assertEquals(mTomorrowDeliveries.getDeliveries().get(0),test_Delivery_1);
         assertEquals(mTomorrowDeliveries.getDeliveries().get(1),test_Delivery_1);
         mTomorrowDeliveries.addDelivery(test_Delivery_2);
@@ -51,7 +50,6 @@ public class TomorrowDeliveriesTest {
         mTomorrowDeliveries.addRoadMap(test_RoadMap_1);
         assertEquals(mTomorrowDeliveries.getRoadMaps().get(0),test_RoadMap_1);
         mTomorrowDeliveries.addRoadMap(test_RoadMap_1);
-        //Non vérification de l'unicité des RoadMap
         assertEquals(mTomorrowDeliveries.getRoadMaps().get(0),test_RoadMap_1);
         assertEquals(mTomorrowDeliveries.getRoadMaps().get(1),test_RoadMap_1);
         mTomorrowDeliveries.addRoadMap(test_RoadMap_2);

@@ -215,7 +215,7 @@ public class RoadMap {
      * @return
      */
     private String prettyTime(long time) {
-        return String.format("%02d′%02d″",
+        return String.format("%02d'%02d\"",
                 TimeUnit.SECONDS.toMinutes(time),
                 TimeUnit.SECONDS.toSeconds(time) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(time))

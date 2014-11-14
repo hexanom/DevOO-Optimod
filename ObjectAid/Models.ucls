@@ -3,297 +3,420 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="fr.insalyon.optimod.models.Area" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Area.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="327" y="92"/>    
+    <position height="-1" width="-1" x="111" y="1227"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="fr.insalyon.optimod.models.Section" project="DevOO-Optimod" 
-    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Section.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1191" y="1010"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="fr.insalyon.optimod.models.Truck" project="DevOO-Optimod" 
+  <class id="2" language="java" name="fr.insalyon.optimod.models.Truck" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Truck.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-37" y="884"/>    
+    <position height="80" width="133" x="-280" y="917"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.insalyon.optimod.models.RoadMap" project="DevOO-Optimod" 
-    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/RoadMap.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="360" y="701"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="fr.insalyon.optimod.models.TomorrowDeliveries" project="DevOO-Optimod" 
+  <class id="3" language="java" name="fr.insalyon.optimod.models.TomorrowDeliveries" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/TomorrowDeliveries.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="343" y="384"/>    
+    <position height="260" width="259" x="-38" y="617"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.insalyon.optimod.models.Path" project="DevOO-Optimod" 
-    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Path.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="820" y="999"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="7" language="java" name="fr.insalyon.optimod.models.Location" project="DevOO-Optimod" 
+  <class id="4" language="java" name="fr.insalyon.optimod.models.Location" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Location.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1551" y="1094"/>    
+    <position height="368" width="299" x="696" y="1199"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.insalyon.optimod.models.Warehouse" project="DevOO-Optimod" 
-    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Warehouse.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1236" y="727"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="9" language="java" name="fr.insalyon.optimod.models.Delivery" project="DevOO-Optimod" 
+  <class id="5" language="java" name="fr.insalyon.optimod.models.Delivery" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Delivery.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1499" y="701"/>    
+    <position height="242" width="296" x="357" y="917"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="fr.insalyon.optimod.models.Courier" project="DevOO-Optimod" 
+  <class id="6" language="java" name="fr.insalyon.optimod.models.Courier" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Courier.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-37" y="701"/>    
+    <position height="152" width="202" x="-280" y="617"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="fr.insalyon.optimod.models.TimeWindow" project="DevOO-Optimod" 
-    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/TimeWindow.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="360" y="1154"/>    
+  <interface id="7" language="java" name="fr.insalyon.optimod.models.factories.ModelFactory" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/factories/ModelFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="80" width="175" x="1244" y="917"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
-  </class>  
-  <class id="12" language="java" name="fr.insalyon.optimod.models.Customer" project="DevOO-Optimod" 
+  </interface>  
+  <class id="8" language="java" name="fr.insalyon.optimod.models.Customer" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Customer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1409" y="165"/>    
+    <position height="170" width="187" x="488" y="617"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="fr.insalyon.optimod.models.TimeWindow" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/TimeWindow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="187" x="261" y="617"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="fr.insalyon.optimod.models.Section" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Section.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="189" x="736" y="917"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="fr.insalyon.optimod.models.RoadMap" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/RoadMap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="404" width="315" x="261" y="173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="fr.insalyon.optimod.models.factories.XMLTomorrowDeliveriesFactory" 
+    project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/factories/XMLTomorrowDeliveriesFactory.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="257" x="947" y="617"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
   <class id="13" language="java" name="fr.insalyon.optimod.models.Map" project="DevOO-Optimod" 
     file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Map.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1199" y="1254"/>    
+    <position height="152" width="239" x="965" y="917"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <association id="14">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="15" name="mTomorrowDeliveries"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <class id="14" language="java" name="fr.insalyon.optimod.models.Path" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/Path.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="220" x="489" y="-73"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="fr.insalyon.optimod.models.factories.XMLMapFactory" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/factories/XMLMapFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="98" width="175" x="1244" y="617"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="fr.insalyon.optimod.models.factories.XMLFactoryBase" project="DevOO-Optimod" 
+    file="/DevOO-Optimod/src/main/java/fr/insalyon/optimod/models/factories/XMLFactoryBase.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="80" width="175" x="1095" y="173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
   <association id="17">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="18" name="mLocations"/>      
-      <multiplicity id="19" minimum="0" maximum="2147483647"/>    
+    <bendpoint x="1089" y="1206"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="18" name="mMap"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <association id="21">    
-    <bendpoint x="1556" y="431"/>    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="22" name="mCustomer"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+  <association id="20">    
+    <bendpoint x="377" y="150"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="21" name="mPaths"/>      
+      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
+    <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="7"/>  
-  </generalization>  
-  <association id="25">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="26" name="mRoadMaps"/>      
-      <multiplicity id="27" minimum="0" maximum="2147483647"/>    
+  <association id="23">    
+    <bendpoint x="236" y="1118"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="24" name="mWarehouse"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="28">    
+  <association id="26">    
+    <bendpoint x="705" y="617"/>    
+    <bendpoint x="687" y="1058"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="27" name="mWarehouse"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <bendpoint x="241" y="1042"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="30" name="mDeliveries"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="29" name="mCourier"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
+      <attribute id="33" name="mOuts"/>      
+      <multiplicity id="34" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="31">    
-    <bendpoint x="245" y="951"/>    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="32" name="mRoadMap"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
+  <association id="35">    
+    <bendpoint x="1195" y="1244"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="36" name="mLocations"/>      
+      <multiplicity id="37" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="34">    
-    <bendpoint x="1362" y="1088"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="35" name="mDestination"/>      
-      <multiplicity id="36" minimum="0" maximum="1"/>    
+  <generalization id="38">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <association id="39">    
+    <bendpoint x="726" y="173"/>    
+    <bendpoint x="726" y="617"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="40" name="mOrderedSections"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="37">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="38" name="mTomorrowDeliveries"/>      
-      <multiplicity id="39" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="40">    
-    <bendpoint x="382" y="230"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="41" name="mArea"/>      
-      <multiplicity id="42" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <generalization id="42">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
   <association id="43">    
-    <bendpoint x="1376" y="960"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
+    <bendpoint x="987" y="1162"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="44" name="mIns"/>      
       <multiplicity id="45" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="46">    
+    <bendpoint x="-57" y="425"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="47" name="mCourier"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="49">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <association id="50">    
+    <bendpoint x="967" y="1166"/>    
     <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="47" name="mRoadMaps"/>      
-      <multiplicity id="48" minimum="0" maximum="2147483647"/>    
+      <attribute id="51" name="mDestination"/>      
+      <multiplicity id="52" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="49">    
-    <bendpoint x="1366" y="1032"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="50" name="mOrigin"/>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="52">    
-    <bendpoint x="440" y="933"/>    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="53" name="mTimeWindows"/>      
-      <multiplicity id="54" minimum="0" maximum="2147483647"/>    
+  <association id="53">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="54" name="mRoadMaps"/>      
+      <multiplicity id="55" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="55">    
-    <bendpoint x="284" y="229"/>    
+  <association id="56">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="57" name="mCustomer"/>      
+      <multiplicity id="58" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="60" name="mLocation"/>      
+      <multiplicity id="61" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="56" name="mTomorrowDeliveries"/>      
-      <multiplicity id="57" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="58">    
-    <bendpoint x="1373" y="916"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="59" name="mOuts"/>      
-      <multiplicity id="60" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="61">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="62" name="mTruck"/>      
-      <multiplicity id="63" minimum="0" maximum="1"/>    
+      <attribute id="63" name="mTomorrowDeliveries"/>      
+      <multiplicity id="64" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="64">    
-    <bendpoint x="1019" y="346"/>    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="65" name="mDeliveries"/>      
-      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="67">    
-    <bendpoint x="1384" y="403"/>    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="68" name="mDeliveries"/>      
-      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="70">    
+  <association id="65">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="71" name="mOrderedSections"/>      
-      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
+      <attribute id="66" name="mTruck"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="69" name="mRoadMap"/>      
+      <multiplicity id="70" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="72" name="mRoadMap"/>      
+      <multiplicity id="73" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="75" name="mArea"/>      
+      <multiplicity id="76" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <bendpoint x="305" y="947"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="78" name="mTomorrowDeliveries"/>      
+      <multiplicity id="79" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="80">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <association id="81">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="82" name="mMap"/>      
+      <multiplicity id="83" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="85" name="mDelivery"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="88" name="mDeliveries"/>      
+      <multiplicity id="89" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="91" name="mDeliveries"/>      
+      <multiplicity id="92" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="94" name="mRoadMaps"/>      
+      <multiplicity id="95" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="97" name="mTomorrowDeliveries"/>      
+      <multiplicity id="98" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="99">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="100" name="mOrigin"/>      
+      <multiplicity id="101" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="103" name="mTimeWindow"/>      
+      <multiplicity id="104" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="105">    
+    <bendpoint x="475" y="589"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="106" name="mTimeWindows"/>      
+      <multiplicity id="107" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
-    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
-    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+    <attributes public="true" package="false" protected="false" private="false" static="false"/>    
+    <operations public="true" package="false" protected="false" private="false" static="false"/>  
   </classifier-display>  
   <association-display labels="true" multiplicity="true"/>
 </class-diagram>
