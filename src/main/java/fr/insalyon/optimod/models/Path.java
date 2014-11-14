@@ -123,6 +123,10 @@ public class Path {
 
         Path path = new Path();
 
+        if(origin == dest) {
+            return path;
+        }
+
         DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
         dijkstraAlgorithm.execute(origin);
         LinkedList<Location> locPath = dijkstraAlgorithm.getPath(dest);
